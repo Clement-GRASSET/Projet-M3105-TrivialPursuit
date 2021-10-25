@@ -1,1 +1,1 @@
-# Projet-M3105-TrivialPursuit
+# Projet-M3105-fr.trivialpursuit.TrivialPursuit
