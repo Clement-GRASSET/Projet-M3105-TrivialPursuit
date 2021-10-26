@@ -10,6 +10,7 @@ public class TextMaterial extends Material {
     String text;
 
     public TextMaterial(String text) {
+        super();
         color = new BufferedImage(200, 50, BufferedImage.TYPE_INT_RGB);
         this.text = text;
         updateBuffer();
@@ -29,5 +30,4 @@ public class TextMaterial extends Material {
         g.setFont(font);
         g.drawString(text, 20,30);
     }
-
 }

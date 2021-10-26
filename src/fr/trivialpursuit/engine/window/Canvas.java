@@ -17,8 +17,13 @@ public class Canvas extends JPanel {
     private void newFrame(Graphics2D g, double frameTime) {
         Engine.tick(frameTime);
         Engine.getSceneRenderer().setResolution(getWidth(), getHeight());
-        Engine.getSceneRenderer().render(Engine.getActiveScene());
-        BufferedImage image =  Engine.getSceneRenderer().getFinalImage();
+        try {
+            Engine.getSceneRenderer().render(Engine.getActiveScene());
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        BufferedImage image = Engine.getSceneRenderer().getBuffer();
         g.drawImage(image, 0, 0, null);
     }
 

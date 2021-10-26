@@ -14,9 +14,10 @@ public abstract class Actor {
         this.position = new Vector2D(0,0);
         this.scale = new Vector2D(1,1);
         this.rotation = new Rotation(0);
+        setMaterial( new Material() );
     }
 
-    public abstract void update(double frameTime);
+    public void update(double frameTime) {}
 
     public Vector2D getPosition() {
         return position;

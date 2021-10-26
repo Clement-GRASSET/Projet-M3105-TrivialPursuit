@@ -17,7 +17,8 @@ public class Engine {
     }
 
     public static void tick(double frameTime) {
-        activeScene.tick(frameTime);
+        if (activeScene != null)
+            activeScene.tick(frameTime);
     }
 
     public static GameWindow getGameWindow() {

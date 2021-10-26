@@ -1,9 +1,7 @@
 package fr.trivialpursuit.engine.graphics;
 
-import fr.trivialpursuit.engine.graphics.Actor;
-
 import java.awt.*;
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 public class Scene {
@@ -11,12 +9,14 @@ public class Scene {
     private final Vector<Actor> actors;
     private Vector<Actor> actorsToAdd;
     private Vector<Actor> actorsToRemove;
+    private ArrayList<DirectionalLight> directionalLights;
     private Color backgroundColor;
 
     public Scene() {
-        actors = new Vector<Actor>();
-        actorsToAdd = new Vector<Actor>();
-        actorsToRemove = new Vector<Actor>();
+        actors = new Vector<>();
+        actorsToAdd = new Vector<>();
+        actorsToRemove = new Vector<>();
+        directionalLights = new ArrayList<>();
         backgroundColor = Color.BLACK;
     }
 
@@ -28,11 +28,11 @@ public class Scene {
         for (Actor actor: actorsToRemove) {
             actors.removeElement(actor);
         }
-        actorsToRemove = new Vector<Actor>();
+        actorsToRemove = new Vector<>();
         for (Actor actor: actorsToAdd) {
             actors.addElement(actor);
         }
-        actorsToAdd = new Vector<Actor>();
+        actorsToAdd = new Vector<>();
     }
 
     protected void update(double frameTime) {
@@ -44,7 +44,7 @@ public class Scene {
     }
 
     public Actor addActor(Class<? extends Actor> ActorClass) {
-        Actor actor = null;
+        Actor actor;
         try {
             actor = ActorClass.getConstructor().newInstance();
         } catch (Exception e) {
@@ -58,6 +58,22 @@ public class Scene {
 
     public void removeActor(Actor actor) {
         actorsToRemove.addElement(actor);
+    }
+
+    public ArrayList<DirectionalLight> getLights() {
+        return directionalLights;
+    }
+
+    public Light addLight(Class<? extends DirectionalLight> LightClass) {
+        DirectionalLight light;
+        try {
+            light = LightClass.getConstructor().newInstance();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        directionalLights.add(light);
+        return light;
     }
 
     public Color getBackgroundColor() {
