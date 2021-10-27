@@ -14,7 +14,7 @@ public class GameScene extends Scene {
 
     public GameScene() {
         Actor materialTestActor = addActor(MaterialTestActor.class);
-        materialTestActor.setScale(new Vector2D(100,100));
+        materialTestActor.setScale(new Vector2D(200,200));
 
         fpsCounter = (FPSCounter) addActor(FPSCounter.class);
         fpsCounter.setPosition(new Vector2D(-45, -45));

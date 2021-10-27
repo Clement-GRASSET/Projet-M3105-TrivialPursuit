@@ -62,8 +62,6 @@ public class SceneRenderer {
         width = 0;
         height = 0;
         unit = 0;
-        colorBuffer = null;
-        normalsBuffer = null;
     }
 
     public void render(Scene scene) throws InterruptedException {
@@ -81,6 +79,7 @@ public class SceneRenderer {
         colorThread.join();
 
         drawFinalBuffer(scene);
+
     }
 
     public BufferedImage getBuffer() {
@@ -144,7 +143,6 @@ public class SceneRenderer {
 
                     // Eclairage du pixel
                     Vector3D lightColor = new Vector3D(0,0,0);
-                    //Vector3D lightColor = new Vector3D(1,1,1);
 
                     for (int k = 0; k < nbLights; k++) {
 
@@ -153,10 +151,10 @@ public class SceneRenderer {
                         Vector3D direction = Vector3D.multiply(light.getDirection(), -1);
                         Vector3D intensity = light.getIntensity();
 
-                        double lightValue = Vector3D.dot(pixel_angle, direction);
+                        double lightValue = Math.max(Vector3D.dot(pixel_angle, direction), 0);
 
                         lightColor.add(new Vector3D(
-                                lightValue * intensity.getX(),
+                                (lightValue) * intensity.getX(),
                                 lightValue * intensity.getY(),
                                 lightValue * intensity.getZ()
                         ));

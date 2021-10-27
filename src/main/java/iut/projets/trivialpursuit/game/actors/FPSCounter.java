@@ -8,29 +8,25 @@ import java.util.Vector;
 
 public class FPSCounter extends Actor {
 
-    Vector<Double> lastFrameTimes;
+    Vector<Long> frameTimes;
 
     public FPSCounter() {
         super();
         setMaterial(new TextMaterial(""));
         setScale(new Vector2D(20,5));
 
-        lastFrameTimes = new Vector<Double>();
+        frameTimes = new Vector<>();
     }
 
     @Override
     public void update(double frameTime) {
 
-        lastFrameTimes.addElement(frameTime);
-        double total = 0;
-        for (double time : lastFrameTimes) {
-            total += time;
-        }
-        double average = total/lastFrameTimes.size();
-        if (lastFrameTimes.size() > 100)
-            lastFrameTimes.remove(0);
+        frameTimes.addElement(System.nanoTime());
 
-        String FPS = String.format("%,.0f", 1.0/average) + " FPS";
+        while (frameTimes.get(0)+1000000000 < System.nanoTime() )
+            frameTimes.remove(0);
+
+        String FPS = frameTimes.size() + " FPS";
         TextMaterial material = (TextMaterial) getMaterial();
         material.SetText(FPS);
     }

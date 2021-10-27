@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class GameWindow extends JFrame {
 
-    private final Canvas canvas;
+    private final RenderCanvas canvas;
 
     public GameWindow() {
         setMinimumSize(new Dimension(640, 360));
@@ -15,10 +15,13 @@ public class GameWindow extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        canvas = new Canvas();
-        setContentPane(canvas);
-
+        canvas = new RenderCanvas();
+        add(canvas);
         setVisible(true);
+        canvas.createBufferStrategy(3);
     }
 
+    public RenderCanvas getCanvas() {
+        return canvas;
+    }
 }

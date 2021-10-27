@@ -8,6 +8,7 @@ public class Game {
 
     public static void start() {
         Scene scene = new GameScene();
+        Engine.getSettings().setMaxFPS(0);
         Engine.setActiveScene(scene);
     }
 

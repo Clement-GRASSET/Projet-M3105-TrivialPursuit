@@ -2,6 +2,7 @@ package iut.projets.trivialpursuit.engine;
 
 import iut.projets.trivialpursuit.engine.graphics.Scene;
 import iut.projets.trivialpursuit.engine.graphics.SceneRenderer;
+import iut.projets.trivialpursuit.engine.settings.Settings;
 import iut.projets.trivialpursuit.engine.window.GameWindow;
 
 public class Engine {
@@ -9,11 +10,15 @@ public class Engine {
     private static GameWindow gameWindow;
     private static Scene activeScene;
     private static SceneRenderer sceneRenderer;
+    private static GameLoop gameLoop;
+    private static Settings settings;
 
     public static void start() {
-        gameWindow = new GameWindow();
         activeScene = new Scene();
         sceneRenderer = new SceneRenderer();
+        gameWindow = new GameWindow();
+        gameLoop = new GameLoop();
+        settings = new Settings();
     }
 
     public static void tick(double frameTime) {
@@ -35,5 +40,13 @@ public class Engine {
 
     public static SceneRenderer getSceneRenderer() {
         return sceneRenderer;
+    }
+
+    public static GameLoop getGameLoop() {
+        return gameLoop;
+    }
+
+    public static Settings getSettings() {
+        return settings;
     }
 }
