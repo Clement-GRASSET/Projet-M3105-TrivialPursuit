@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class Vector3D {
 
-    private final double x, y, z;
+    private double x, y, z;
 
     public Vector3D(double x, double y, double z) {
         this.x = x;
@@ -29,11 +29,10 @@ public class Vector3D {
     }
 
     public Vector3D add(Vector3D vector) {
-        return new Vector3D(
-                this.x + vector.x,
-                this.y + vector.y,
-                this.z + vector.z
-        );
+        this.x += vector.x;
+        this.y += vector.y;
+        this.z += vector.z;
+        return this;
     }
 
     public Vector3D multiply(double value) {
@@ -44,8 +43,8 @@ public class Vector3D {
         );
     }
 
-    public double dot(Vector3D vector) {
-        return this.x*vector.x + this.y*vector.y + this.z*vector.z;
+    public static double dot(Vector3D vector1, Vector3D vector2) {
+        return vector1.x*vector2.x + vector1.y*vector2.y + vector1.z*vector2.z;
     }
 
     public Vector3D normalize() {

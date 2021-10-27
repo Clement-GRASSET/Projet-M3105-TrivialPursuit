@@ -51,58 +51,6 @@ public class SceneRenderer {
 
     }
 
-    private class Buffer {
-
-        int w, h;
-        Vector3D [] values;
-
-        Buffer(int width, int height) {
-            w = width;
-            h = height;
-            values = new Vector3D[w*h];
-        }
-
-        public Vector3D getPixel(int x, int y) {
-            return values[y*width+x];
-        }
-
-        public void setPixel(int x, int y, Vector3D value) {
-            values[y*width+x] = value;
-        }
-
-        public void forEach(BiFunction<Integer, Integer, Void> f) {
-            int nbThreads = Runtime.getRuntime().availableProcessors();
-            Vector<Thread> threads = new Vector<>();
-            int length = values.length/nbThreads;
-
-            for (int i = 0; i < nbThreads; i++) {
-
-                int start = i * length;
-                int end = (i+1 == length) ? length-1 : (i+1)*length;
-                Thread t = new Thread(() -> {
-                    for (int j = start; j < end; j++) {
-                        int x = j%width;
-                        int y = j/width;
-                        f.apply(x, y);
-                    }
-                });
-                threads.addElement(t);
-                t.start();
-
-                //System.out.println("length: " + values.length + ", i: " + i + ", start: " + start + ", end: " + end);
-            }
-            try {
-                for (Thread thread : threads) {
-                    thread.join();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-        }
-
-    }
-
     int width, height;
     private double unit;
 
@@ -122,9 +70,9 @@ public class SceneRenderer {
 
         unit = height/100.0;
 
-        Vector<ActorToDraw> actorsToDraw = new Vector<>();
+        ArrayList<ActorToDraw> actorsToDraw = new ArrayList<>();
         for (Actor actor : scene.getActors()) {
-            actorsToDraw.addElement( new ActorToDraw(actor) );
+            actorsToDraw.add( new ActorToDraw(actor) );
         }
 
         Thread colorThread = drawColorBuffer(scene, actorsToDraw);
@@ -139,7 +87,7 @@ public class SceneRenderer {
         return finalBuffer;
     }
 
-    private Thread drawColorBuffer(Scene scene, Vector<ActorToDraw> actorsToDraw) {
+    private Thread drawColorBuffer(Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             Graphics2D g = (Graphics2D) colorBuffer.getGraphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -152,7 +100,7 @@ public class SceneRenderer {
         return thread;
     }
 
-    private Thread drawNormalBufferImage(Scene scene, Vector<ActorToDraw> actorsToDraw) {
+    private Thread drawNormalBufferImage(Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             Graphics2D g = (Graphics2D) normalsBuffer.getGraphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -196,17 +144,23 @@ public class SceneRenderer {
                     // Eclairage du pixel
                     Vector3D lightColor = new Vector3D(0,0,0);
                     //Vector3D lightColor = new Vector3D(1,1,1);
+
                     for (int k = 0; k < nbLights; k++) {
+
                         DirectionalLight light = directionalLights.get(k);
+
                         Vector3D direction = light.getDirection().multiply(-1);
                         Vector3D intensity = light.getIntensity();
-                        double lightValue = pixel_angle.dot(direction);
-                        lightColor = lightColor.add(new Vector3D(
+
+                        double lightValue = Vector3D.dot(pixel_angle, direction);
+
+                        lightColor.add(new Vector3D(
                                 lightValue * intensity.getX(),
                                 lightValue * intensity.getY(),
                                 lightValue * intensity.getZ()
                         ));
                     }
+
 
 
                     // Multiplication de la couleur par l'éclairage
