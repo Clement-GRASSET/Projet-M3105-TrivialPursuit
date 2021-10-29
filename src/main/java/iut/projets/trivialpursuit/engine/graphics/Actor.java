@@ -1,5 +1,8 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
+import iut.projets.trivialpursuit.engine.types.Rotation;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
+
 public abstract class Actor {
 
     private Vector2D position;
@@ -13,7 +16,7 @@ public abstract class Actor {
     protected Actor() {
         this.position = new Vector2D(0,0);
         this.scale = new Vector2D(1,1);
-        this.rotation = new Rotation(0);
+        this.rotation = new Rotation();
         setMaterial( new Material() );
     }
 

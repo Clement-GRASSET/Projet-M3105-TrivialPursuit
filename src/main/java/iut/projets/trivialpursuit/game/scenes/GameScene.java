@@ -1,32 +1,32 @@
 package iut.projets.trivialpursuit.game.scenes;
 
+import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.graphics.*;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
+import iut.projets.trivialpursuit.engine.types.Vector3D;
 import iut.projets.trivialpursuit.game.actors.*;
 
+import java.awt.*;
 import java.util.*;
 
 public class GameScene extends Scene {
-
-    FPSCounter fpsCounter;
 
     DirectionalLight light;
     double compteur;
 
     public GameScene() {
         Actor materialTestActor = addActor(MaterialTestActor.class);
-        materialTestActor.setScale(new Vector2D(200,200));
-
-        fpsCounter = (FPSCounter) addActor(FPSCounter.class);
-        fpsCounter.setPosition(new Vector2D(-45, -45));
+        materialTestActor.setScale(new Vector2D(100,100));
 
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
-        light.setDirection(new Vector3D(0,-10,-1));
-        light.setIntensity(5);
+        light.setDirection(new Vector3D(1,1,-1));
+        light.setIntensity(2);
 
-        DirectionalLight blueLight = (DirectionalLight) addLight(DirectionalLight.class);
-        blueLight.setDirection(new Vector3D(3,5,-1));
-        blueLight.setIntensity(new Vector3D(2,4,6));
+        //DirectionalLight blueLight = (DirectionalLight) addLight(DirectionalLight.class);
+        //blueLight.setDirection(new Vector3D(0,0,-1));
+        //blueLight.setIntensity(new Vector3D(1, 0.5, 0.2));
+
 
         Timer spawnTimer = new Timer();
         spawnTimer.scheduleAtFixedRate(new TimerTask() {
@@ -41,6 +41,16 @@ public class GameScene extends Scene {
     @Override
     protected void update(double frameTime) {
         compteur += frameTime;
-        light.setDirection(new Vector3D(Math.cos(compteur), Math.sin(compteur), -0.08));
+        // Fais tourner la lumière autour de la scene
+        //light.setDirection(new Vector3D(Math.cos(compteur), Math.sin(compteur), -0.08));
+        Point mousePosition = getMousePosition();
+        double x = mousePosition.getX()/(double)Engine.getGameWindow().getCanvas().getWidth() - 0.5;
+        double y = mousePosition.getY()/(double)Engine.getGameWindow().getCanvas().getHeight() - 0.5;
+
+        light.setDirection(new Vector3D(
+                x*-1,
+                y*-1,
+                -0.02
+        ));
     }
 }

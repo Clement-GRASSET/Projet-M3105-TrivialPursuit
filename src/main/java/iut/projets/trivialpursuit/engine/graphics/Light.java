@@ -1,6 +1,6 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
-import java.awt.*;
+import iut.projets.trivialpursuit.engine.types.Vector3D;
 
 public abstract class Light {
 
@@ -23,6 +23,6 @@ public abstract class Light {
 
     public void setIntensity(double intensity) {
         double value = (intensity > 0) ? intensity : 0;
-        this.intensity = new Vector3D(intensity, intensity, intensity);
+        this.intensity = new Vector3D(value, value, value);
     }
 }

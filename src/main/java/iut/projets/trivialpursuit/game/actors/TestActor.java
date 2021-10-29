@@ -1,8 +1,7 @@
 package iut.projets.trivialpursuit.game.actors;
 
 import iut.projets.trivialpursuit.engine.graphics.Actor;
-import iut.projets.trivialpursuit.engine.graphics.Scene;
-import iut.projets.trivialpursuit.engine.graphics.Vector2D;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.game.assets.materials.WhiteMaterial;
 
 public class TestActor extends Actor {

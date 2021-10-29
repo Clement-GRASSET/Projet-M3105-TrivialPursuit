@@ -12,12 +12,15 @@ public class Scene {
     private ArrayList<DirectionalLight> directionalLights;
     private Color backgroundColor;
 
+    Point mousePosition;
+
     public Scene() {
         actors = new Vector<>();
         actorsToAdd = new Vector<>();
         actorsToRemove = new Vector<>();
         directionalLights = new ArrayList<>();
         backgroundColor = Color.BLACK;
+        mousePosition = new Point(0,0);
     }
 
     public void tick(double frameTime) {
@@ -82,5 +85,13 @@ public class Scene {
 
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public void setMousePosition(Point mousePosition) {
+        this.mousePosition = mousePosition;
+    }
+
+    public Point getMousePosition() {
+        return mousePosition;
     }
 }

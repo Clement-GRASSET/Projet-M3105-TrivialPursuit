@@ -1,6 +1,4 @@
-package iut.projets.trivialpursuit.engine.graphics;
-
-import java.util.Vector;
+package iut.projets.trivialpursuit.engine.types;
 
 public class Vector3D {
 

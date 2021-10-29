@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.engine.graphics;
+package iut.projets.trivialpursuit.engine.types;
 
 public class Vector2D {
 

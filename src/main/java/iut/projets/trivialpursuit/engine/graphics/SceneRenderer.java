@@ -1,13 +1,12 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
+import iut.projets.trivialpursuit.engine.types.Vector3D;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferInt;
-import java.awt.image.PixelGrabber;
 import java.util.ArrayList;
 import java.util.Vector;
-import java.util.function.BiFunction;
 
 public class SceneRenderer {
 
@@ -64,7 +63,7 @@ public class SceneRenderer {
         unit = 0;
     }
 
-    public void render(Scene scene) throws InterruptedException {
+    public void render(Graphics g, Scene scene) {
 
         unit = height/100.0;
 
@@ -75,15 +74,17 @@ public class SceneRenderer {
 
         Thread colorThread = drawColorBuffer(scene, actorsToDraw);
         Thread normalThread = drawNormalBufferImage(scene, actorsToDraw);
-        normalThread.join();
-        colorThread.join();
+        try {
+            normalThread.join();
+            colorThread.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
 
         drawFinalBuffer(scene);
 
-    }
-
-    public BufferedImage getBuffer() {
-        return finalBuffer;
+        g.drawImage(finalBuffer, 0, 0, width, height, null);
     }
 
     private Thread drawColorBuffer(Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
@@ -94,6 +95,8 @@ public class SceneRenderer {
             g.fillRect(0, 0, width, height);
 
             actorsToDraw.forEach(ActorToDraw::drawColor);
+
+            g.dispose();
         });
         thread.start();
         return thread;
@@ -107,6 +110,8 @@ public class SceneRenderer {
             g.fillRect(0, 0, width, height);
 
             actorsToDraw.forEach(ActorToDraw::drawNormal);
+
+            g.dispose();
         });
         thread.start();
         return thread;
@@ -117,24 +122,30 @@ public class SceneRenderer {
         Vector<Thread> threads = new Vector<>();
         int length = width*height/nbThreads;
 
+        // Récupération des pixels par reference de tous les buffers
         int [] colorBufferPixels = ( (DataBufferInt) colorBuffer.getRaster().getDataBuffer() ).getData();
         int [] normalsBufferPixels = ( (DataBufferInt) normalsBuffer.getRaster().getDataBuffer() ).getData();
         int [] finalBufferPixels = ( (DataBufferInt) finalBuffer.getRaster().getDataBuffer() ).getData();
+
+        // Préparation des lumières
         ArrayList<DirectionalLight> directionalLights = scene.getLights();
         int nbLights = directionalLights.size();
 
+        // Création de threads (1 par CPU) qui vont traiter chacuns une partie de l'image
         for (int i = 0; i < nbThreads; i++) {
-            int start = i * length;
-            int end = (i+1 == length) ? length-1 : (i+1)*length;
+            int start = i * length;                                 // Début de la zone de l'image à traiter
+            int end = (i+1 == length) ? length-1 : (i+1)*length;    // Fin de la zone de l'image à traiter
             Thread t = new Thread(() -> {
                 for (int j = start; j < end; j++) {
-//                    int x = j%width;
-//                    int y = j/width;
+                    // Coordonnées x et y du pixel j
+                    // int x = j%width;
+                    // int y = j/width;
 
                     // Récupération de la couleur et de l'angle du pixel
                     Color color = new Color(colorBufferPixels[j]);
                     Color normals = new Color(normalsBufferPixels[j]);
 
+                    // Création d'un vecteur de longueur 1 représentant la direction du pixel
                     Vector3D pixel_angle = new Vector3D(
                             (normals.getRed()/255.0 - 0.5) * 2,
                             (normals.getGreen()/255.0 - 0.5) * 2,
@@ -148,13 +159,19 @@ public class SceneRenderer {
 
                         DirectionalLight light = directionalLights.get(k);
 
-                        Vector3D direction = Vector3D.multiply(light.getDirection(), -1);
-                        Vector3D intensity = light.getIntensity();
+                        Vector3D direction = new Vector3D(          // Direction inversée de la lumière
+                                light.getDirection().getX()*-1,
+                                light.getDirection().getY(),
+                                light.getDirection().getZ()*-1
+                        );
+                        Vector3D intensity = light.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
 
+                        // Quantité de lumière sur le pixel en fonction des angles (Produit scalaire de pixel_angle et direction)
                         double lightValue = Math.max(Vector3D.dot(pixel_angle, direction), 0);
 
+                        // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
                         lightColor.add(new Vector3D(
-                                (lightValue) * intensity.getX(),
+                                lightValue * intensity.getX(),
                                 lightValue * intensity.getY(),
                                 lightValue * intensity.getZ()
                         ));
@@ -166,6 +183,7 @@ public class SceneRenderer {
                     g = (int) (color.getGreen() * lightColor.getY());
                     b = (int) (color.getBlue() * lightColor.getZ());
 
+                    // Ecriture du pixel dans le buffer
                     finalBufferPixels[j] = new Color(
                             Math.min(255, Math.max(0, r)),
                             Math.min(255, Math.max(0, g)),
