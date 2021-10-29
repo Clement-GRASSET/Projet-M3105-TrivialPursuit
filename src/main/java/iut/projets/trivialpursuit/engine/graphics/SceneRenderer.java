@@ -1,5 +1,7 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
+import iut.projets.trivialpursuit.engine.types.Rotation;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
 
 import java.awt.*;
@@ -13,67 +15,69 @@ public class SceneRenderer {
     private class ActorToDraw {
 
         Actor actor;
-        int x, y, w, h;
+        double x, y, w, h;
+        Vector2D translation;
+        double r;
 
         ActorToDraw(Actor actor) {
             this.actor = actor;
 
-            double xPosition = width/2.0 + actor.getPosition().getX()*unit;
-            double yPosition = height/2.0 + actor.getPosition().getY()*unit;
+            x = actor.getPosition().getX();
+            y = actor.getPosition().getY();
+            w = actor.getScale().getX();
+            h = actor.getScale().getY();
+            r = actor.getRotation().getRad();
 
-            double xScale = actor.getScale().getX()*unit;
-            double yScale = actor.getScale().getY()*unit;
-
-            x = (int) (xPosition - xScale/2.0);
-            y = (int) (yPosition - yScale/2.0);
-            w = (int) (xScale);
-            h = (int) (yScale);
+            translation = new Vector2D(
+                    w/-2 + x,
+                    h/-2 + y
+            );
         }
 
-        public boolean isVisible() {
-            return (x < width && y < height && x+w > 0 && y+h > 0);
+        public void drawColor(Graphics2D g) {
+            g.translate(translation.getX(), translation.getY());
+            g.rotate(r, w/2, h/2);
+            g.drawImage(actor.getMaterial().getColor(), 0, 0, (int)w, (int)h, null);
+            g.rotate(-r, w/2, h/2);
+            g.translate(-translation.getX(), -translation.getY());
         }
 
-        public void drawColor() {
-            if (isVisible()) {
-                Graphics2D g = (Graphics2D) colorBuffer.getGraphics();
-                g.drawImage(actor.getMaterial().getColor(), x, y, w, h, null);
-            }
-        }
-
-        public void drawNormal() {
-            if (isVisible()) {
-                Graphics2D g = (Graphics2D) normalsBuffer.getGraphics();
-                g.drawImage(actor.getMaterial().getNormals(), x, y, w, h, null);
-            }
+        public void drawNormal(Graphics2D g) {
+            g.translate(translation.getX(), translation.getY());
+            g.rotate(r, w/2, h/2);
+            g.drawImage(actor.getMaterial().getNormals(), 0, 0, (int)w, (int)h, null);
+            g.rotate(-r, w/2, h/2);
+            g.translate(-translation.getX(), -translation.getY());
         }
 
     }
 
-    int width, height;
-    private double unit;
+    int width, height, canvasWidth, canvasHeight;
+    double renderScale;
 
     BufferedImage colorBuffer;
     BufferedImage normalsBuffer;
     BufferedImage finalBuffer;
 
     public SceneRenderer() {
+        canvasWidth = 0;
+        canvasHeight = 0;
         width = 0;
         height = 0;
-        unit = 0;
+        renderScale = 1;
     }
 
     public void render(Graphics g, Scene scene) {
 
-        unit = height/100.0;
+        Camera camera = scene.getCamera();
 
         ArrayList<ActorToDraw> actorsToDraw = new ArrayList<>();
         for (Actor actor : scene.getActors()) {
             actorsToDraw.add( new ActorToDraw(actor) );
         }
 
-        Thread colorThread = drawColorBuffer(scene, actorsToDraw);
-        Thread normalThread = drawNormalBufferImage(scene, actorsToDraw);
+        Thread colorThread = drawColorBuffer(camera, scene, actorsToDraw);
+        Thread normalThread = drawNormalBufferImage(camera, scene, actorsToDraw);
         try {
             normalThread.join();
             colorThread.join();
@@ -84,17 +88,24 @@ public class SceneRenderer {
 
         drawFinalBuffer(scene);
 
-        g.drawImage(finalBuffer, 0, 0, width, height, null);
+        g.drawImage(finalBuffer, 0, 0, canvasWidth, canvasHeight, null);
     }
 
-    private Thread drawColorBuffer(Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
+    private Thread drawColorBuffer(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
+            double unit = camera.getZoom()*height/100.0;
             Graphics2D g = (Graphics2D) colorBuffer.getGraphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setColor(scene.getBackgroundColor());
             g.fillRect(0, 0, width, height);
+            g.translate(width/2.0, height/2.0);
+            g.rotate(camera.getRotation().getRad());
+            g.translate(-camera.getPosition().getX()*unit, -camera.getPosition().getY()*unit);
+            g.scale(unit, unit);
 
-            actorsToDraw.forEach(ActorToDraw::drawColor);
+            for (ActorToDraw actorToDraw : actorsToDraw) {
+                actorToDraw.drawColor(g);
+            }
 
             g.dispose();
         });
@@ -102,14 +113,21 @@ public class SceneRenderer {
         return thread;
     }
 
-    private Thread drawNormalBufferImage(Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
+    private Thread drawNormalBufferImage(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
+            double unit = camera.getZoom()*height/100.0;
             Graphics2D g = (Graphics2D) normalsBuffer.getGraphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g.setColor(new Color(127, 127, 255));
             g.fillRect(0, 0, width, height);
+            g.translate(width/2.0, height/2.0);
+            g.rotate(camera.getRotation().getRad());
+            g.translate(-camera.getPosition().getX()*unit, -camera.getPosition().getY()*unit);
+            g.scale(unit, unit);
 
-            actorsToDraw.forEach(ActorToDraw::drawNormal);
+            for (ActorToDraw actorToDraw : actorsToDraw) {
+                actorToDraw.drawNormal(g);
+            }
 
             g.dispose();
         });
@@ -204,12 +222,24 @@ public class SceneRenderer {
 
     }
 
-    public void setResolution(int width, int height) {
-        if (this.width == width && this.height == height)
+    public void setResolution(int canvasWidth, int canvasHeight) {
+        if (this.canvasWidth == canvasWidth && this.canvasHeight == canvasHeight)
             return;
 
-        this.width = width;
-        this.height = height;
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+        recreateBuffers();
+    }
+
+    public void setRenderScale(double renderScale) {
+        this.renderScale = renderScale;
+        if (canvasWidth != 0 && canvasHeight != 0) // Emepeche la création des buffers si la fenetre n'a pas été initialisée
+            recreateBuffers();
+    }
+
+    private void recreateBuffers() {
+        this.width = (int)(canvasWidth * renderScale);
+        this.height = (int)(canvasHeight * renderScale);
         colorBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         normalsBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         finalBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

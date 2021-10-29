@@ -11,6 +11,7 @@ public class Scene {
     private Vector<Actor> actorsToRemove;
     private ArrayList<DirectionalLight> directionalLights;
     private Color backgroundColor;
+    private Camera camera;
 
     Point mousePosition;
 
@@ -21,6 +22,7 @@ public class Scene {
         directionalLights = new ArrayList<>();
         backgroundColor = Color.BLACK;
         mousePosition = new Point(0,0);
+        camera = new Camera();
     }
 
     public void tick(double frameTime) {
@@ -85,6 +87,14 @@ public class Scene {
 
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
+    }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public void setCamera(Camera camera) {
+        this.camera = camera;
     }
 
     public void setMousePosition(Point mousePosition) {

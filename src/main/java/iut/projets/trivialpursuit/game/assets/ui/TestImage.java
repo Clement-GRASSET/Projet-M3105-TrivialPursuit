@@ -9,8 +9,6 @@ import java.io.IOException;
 
 public class TestImage extends UIImage {
 
-    double compteur;
-
     public TestImage() {
         super();
         String uri = "/images/iut-logo.png";

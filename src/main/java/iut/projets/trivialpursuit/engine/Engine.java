@@ -15,13 +15,14 @@ public class Engine {
     private static GameLoop gameLoop;
     private static Settings settings;
 
-    public static void start() {
+    public static void start(Game game) {
         activeScene = new Scene();
         sceneRenderer = new SceneRenderer();
         userInterface = new UserInterface();
         gameWindow = new GameWindow();
-        gameLoop = new GameLoop();
         settings = new Settings();
+        gameLoop = new GameLoop(game);
+        gameLoop.start();
     }
 
     public static void tick(double frameTime) {

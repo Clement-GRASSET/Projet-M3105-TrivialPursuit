@@ -8,4 +8,8 @@ public class Settings {
         Engine.getGameLoop().setMaxFPS(fps);
     }
 
+    public void setRenderScale(double scale) {
+        Engine.getSceneRenderer().setRenderScale(scale);
+    }
+
 }

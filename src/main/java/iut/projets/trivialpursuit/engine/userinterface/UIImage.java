@@ -20,7 +20,7 @@ public class UIImage extends UIElement {
         g.dispose();
         setImage(bufferedImage);
         setSize(10);
-        rotation = new Rotation();
+        rotation = Rotation.rad(0);
         setAnchor(Anchor.CENTER_CENTER);
     }
 

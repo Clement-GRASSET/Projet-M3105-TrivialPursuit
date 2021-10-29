@@ -16,7 +16,7 @@ public abstract class Actor {
     protected Actor() {
         this.position = new Vector2D(0,0);
         this.scale = new Vector2D(1,1);
-        this.rotation = new Rotation();
+        this.rotation = Rotation.rad(0);
         setMaterial( new Material() );
     }
 

@@ -12,18 +12,19 @@ public class GameLoop extends Thread {
     private final SceneRenderer sceneRenderer;
     private final UserInterface userInterface;
     private final RenderCanvas canvas;
+    private final Game game;
     private long minFrameLength;
     private double frameTime;
     private double sceneTick, UITick, sceneRender, UIRender, total;
     private boolean debug;
 
-    GameLoop() {
+    GameLoop(Game game) {
         sceneRenderer = Engine.getSceneRenderer();
         userInterface = Engine.getUserInterface();
         canvas = Engine.getGameWindow().getCanvas();
+        this.game = game;
         minFrameLength = 0;
         debug = false;
-        start();
     }
 
     @Override
@@ -31,6 +32,7 @@ public class GameLoop extends Thread {
         super.run();
         long lastFrame = System.nanoTime();
         long newFrame;
+        game.start();
         //noinspection InfiniteLoopStatement
         while (true) {
             newFrame = System.nanoTime();

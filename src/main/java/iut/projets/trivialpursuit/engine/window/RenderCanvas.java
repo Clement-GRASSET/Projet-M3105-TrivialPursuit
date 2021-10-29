@@ -13,6 +13,7 @@ public class RenderCanvas extends Canvas implements MouseListener, MouseMotionLi
     SceneRenderer sceneRenderer;
 
     RenderCanvas() {
+        setBackground(Color.BLACK);
         sceneRenderer = Engine.getSceneRenderer();
         Engine.getSceneRenderer().setResolution(getWidth(), getHeight());
         addMouseListener(this);

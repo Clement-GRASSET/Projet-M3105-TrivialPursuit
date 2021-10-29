@@ -4,8 +4,8 @@ public class Rotation {
 
     private double rotation;
 
-    public Rotation() {
-        this.rotation = 0;
+    private Rotation(double radians) {
+        this.rotation = radians;
     }
 
     public void setRad(double radians) {
@@ -22,5 +22,13 @@ public class Rotation {
 
     public double getDeg() {
         return Math.toDegrees(rotation);
+    }
+
+    public static Rotation rad(double radians) {
+        return new Rotation(radians);
+    }
+
+    public static Rotation deg(double degrees) {
+        return new Rotation(Math.toRadians(degrees));
     }
 }

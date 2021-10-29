@@ -2,9 +2,13 @@ package iut.projets.trivialpursuit.game.scenes;
 
 import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.graphics.*;
+import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
+import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.game.actors.*;
+import iut.projets.trivialpursuit.game.assets.ui.FPSCounter;
+import iut.projets.trivialpursuit.game.assets.ui.TestImage;
 
 import java.awt.*;
 import java.util.*;
@@ -15,6 +19,12 @@ public class GameScene extends Scene {
     double compteur;
 
     public GameScene() {
+        FPSCounter element = (FPSCounter) Engine.getUserInterface().addElement(FPSCounter.class);
+        element.setAnchor(UIElement.Anchor.TOP_LEFT);
+        element.setPosition(new Vector2D(2, 2));
+
+        Engine.getUserInterface().addElement(TestImage.class);
+
         Actor materialTestActor = addActor(MaterialTestActor.class);
         materialTestActor.setScale(new Vector2D(100,100));
 
@@ -52,5 +62,9 @@ public class GameScene extends Scene {
                 y*-1,
                 -0.02
         ));
+
+        //getCamera().setPosition(new Vector2D(100*Math.cos(System.currentTimeMillis()/500.0), 0));
+        //getCamera().setPosition(new Vector2D(50, 0));
+        getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.03));
     }
 }
