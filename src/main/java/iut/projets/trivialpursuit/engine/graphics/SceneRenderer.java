@@ -99,7 +99,7 @@ public class SceneRenderer {
             g.setColor(scene.getBackgroundColor());
             g.fillRect(0, 0, width, height);
             g.translate(width/2.0, height/2.0);
-            g.rotate(camera.getRotation().getRad());
+            g.rotate(-camera.getRotation().getRad());
             g.translate(-camera.getPosition().getX()*unit, -camera.getPosition().getY()*unit);
             g.scale(unit, unit);
 
@@ -121,7 +121,7 @@ public class SceneRenderer {
             g.setColor(new Color(127, 127, 255));
             g.fillRect(0, 0, width, height);
             g.translate(width/2.0, height/2.0);
-            g.rotate(camera.getRotation().getRad());
+            g.rotate(-camera.getRotation().getRad());
             g.translate(-camera.getPosition().getX()*unit, -camera.getPosition().getY()*unit);
             g.scale(unit, unit);
 

@@ -32,13 +32,4 @@ public class Material {
     public Image getNormals() {
         return normals;
     }
-
-    public static Image loadImage(String path) {
-        try {
-            return ImageIO.read(Material.class.getResource("/textures/" + path));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB);
-        }
-    }
 }

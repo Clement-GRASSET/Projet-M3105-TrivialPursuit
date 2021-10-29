@@ -2,22 +2,14 @@ package iut.projets.trivialpursuit.game.assets.ui;
 
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.userinterface.UIImage;
-
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.IOException;
+import iut.projets.trivialpursuit.game.Resources;
 
 public class TestImage extends UIImage {
 
     public TestImage() {
         super();
-        String uri = "/images/iut-logo.png";
-        try {
-            Image image = ImageIO.read(UIImage.class.getResource(uri));
-            setImage(image);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setImage(Resources.getImage("/images/iut-logo.png"));
+
         setSize(20);
         setAlignment(new Vector2D(0, 0));
     }

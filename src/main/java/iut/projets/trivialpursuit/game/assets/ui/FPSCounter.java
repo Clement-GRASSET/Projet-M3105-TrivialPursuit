@@ -1,5 +1,6 @@
 package iut.projets.trivialpursuit.game.assets.ui;
 
+import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 
 import java.awt.*;
@@ -15,6 +16,7 @@ public class FPSCounter extends UIElement {
     Font font;
 
     public FPSCounter() {
+        setPosition(new Vector2D(2, 2));
         fps = "";
         textSize = 3;
         frameTimes = new Vector<>();

@@ -52,6 +52,10 @@ public class UserInterface {
         return element;
     }
 
+    public void removeElement(UIElement element) {
+        elements.remove(element);
+    }
+
     public void clear() {
         elements.clear();
     }

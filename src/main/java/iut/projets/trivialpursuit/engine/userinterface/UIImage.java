@@ -64,4 +64,8 @@ public class UIImage extends UIElement {
     public Rotation getRotation() {
         return rotation;
     }
+
+    public void setRotation(Rotation rotation) {
+        this.rotation = rotation;
+    }
 }

@@ -30,9 +30,9 @@ public class GameLoop extends Thread {
     @Override
     public void run() {
         super.run();
+        game.start();
         long lastFrame = System.nanoTime();
         long newFrame;
-        game.start();
         //noinspection InfiniteLoopStatement
         while (true) {
             newFrame = System.nanoTime();

@@ -19,12 +19,6 @@ public class GameScene extends Scene {
     double compteur;
 
     public GameScene() {
-        FPSCounter element = (FPSCounter) Engine.getUserInterface().addElement(FPSCounter.class);
-        element.setAnchor(UIElement.Anchor.TOP_LEFT);
-        element.setPosition(new Vector2D(2, 2));
-
-        Engine.getUserInterface().addElement(TestImage.class);
-
         Actor materialTestActor = addActor(MaterialTestActor.class);
         materialTestActor.setScale(new Vector2D(100,100));
 
