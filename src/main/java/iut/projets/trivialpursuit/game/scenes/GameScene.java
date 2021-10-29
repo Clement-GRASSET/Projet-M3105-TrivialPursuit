@@ -5,6 +5,7 @@ import iut.projets.trivialpursuit.engine.graphics.*;
 import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
+import iut.projets.trivialpursuit.engine.userinterface.UIButton;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.game.actors.*;
 import iut.projets.trivialpursuit.game.assets.ui.FPSCounter;
@@ -21,6 +22,8 @@ public class GameScene extends Scene {
     public GameScene() {
         Actor materialTestActor = addActor(MaterialTestActor.class);
         materialTestActor.setScale(new Vector2D(100,100));
+
+        Engine.getUserInterface().addElement(UIButton.class);
 
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);

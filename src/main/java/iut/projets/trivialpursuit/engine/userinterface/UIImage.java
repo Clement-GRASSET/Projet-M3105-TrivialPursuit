@@ -1,6 +1,7 @@
 package iut.projets.trivialpursuit.engine.userinterface;
 
 import iut.projets.trivialpursuit.engine.types.Rotation;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,7 +9,7 @@ import java.awt.image.BufferedImage;
 public class UIImage extends UIElement {
 
     private Image image;
-    private double size;
+    private Vector2D size;
     private Rotation rotation;
 
     public UIImage() {
@@ -31,8 +32,8 @@ public class UIImage extends UIElement {
         double angle = rotation.getRad();
         //double angle_correction = (Math.cos(angle)-1)*-0.5; // 0 si angle = 0°, 1 si angle = 180°
         //System.out.println(angle_correction);
-        int width = (int)(size*unit*ratio);
-        int height = (int)(size*unit);
+        int width = (int)(size.getX()*unit*ratio);
+        int height = (int)(size.getY()*unit);
 
         int x = (
                 getAnchorX() + getX()
@@ -58,6 +59,10 @@ public class UIImage extends UIElement {
     }
 
     public final void setSize(double size) {
+        this.size = new Vector2D(size, size);
+    }
+
+    public final void setSize(Vector2D size) {
         this.size = size;
     }
 
@@ -67,5 +72,13 @@ public class UIImage extends UIElement {
 
     public void setRotation(Rotation rotation) {
         this.rotation = rotation;
+    }
+
+    @Override
+    public boolean isHovered() {
+        int mouseX = getMouseX();
+        int mouseY = getMouseY();
+        boolean isHovered = false;
+        return (isHovered || super.isHovered());
     }
 }
