@@ -21,14 +21,14 @@ public class GameScene extends Scene {
 
     public GameScene() {
         Actor materialTestActor = addActor(MaterialTestActor.class);
-        materialTestActor.setScale(new Vector2D(100,100));
+        materialTestActor.setScale(new Vector2D(50,50));
 
         Engine.getUserInterface().addElement(UIButton.class);
 
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
         light.setDirection(new Vector3D(1,1,-1));
-        light.setIntensity(2);
+        light.setIntensity(5);
 
         //DirectionalLight blueLight = (DirectionalLight) addLight(DirectionalLight.class);
         //blueLight.setDirection(new Vector3D(0,0,-1));
@@ -60,8 +60,8 @@ public class GameScene extends Scene {
                 -0.02
         ));
 
-        //getCamera().setPosition(new Vector2D(100*Math.cos(System.currentTimeMillis()/500.0), 0));
+        //getCamera().setPosition(new Vector2D(50*Math.cos(System.currentTimeMillis()/500.0), 50*Math.sin(System.currentTimeMillis()/500.0)));
         //getCamera().setPosition(new Vector2D(50, 0));
-        getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.03));
+        //getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.03));
     }
 }
