@@ -51,9 +51,12 @@ public class StartScene extends Scene {
         sceneTransitionStarted = false;
         timeElapsed = 0;
 
-        Engine.getUserInterface().addElement(FPSCounter.class);
-        splashScreen = Engine.getUserInterface().addElement(SplashScreen.class);
-        loadingIcon = Engine.getUserInterface().addElement(LoadingIcon.class);
+        FPSCounter fpsCounter = new FPSCounter();
+        splashScreen = new SplashScreen();
+        loadingIcon = new LoadingIcon();
+        Engine.getUserInterface().addElement(fpsCounter);
+        Engine.getUserInterface().addElement(splashScreen);
+        Engine.getUserInterface().addElement(loadingIcon);
         System.out.println("Loading resources...");
 
         List<String> images = new ArrayList<>();

@@ -73,12 +73,4 @@ public class UIImage extends UIElement {
     public void setRotation(Rotation rotation) {
         this.rotation = rotation;
     }
-
-    @Override
-    public boolean isHovered() {
-        int mouseX = getMouseX();
-        int mouseY = getMouseY();
-        boolean isHovered = false;
-        return (isHovered || super.isHovered());
-    }
 }

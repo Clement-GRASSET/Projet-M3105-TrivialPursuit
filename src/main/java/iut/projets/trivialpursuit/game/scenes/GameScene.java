@@ -9,6 +9,7 @@ import iut.projets.trivialpursuit.engine.userinterface.UIButton;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.game.actors.*;
 import iut.projets.trivialpursuit.game.assets.ui.FPSCounter;
+import iut.projets.trivialpursuit.game.assets.ui.MainMenu;
 import iut.projets.trivialpursuit.game.assets.ui.TestImage;
 
 import java.awt.*;
@@ -23,7 +24,8 @@ public class GameScene extends Scene {
         Actor materialTestActor = addActor(MaterialTestActor.class);
         materialTestActor.setScale(new Vector2D(50,50));
 
-        Engine.getUserInterface().addElement(UIButton.class);
+        MainMenu mainMenu = new MainMenu();
+        Engine.getUserInterface().addElement(mainMenu);
 
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
@@ -33,7 +35,6 @@ public class GameScene extends Scene {
         //DirectionalLight blueLight = (DirectionalLight) addLight(DirectionalLight.class);
         //blueLight.setDirection(new Vector3D(0,0,-1));
         //blueLight.setIntensity(new Vector3D(1, 0.5, 0.2));
-
 
         Timer spawnTimer = new Timer();
         spawnTimer.scheduleAtFixedRate(new TimerTask() {

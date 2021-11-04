@@ -40,16 +40,8 @@ public class UserInterface {
         return UIbuffer;
     }
 
-    public UIElement addElement(Class<? extends UIElement> ElementClass) {
-        UIElement element;
-        try {
-            element = ElementClass.getConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public void addElement(UIElement element) {
         elements.add(element);
-        return element;
     }
 
     public void removeElement(UIElement element) {

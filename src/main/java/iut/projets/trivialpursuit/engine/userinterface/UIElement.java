@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UIElement {
+public abstract class UIElement {
 
     private static double unit = 100;
     private static int screenWidth, screenHeight;
@@ -14,7 +14,6 @@ public class UIElement {
     private Anchor anchor;
     private final Vector2D position;
     private final Vector2D alignment;
-    private final List<UIElement> childElements;
 
     public enum Anchor {
         TOP_LEFT,
@@ -30,7 +29,6 @@ public class UIElement {
 
     public UIElement() {
         setAnchor(Anchor.TOP_LEFT);
-        childElements = new ArrayList<>();
         position = new Vector2D(0, 0);
         alignment = new Vector2D(0, 0);
         screenWidth = 1;
@@ -63,16 +61,6 @@ public class UIElement {
 
     public static int getMouseY() {
         return mouseY;
-    }
-
-    public boolean isHovered() {
-        boolean isHovered = false;
-        for (UIElement element : childElements)
-        {
-            if (element.isHovered())
-                isHovered = true;
-        }
-        return isHovered;
     }
 
     public void setAnchor(Anchor anchor) {
@@ -157,32 +145,14 @@ public class UIElement {
         this.alignment.setY(alignment.getY());
     }
 
-    protected final UIElement addChildElement(Class<? extends UIElement> elementClass) {
-        UIElement element;
-        try {
-            element = elementClass.getConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        childElements.add(element);
-        return element;
-    }
-
     public void draw_all(Graphics2D g) {
         this.draw(g);
-        for (UIElement element : childElements) {
-            element.draw_all(g);
-        }
     }
 
     protected void draw (Graphics2D g) {}
 
     public void tick(double frameTime) {
         update(frameTime);
-        for (UIElement element : childElements) {
-            element.tick(frameTime);
-        }
     }
 
     protected void update(double frameTime) {}
