@@ -4,6 +4,7 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.concurrent.Callable;
 
 public class UIButton extends UIElement {
 
@@ -11,18 +12,21 @@ public class UIButton extends UIElement {
     private Vector2D size;
     private Font font;
     private String text;
+    private boolean hovered, pressed;
+    private Runnable onClick;
 
     public UIButton(String text) {
         super();
         setText(text);
         setSize(new Vector2D(30, 10));
-        setAlignment(new Vector2D(-1, -1));
+        setAlignment(new Vector2D(0, 0));
         setAnchor(Anchor.CENTER_CENTER);
         setFont(new Font("Arial", Font.PLAIN, 1));
         setDefaultImage( makeColoredImage(new Color(255, 120, 0)) );
-        setHoverImage( makeColoredImage(new Color(255, 255, 0)) );
-        setPressedImage( makeColoredImage(new Color(255, 255, 100)) );
+        setHoverImage( makeColoredImage(new Color(255, 160, 0)) );
+        setPressedImage( makeColoredImage(new Color(255, 220, 50)) );
         this.image = defaultImage;
+        onClick = () -> {};
     }
 
     protected BufferedImage makeColoredImage(Color color) {
@@ -69,15 +73,25 @@ public class UIButton extends UIElement {
         double unit = getUnitSizeOnScreen();
         int w = (int)(size.getX()*unit);
         int h = (int)(size.getY()*unit);
-        int x = (int)( getX()*unit + (getAlignmentX()-1)/2 * w + getAnchorX() );
-        int y = (int)( getY()*unit + (getAlignmentY()-1)/2 * h + getAnchorY() );
+        int x = (int)( getPosition().getX()*unit + (getAlignmentX()-1)/2 * w + getAnchorX() );
+        int y = (int)( getPosition().getY()*unit + (getAlignmentY()-1)/2 * h + getAnchorY() );
         return (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h);
     }
 
     @Override
     public void tick(double frameTime) {
         super.tick(frameTime);
-        if (isHovered())
+
+        if (pressed && !getMousePressed() && isHovered()) {
+            onClick.run();
+        }
+
+        hovered = isHovered();
+        pressed = hovered && getMousePressed();
+
+        if (pressed)
+            image = pressedImage;
+        else if (hovered)
             image = hoverImage;
         else
             image = defaultImage;
@@ -90,13 +104,13 @@ public class UIButton extends UIElement {
         int width = (int)(size.getX()*unit*ratio);
         int height = (int)(size.getY()*unit);
 
-        int x = (
-                getAnchorX() + getX()
-                + (int)((getAlignmentX()-1)*width/2.0)
+        int x = (int)(
+                getAnchorX() + getPosition().getX()*getUnitSizeOnScreen()
+                + ((getAlignmentX()-1)*width/2.0)
         );
-        int y = (
-                getAnchorY() + getY()
-                + (int)((getAlignmentY()-1)*height/2.0)
+        int y = (int)(
+                getAnchorY() + getPosition().getY()*getUnitSizeOnScreen()
+                + ((getAlignmentY()-1)*height/2.0)
         );
 
         int fontSize = (int)(unit*3);
@@ -109,5 +123,9 @@ public class UIButton extends UIElement {
         g.setColor(Color.BLACK);
         g.drawString(text, width/2 -fontMetrics.stringWidth(text)/2, height/2 - fontMetrics.getHeight()/2 + fontMetrics.getAscent());
         g.translate(-x, -y);
+    }
+
+    public void onClick(Runnable onClick) {
+        this.onClick = onClick;
     }
 }

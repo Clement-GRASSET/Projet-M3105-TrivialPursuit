@@ -41,8 +41,8 @@ public class FPSCounter extends UIElement {
     @Override
     public void draw(Graphics2D g) {
         int size = (int)(getUnitSizeOnScreen() * textSize);
-        int x = getAnchorX() + getX();
-        int y = getAnchorY() + getY() + size;
+        int x = (int)(getAnchorX() + getPosition().getX()*getUnitSizeOnScreen());
+        int y = (int)(getAnchorY() + getPosition().getY()*getUnitSizeOnScreen() + size);
 
         g.setFont(font.deriveFont(Font.PLAIN, size));
         g.setColor(Color.WHITE);

@@ -35,15 +35,15 @@ public class UIImage extends UIElement {
         int width = (int)(size.getX()*unit*ratio);
         int height = (int)(size.getY()*unit);
 
-        int x = (
-                getAnchorX() + getX()
-                + (int)((getAlignmentX()-1)*width/2.0)
+        int x = (int)(
+                getAnchorX() + (getPosition().getX()*getUnitSizeOnScreen())
+                + ((getAlignmentX()-1)*width/2.0)
                 //+ (int)(angle_correction*width)
         );
 
-        int y = (
-                getAnchorY() + getY()
-                + (int)((getAlignmentY()-1)*height/2.0)
+        int y = (int)(
+                getAnchorY() + (getPosition().getY()*getUnitSizeOnScreen())
+                + ((getAlignmentY()-1)*height/2.0)
                 //+ (int)(angle_correction*height)
         );
 

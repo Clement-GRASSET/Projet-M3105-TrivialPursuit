@@ -22,4 +22,12 @@ public class UIContainer extends UIElement {
             element.draw_all(g);
         }
     }
+
+    @Override
+    public void tick(double frameTime) {
+        super.tick(frameTime);
+        for (UIElement element : elements) {
+            element.tick(frameTime);
+        }
+    }
 }

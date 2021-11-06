@@ -28,11 +28,13 @@ public class RenderCanvas extends Canvas implements MouseListener, MouseMotionLi
     @Override
     public void mousePressed(MouseEvent e) {
         updateMousePosition(e);
+        updateMousePressed(true);
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         updateMousePosition(e);
+        updateMousePressed(false);
     }
 
     @Override
@@ -58,5 +60,9 @@ public class RenderCanvas extends Canvas implements MouseListener, MouseMotionLi
     private void updateMousePosition(MouseEvent e) {
         Engine.getActiveScene().setMousePosition(e.getPoint());
         Engine.getUserInterface().setMousePosition(e.getX(), e.getY());
+    }
+
+    private void updateMousePressed(boolean pressed) {
+        Engine.getUserInterface().setMousePressed(pressed);
     }
 }

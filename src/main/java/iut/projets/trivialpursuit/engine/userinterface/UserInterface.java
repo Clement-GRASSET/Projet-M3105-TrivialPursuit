@@ -13,13 +13,17 @@ public class UserInterface {
     private BufferedImage UIbuffer;
     private int w, h;
     private int mouseX, mouseY;
-    private List<UIElement> elements;
+    private boolean mousePressed;
+    private final List<UIElement> elements, elementsToRemove, elementsToAdd;
 
     public UserInterface() {
         w = 0;
         h = 0;
+        mousePressed = false;
         setScreenSize(8, 8);
         elements = new ArrayList<>();
+        elementsToRemove = new ArrayList<>();
+        elementsToAdd = new ArrayList<>();
     }
 
     public void setScreenSize(int width, int height) {
@@ -36,16 +40,20 @@ public class UserInterface {
         mouseY = y;
     }
 
+    public void setMousePressed(boolean mousePressed) {
+        this.mousePressed = mousePressed;
+    }
+
     public BufferedImage getBuffer() {
         return UIbuffer;
     }
 
     public void addElement(UIElement element) {
-        elements.add(element);
+        elementsToAdd.add(element);
     }
 
     public void removeElement(UIElement element) {
-        elements.remove(element);
+        elementsToRemove.add(element);
     }
 
     public void clear() {
@@ -57,10 +65,21 @@ public class UserInterface {
         UIElement.setScreenHeight(h);
         UIElement.setMouseX(mouseX);
         UIElement.setMouseY(mouseY);
+        UIElement.setMousePressed(mousePressed);
         for (UIElement element : elements)
         {
             element.tick(frametime);
         }
+        for (UIElement element : elementsToAdd)
+        {
+            elements.add(element);
+        }
+        for (UIElement element : elementsToRemove)
+        {
+            elements.remove(element);
+        }
+        elementsToAdd.clear();
+        elementsToRemove.clear();
     }
 
     public void render(Graphics2D g) {

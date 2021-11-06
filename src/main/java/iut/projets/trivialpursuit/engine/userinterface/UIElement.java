@@ -11,6 +11,7 @@ public abstract class UIElement {
     private static double unit = 100;
     private static int screenWidth, screenHeight;
     private static int mouseX, mouseY;
+    private static boolean mousePressed;
     private Anchor anchor;
     private final Vector2D position;
     private final Vector2D alignment;
@@ -61,6 +62,14 @@ public abstract class UIElement {
 
     public static int getMouseY() {
         return mouseY;
+    }
+
+    public static void setMousePressed(boolean mousePressed) {
+        UIElement.mousePressed = mousePressed;
+    }
+
+    public static boolean getMousePressed() {
+        return mousePressed;
     }
 
     public void setAnchor(Anchor anchor) {
@@ -122,14 +131,6 @@ public abstract class UIElement {
 
     public final Vector2D getPosition() {
         return position;
-    }
-
-    public final int getX() {
-        return (int)(position.getX()*getUnitSizeOnScreen());
-    }
-
-    public final int getY() {
-        return (int)(position.getY()*getUnitSizeOnScreen());
     }
 
     public final double getAlignmentX() {

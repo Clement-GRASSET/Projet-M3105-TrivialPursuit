@@ -24,8 +24,7 @@ public class GameScene extends Scene {
         Actor materialTestActor = addActor(MaterialTestActor.class);
         materialTestActor.setScale(new Vector2D(50,50));
 
-        MainMenu mainMenu = new MainMenu();
-        Engine.getUserInterface().addElement(mainMenu);
+        //Engine.getUserInterface().addElement(new UIButton("Button"));
 
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
@@ -61,8 +60,9 @@ public class GameScene extends Scene {
                 -0.02
         ));
 
-        //getCamera().setPosition(new Vector2D(50*Math.cos(System.currentTimeMillis()/500.0), 50*Math.sin(System.currentTimeMillis()/500.0)));
+        getCamera().setPosition(new Vector2D(50*Math.cos(System.currentTimeMillis()*0.002), 50*Math.sin(System.currentTimeMillis()*0.002)));
         //getCamera().setPosition(new Vector2D(50, 0));
-        //getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.03));
+        //getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.05));
+        getCamera().setRotation(Rotation.deg(45));
     }
 }

@@ -73,7 +73,7 @@ public class StartScene extends Scene {
             sceneTransitionStarted = true;
             Engine.getUserInterface().removeElement(loadingIcon);
             Engine.getUserInterface().removeElement(splashScreen);
-            Engine.setActiveScene(new GameScene());
+            Engine.setActiveScene(new MainMenuScene());
         }
     }
 }
