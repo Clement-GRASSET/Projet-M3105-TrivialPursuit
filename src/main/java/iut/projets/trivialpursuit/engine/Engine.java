@@ -1,5 +1,6 @@
 package iut.projets.trivialpursuit.engine;
 
+import iut.projets.trivialpursuit.engine.audio.AudioManager;
 import iut.projets.trivialpursuit.engine.graphics.Scene;
 import iut.projets.trivialpursuit.engine.graphics.SceneRenderer;
 import iut.projets.trivialpursuit.engine.settings.Settings;
@@ -14,12 +15,14 @@ public class Engine {
     private static UserInterface userInterface;
     private static GameLoop gameLoop;
     private static Settings settings;
+    private static AudioManager audioManager;
 
     public static void start(Game game) {
         activeScene = new Scene();
         sceneRenderer = new SceneRenderer();
         userInterface = new UserInterface();
         gameWindow = new GameWindow();
+        audioManager = new AudioManager();
         settings = new Settings();
         gameLoop = new GameLoop(game);
         gameLoop.start();
@@ -56,5 +59,9 @@ public class Engine {
 
     public static Settings getSettings() {
         return settings;
+    }
+
+    public static AudioManager getAudioManager() {
+        return audioManager;
     }
 }
