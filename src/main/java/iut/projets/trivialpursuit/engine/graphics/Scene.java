@@ -17,7 +17,7 @@ public class Scene {
     private Color backgroundColor;
     private Camera camera;
 
-    Vector2D mousePosition, mousePositionInScene;
+    private Vector2D mousePosition, mousePositionInScene;
 
     public Scene() {
         actors = new Vector<>();
@@ -31,6 +31,7 @@ public class Scene {
     }
 
     public void tick(double frameTime) {
+        updateMousePositionInScene();
         update(frameTime);
         for (Actor actor : actors) {
             actor.update(frameTime);
@@ -112,17 +113,20 @@ public class Scene {
 
     public void setMousePosition(Vector2D mousePosition) {
         this.mousePosition = mousePosition;
-        double scale = camera.getZoom();
-        double unit = Engine.getGameWindow().getCanvas().getHeight()/100.0;
-        double screenCenterX = Engine.getGameWindow().getCanvas().getWidth()/2.0;
-        double screenCenterY = Engine.getGameWindow().getCanvas().getHeight()/2.0;
-        double x = (mousePosition.getX() - screenCenterX)/unit/scale;
-        double y = (mousePosition.getY() - screenCenterY)/unit/scale;
-        this.mousePositionInScene = Vector2D.rotate(new Vector2D(x, y), camera.getRotation());
     }
 
     public Vector2D getMousePosition() {
         return mousePosition;
+    }
+
+    private void updateMousePositionInScene() {
+        double zoom = camera.getZoom();
+        double unit = Engine.getGameWindow().getCanvas().getHeight()/100.0;
+        double screenCenterX = Engine.getGameWindow().getCanvas().getWidth()/2.0;
+        double screenCenterY = Engine.getGameWindow().getCanvas().getHeight()/2.0;
+        double x = (mousePosition.getX() - screenCenterX)/unit/zoom;
+        double y = (mousePosition.getY() - screenCenterY)/unit/zoom;
+        this.mousePositionInScene = Vector2D.add( Vector2D.rotate(new Vector2D(x, y), camera.getRotation()), camera.getPosition() );
     }
 
     public Vector2D getMousePositionInScene() {

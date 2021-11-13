@@ -25,13 +25,21 @@ public class Vector2D {
         this.y = y;
     }
 
+    public static Vector2D add(Vector2D v1, Vector2D v2) {
+        return new Vector2D(v1.x + v2.x, v1.y + v2.y);
+    }
+
+    public static Vector2D subtract(Vector2D v1, Vector2D v2) {
+        return new Vector2D(v1.x - v2.x, v1.y - v2.y);
+    }
+
     public static Vector2D rotate(Vector2D vector2D, Rotation rotation) {
-        double x = Math.cos(rotation.getRad()) * vector2D.getX() - Math.sin(rotation.getRad()) * vector2D.getY();
-        double y = Math.sin(rotation.getRad()) * vector2D.getX() + Math.cos(rotation.getRad()) * vector2D.getY();
+        double x = Math.cos(rotation.getRad()) * vector2D.x - Math.sin(rotation.getRad()) * vector2D.y;
+        double y = Math.sin(rotation.getRad()) * vector2D.x + Math.cos(rotation.getRad()) * vector2D.y;
         return new Vector2D(x, y);
     }
 
     public static double length(Vector2D v1, Vector2D v2) {
-        return Math.sqrt(Math.pow(v1.getX() - v2.getX(), 2) + Math.pow(v1.getY() - v2.getY(), 2));
+        return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2));
     }
 }
