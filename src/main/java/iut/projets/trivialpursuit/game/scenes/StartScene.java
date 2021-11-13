@@ -69,7 +69,7 @@ public class StartScene extends Scene {
     @Override
     protected void update(double frameTime) {
         timeElapsed += frameTime;
-        if (loadThread.isLoadComplete() && !sceneTransitionStarted && timeElapsed > 2) {
+        if (loadThread.isLoadComplete() && !sceneTransitionStarted && timeElapsed > 1) {
             System.out.println("Starting game...");
             sceneTransitionStarted = true;
             Engine.getUserInterface().removeElement(loadingIcon);

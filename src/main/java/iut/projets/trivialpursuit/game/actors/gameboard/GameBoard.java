@@ -28,7 +28,7 @@ public class GameBoard extends Actor {
     public void start() {
         c0 = addCase(Rotation.deg(0),0);
 
-        double distance1 = 14;
+        double distance1 = 13.8;
         c1 = addCase(Rotation.deg(270), distance1);
         c2 = addCase(Rotation.deg(330), distance1);
         c3 = addCase(Rotation.deg(30), distance1);
@@ -36,7 +36,7 @@ public class GameBoard extends Actor {
         c5 = addCase(Rotation.deg(150), distance1);
         c6 = addCase(Rotation.deg(210), distance1);
 
-        double distance2 = 23.5;
+        double distance2 = 23.4;
         c7 = addCase(Rotation.deg(270), distance2);
         c8 = addCase(Rotation.deg(330), distance2);
         c9 = addCase(Rotation.deg(30), distance2);
@@ -44,7 +44,7 @@ public class GameBoard extends Actor {
         c11 = addCase(Rotation.deg(150), distance2);
         c12 = addCase(Rotation.deg(210), distance2);
 
-        double distance3 = 33;
+        double distance3 = 32.8;
         c13 = addCase(Rotation.deg(270), distance3);
         c14 = addCase(Rotation.deg(330), distance3);
         c15 = addCase(Rotation.deg(30), distance3);
@@ -53,7 +53,7 @@ public class GameBoard extends Actor {
         c18 = addCase(Rotation.deg(210), distance3);
 
 
-        double distance4 = 42.5;
+        double distance4 = 42.3;
 
         c19 = addCase(Rotation.deg(270), distance4);
         c20 = addCase(Rotation.deg(285), distance4);

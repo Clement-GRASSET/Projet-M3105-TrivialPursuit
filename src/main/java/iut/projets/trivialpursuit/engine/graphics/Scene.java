@@ -1,5 +1,8 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
+import iut.projets.trivialpursuit.engine.Engine;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -8,13 +11,13 @@ import java.util.Vector;
 public class Scene {
 
     private final Vector<Actor> actors;
-    private Vector<Actor> actorsToAdd;
-    private Vector<Actor> actorsToRemove;
-    private ArrayList<DirectionalLight> directionalLights;
+    private final Vector<Actor> actorsToAdd;
+    private final Vector<Actor> actorsToRemove;
+    private final ArrayList<DirectionalLight> directionalLights;
     private Color backgroundColor;
     private Camera camera;
 
-    Point mousePosition;
+    Vector2D mousePosition, mousePositionInScene;
 
     public Scene() {
         actors = new Vector<>();
@@ -22,7 +25,8 @@ public class Scene {
         actorsToRemove = new Vector<>();
         directionalLights = new ArrayList<>();
         backgroundColor = Color.BLACK;
-        mousePosition = new Point(0,0);
+        mousePosition = new Vector2D(0,0);
+        mousePositionInScene = new Vector2D(0,0);
         camera = new Camera();
     }
 
@@ -34,11 +38,11 @@ public class Scene {
         for (Actor actor: actorsToRemove) {
             actors.removeElement(actor);
         }
-        actorsToRemove = new Vector<>();
+        actorsToRemove.clear();
         for (Actor actor: actorsToAdd) {
             actors.addElement(actor);
         }
-        actorsToAdd = new Vector<>();
+        actorsToAdd.clear();
         actors.sort(new Comparator<Actor>() {
             @Override
             public int compare(Actor o1, Actor o2) {
@@ -106,11 +110,22 @@ public class Scene {
         this.camera = camera;
     }
 
-    public void setMousePosition(Point mousePosition) {
+    public void setMousePosition(Vector2D mousePosition) {
         this.mousePosition = mousePosition;
+        double scale = camera.getZoom();
+        double unit = Engine.getGameWindow().getCanvas().getHeight()/100.0;
+        double screenCenterX = Engine.getGameWindow().getCanvas().getWidth()/2.0;
+        double screenCenterY = Engine.getGameWindow().getCanvas().getHeight()/2.0;
+        double x = (mousePosition.getX() - screenCenterX)/unit/scale;
+        double y = (mousePosition.getY() - screenCenterY)/unit/scale;
+        this.mousePositionInScene = Vector2D.rotate(new Vector2D(x, y), camera.getRotation());
     }
 
-    public Point getMousePosition() {
+    public Vector2D getMousePosition() {
         return mousePosition;
+    }
+
+    public Vector2D getMousePositionInScene() {
+        return mousePositionInScene;
     }
 }

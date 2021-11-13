@@ -2,6 +2,7 @@ package iut.projets.trivialpursuit.engine.window;
 
 import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.graphics.SceneRenderer;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -58,7 +59,7 @@ public class RenderCanvas extends Canvas implements MouseListener, MouseMotionLi
     }
 
     private void updateMousePosition(MouseEvent e) {
-        Engine.getActiveScene().setMousePosition(e.getPoint());
+        Engine.getActiveScene().setMousePosition(new Vector2D(e.getX(), e.getY()));
         Engine.getUserInterface().setMousePosition(e.getX(), e.getY());
     }
 

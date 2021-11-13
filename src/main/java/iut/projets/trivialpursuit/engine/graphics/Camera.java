@@ -11,7 +11,7 @@ public class Camera {
 
     public Camera() {
         position = new Vector2D(0, 0);
-        zoom = 1.0;
+        zoom = 1;
         rotation = Rotation.rad(0);
     }
 

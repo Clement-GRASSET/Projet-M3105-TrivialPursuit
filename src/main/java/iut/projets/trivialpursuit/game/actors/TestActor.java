@@ -11,6 +11,7 @@ public class TestActor extends Actor {
         super();
         setMaterial(new WhiteMaterial());
         setScale(new Vector2D(3, 3));
+        setRenderOrder(2);
     }
 
     @Override
@@ -20,9 +21,9 @@ public class TestActor extends Actor {
 
     @Override
     public void update(double frameTime) {
-        getPosition().setX(getPosition().getX() + 15*frameTime);
-        setRotation(Rotation.rad(getRotation().getRad() + frameTime*5));
-        if (getPosition().getX() > 50.0)
-            getScene().removeActor(this);
+        //getPosition().setX(getPosition().getX() + 15*frameTime);
+        //setRotation(Rotation.rad(getRotation().getRad() + frameTime*5));
+        //if (getPosition().getX() > 50.0)
+        //    getScene().removeActor(this);
     }
 }

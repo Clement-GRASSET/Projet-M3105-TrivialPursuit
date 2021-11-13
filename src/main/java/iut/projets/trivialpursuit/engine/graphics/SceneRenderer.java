@@ -53,7 +53,7 @@ public class SceneRenderer {
     }
 
     private class DirectionalLightToRender {
-        private DirectionalLight directionalLight;
+        private final DirectionalLight directionalLight;
         double intensityAtFlatNormal;
 
         DirectionalLightToRender(DirectionalLight directionalLight) {

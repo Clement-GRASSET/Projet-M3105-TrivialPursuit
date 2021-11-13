@@ -10,13 +10,25 @@ import java.awt.image.BufferedImage;
 
 public class Case extends Actor {
 
+    private Image defaultImage, hoverImage;
+
     public Case() {
         setScale(new Vector2D(8,8));
-        BufferedImage image = new BufferedImage(100,100,BufferedImage.TYPE_INT_ARGB);
-        Graphics g = image.getGraphics();
+        Graphics g;
+
+        defaultImage = new BufferedImage(100,100,BufferedImage.TYPE_INT_ARGB);
+        g = defaultImage.getGraphics();
         g.setColor(Color.BLUE);
         g.fillOval(0,0,100,100);
-        setMaterial(new BaseMaterial(image, Material.getDefaultNormals()));
+        g.dispose();
+
+        hoverImage = new BufferedImage(100,100,BufferedImage.TYPE_INT_ARGB);
+        g = hoverImage.getGraphics();
+        g.setColor(Color.CYAN);
+        g.fillOval(0,0,100,100);
+        g.dispose();
+
+        setMaterial(new BaseMaterial(defaultImage, Material.getDefaultNormals()));
         setRenderOrder(1);
     }
 
@@ -27,6 +39,11 @@ public class Case extends Actor {
 
     @Override
     public void update(double frameTime) {
-
+        Vector2D mouse = getScene().getMousePositionInScene();
+        if (Vector2D.length(getPosition(), mouse) < 4) {
+            setMaterial(new BaseMaterial(hoverImage, Material.getDefaultNormals()));
+        } else {
+            setMaterial(new BaseMaterial(defaultImage, Material.getDefaultNormals()));
+        }
     }
 }
