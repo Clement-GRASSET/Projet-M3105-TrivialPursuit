@@ -20,13 +20,15 @@ public class GameBoard extends Actor {
     public GameBoard() {
         super();
         setScale(new Vector2D(100, 100));
-        Image color = Resources.getImage("/textures/game_board/game_board.jpg");
-        setMaterial(new BaseMaterial(color, Material.getDefaultNormals()));
+        Image color = Resources.getImage("/textures/game_board/game_board.png");
+        Image normals = Resources.getImage("/textures/game_board/game_board_n.png");
+        setMaterial(new BaseMaterial(color, normals));
     }
 
     @Override
     public void start() {
         c0 = addCase(Rotation.deg(0),0);
+        c0.setScale(new Vector2D(17,17));
 
         double distance1 = 13.8;
         c1 = addCase(Rotation.deg(270), distance1);

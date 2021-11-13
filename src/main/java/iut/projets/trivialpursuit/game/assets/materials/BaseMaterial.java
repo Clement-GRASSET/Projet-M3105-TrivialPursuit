@@ -12,4 +12,12 @@ public class BaseMaterial extends Material {
         this.normals = normals;
     }
 
+    public void setColor(Image color) {
+        this.color = color;
+    }
+
+    public void setNormals(Image normals) {
+        this.normals = normals;
+    }
+
 }

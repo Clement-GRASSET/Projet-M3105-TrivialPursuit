@@ -2,23 +2,20 @@ package iut.projets.trivialpursuit.game.scenes;
 
 import iut.projets.trivialpursuit.engine.graphics.*;
 import iut.projets.trivialpursuit.engine.types.*;
-import iut.projets.trivialpursuit.game.actors.TestActor;
 import iut.projets.trivialpursuit.game.actors.gameboard.GameBoard;
 
 public class GameScene extends Scene {
 
     DirectionalLight light;
-    Actor testActor;
     double compteur;
 
     public GameScene() {
         GameBoard gameBoard = (GameBoard) addActor(GameBoard.class);
-        testActor = addActor(TestActor.class);
 
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
         light.setDirection(new Vector3D(1,1,-1));
-        light.setIntensity(5);
+        light.setIntensity(3);
     }
 
     @Override
@@ -33,9 +30,8 @@ public class GameScene extends Scene {
                 -1
         ));*/
 
-        light.setDirection(new Vector3D(1,-1,-0.3));
+        light.setDirection(new Vector3D(-1,1,-0.5));
 
-        testActor.setPosition(getMousePositionInScene());
         //getCamera().setPosition(new Vector2D(50*Math.cos(System.currentTimeMillis()*0.002), 50*Math.sin(System.currentTimeMillis()*0.002)));
         //getCamera().setPosition(new Vector2D(50, 0));
         //getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.05));

@@ -62,7 +62,8 @@ public class StartScene extends Scene {
         List<String> images = new ArrayList<>();
         images.add("/textures/tiles/tiles_color.jpg");
         images.add("/textures/tiles/tiles_normals.jpg");
-        images.add("/textures/game_board/game_board.jpg");
+        images.add("/textures/game_board/game_board.png");
+        images.add("/textures/game_board/game_board_n.png");
         loadThread = new LoadThread(images);
     }
 
