@@ -11,6 +11,11 @@ public class MaterialTestActor extends Actor {
     }
 
     @Override
+    public void start() {
+
+    }
+
+    @Override
     public void update(double frameTime) {
 
     }

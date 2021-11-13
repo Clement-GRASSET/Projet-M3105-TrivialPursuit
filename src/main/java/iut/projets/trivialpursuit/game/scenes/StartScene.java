@@ -62,13 +62,14 @@ public class StartScene extends Scene {
         List<String> images = new ArrayList<>();
         images.add("/textures/tiles/tiles_color.jpg");
         images.add("/textures/tiles/tiles_normals.jpg");
+        images.add("/textures/game_board/game_board.jpg");
         loadThread = new LoadThread(images);
     }
 
     @Override
     protected void update(double frameTime) {
         timeElapsed += frameTime;
-        if (loadThread.isLoadComplete() && !sceneTransitionStarted && timeElapsed > 1) {
+        if (loadThread.isLoadComplete() && !sceneTransitionStarted && timeElapsed > 2) {
             System.out.println("Starting game...");
             sceneTransitionStarted = true;
             Engine.getUserInterface().removeElement(loadingIcon);

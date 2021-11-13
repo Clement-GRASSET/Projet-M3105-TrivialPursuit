@@ -2,18 +2,10 @@ package iut.projets.trivialpursuit.game.scenes;
 
 import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.graphics.*;
-import iut.projets.trivialpursuit.engine.types.Rotation;
-import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.types.Vector3D;
-import iut.projets.trivialpursuit.engine.userinterface.UIButton;
-import iut.projets.trivialpursuit.engine.userinterface.UIElement;
-import iut.projets.trivialpursuit.game.actors.*;
-import iut.projets.trivialpursuit.game.assets.ui.FPSCounter;
-import iut.projets.trivialpursuit.game.assets.ui.MainMenu;
-import iut.projets.trivialpursuit.game.assets.ui.TestImage;
+import iut.projets.trivialpursuit.engine.types.*;
+import iut.projets.trivialpursuit.game.actors.gameboard.GameBoard;
 
 import java.awt.*;
-import java.util.*;
 
 public class GameScene extends Scene {
 
@@ -21,28 +13,12 @@ public class GameScene extends Scene {
     double compteur;
 
     public GameScene() {
-        Actor materialTestActor = addActor(MaterialTestActor.class);
-        materialTestActor.setScale(new Vector2D(50,50));
-
-        //Engine.getUserInterface().addElement(new UIButton("Button"));
+        GameBoard gameBoard = (GameBoard) addActor(GameBoard.class);
 
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
         light.setDirection(new Vector3D(1,1,-1));
         light.setIntensity(5);
-
-        //DirectionalLight blueLight = (DirectionalLight) addLight(DirectionalLight.class);
-        //blueLight.setDirection(new Vector3D(0,0,-1));
-        //blueLight.setIntensity(new Vector3D(1, 0.5, 0.2));
-
-        Timer spawnTimer = new Timer();
-        spawnTimer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Actor testActor = addActor(TestActor.class);
-                testActor.setPosition(new Vector2D(-50.0, 0.0));
-            }
-        }, 1000, 500);
     }
 
     @Override
@@ -60,9 +36,9 @@ public class GameScene extends Scene {
                 -0.02
         ));
 
-        getCamera().setPosition(new Vector2D(50*Math.cos(System.currentTimeMillis()*0.002), 50*Math.sin(System.currentTimeMillis()*0.002)));
+        //getCamera().setPosition(new Vector2D(50*Math.cos(System.currentTimeMillis()*0.002), 50*Math.sin(System.currentTimeMillis()*0.002)));
         //getCamera().setPosition(new Vector2D(50, 0));
         //getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.05));
-        getCamera().setRotation(Rotation.deg(45));
+        //getCamera().setRotation(Rotation.deg(45));
     }
 }

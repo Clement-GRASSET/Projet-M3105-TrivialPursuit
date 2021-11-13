@@ -13,7 +13,7 @@ public class LoadingIcon extends UIImage {
         setAnchor(Anchor.BOTTOM_RIGHT);
         setAlignment(new Vector2D(-1, -1));
         setPosition(new Vector2D(-5, -5));
-        setSize(5);
+        setSize(10);
     }
 
     @Override

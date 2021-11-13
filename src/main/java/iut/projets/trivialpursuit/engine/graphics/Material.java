@@ -9,6 +9,8 @@ public class Material {
     protected Image color;
     protected Image normals;
 
+    private static Image DEFAULT_COLOR, DEFAULT_NORMALS;
+
     public Material() {
         Graphics2D g;
 
@@ -23,6 +25,9 @@ public class Material {
         g.setColor(new Color(127, 127, 255));
         g.fillRect(0,0,16,16);
         g.dispose();
+
+        DEFAULT_COLOR = color;
+        DEFAULT_NORMALS = normals;
     }
 
     public Image getColor() {
@@ -31,5 +36,13 @@ public class Material {
 
     public Image getNormals() {
         return normals;
+    }
+
+    public static Image getDefaultColor() {
+        return DEFAULT_COLOR;
+    }
+
+    public static Image getDefaultNormals() {
+        return DEFAULT_NORMALS;
     }
 }

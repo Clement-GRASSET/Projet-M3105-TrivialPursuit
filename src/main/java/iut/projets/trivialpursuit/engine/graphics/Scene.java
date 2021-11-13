@@ -2,6 +2,7 @@ package iut.projets.trivialpursuit.engine.graphics;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Vector;
 
 public class Scene {
@@ -38,6 +39,12 @@ public class Scene {
             actors.addElement(actor);
         }
         actorsToAdd = new Vector<>();
+        actors.sort(new Comparator<Actor>() {
+            @Override
+            public int compare(Actor o1, Actor o2) {
+                return o1.getRenderOrder() - o2.getRenderOrder();
+            }
+        });
     }
 
     protected void update(double frameTime) {
@@ -54,10 +61,12 @@ public class Scene {
             actor = ActorClass.getConstructor().newInstance();
         } catch (Exception e) {
             e.printStackTrace();
+            System.exit(1);
             return null;
         }
         actor.setScene(this);
         actorsToAdd.addElement(actor);
+        actor.start();
         return actor;
     }
 

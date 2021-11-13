@@ -14,6 +14,11 @@ public class TestActor extends Actor {
     }
 
     @Override
+    public void start() {
+
+    }
+
+    @Override
     public void update(double frameTime) {
         getPosition().setX(getPosition().getX() + 15*frameTime);
         setRotation(Rotation.rad(getRotation().getRad() + frameTime*5));

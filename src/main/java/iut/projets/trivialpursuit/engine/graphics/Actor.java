@@ -8,6 +8,7 @@ public abstract class Actor {
     private Vector2D position;
     private Vector2D scale;
     private Rotation rotation;
+    private int renderOrder;
 
     private Material material;
 
@@ -17,10 +18,13 @@ public abstract class Actor {
         this.position = new Vector2D(0,0);
         this.scale = new Vector2D(1,1);
         this.rotation = Rotation.rad(0);
+        this.renderOrder = 0;
         setMaterial( new Material() );
     }
 
-    public void update(double frameTime) {}
+    public abstract void start();
+
+    public abstract void update(double frameTime);
 
     public Vector2D getPosition() {
         return position;
@@ -60,5 +64,13 @@ public abstract class Actor {
 
     void setScene(Scene scene) {
         this.scene = scene;
+    }
+
+    public int getRenderOrder() {
+        return renderOrder;
+    }
+
+    public void setRenderOrder(int renderOrder) {
+        this.renderOrder = renderOrder;
     }
 }
