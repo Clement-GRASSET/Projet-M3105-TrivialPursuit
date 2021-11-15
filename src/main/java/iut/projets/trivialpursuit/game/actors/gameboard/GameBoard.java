@@ -27,7 +27,7 @@ public class GameBoard extends Actor {
 
     @Override
     public void start() {
-        c0 = addCase(Rotation.deg(0),0);
+        /*c0 = addCase(Rotation.deg(0),0);
         c0.setScale(new Vector2D(17,17));
 
         double distance1 = 13.8;
@@ -85,7 +85,7 @@ public class GameBoard extends Actor {
         c39 = addCase(Rotation.deg(210), distance4);
         c40 = addCase(Rotation.deg(225), distance4);
         c41 = addCase(Rotation.deg(240), distance4);
-        c42 = addCase(Rotation.deg(255), distance4);
+        c42 = addCase(Rotation.deg(255), distance4);*/
 
     }
 

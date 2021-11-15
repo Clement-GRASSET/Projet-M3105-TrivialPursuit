@@ -5,6 +5,7 @@ import iut.projets.trivialpursuit.engine.graphics.Actor;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferInt;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -80,6 +81,12 @@ public class UserInterface {
         }
         elementsToAdd.clear();
         elementsToRemove.clear();
+        elements.sort(new Comparator<UIElement>() {
+            @Override
+            public int compare(UIElement o1, UIElement o2) {
+                return o1.getRenderOrder() - o2.getRenderOrder();
+            }
+        });
     }
 
     public void render(Graphics2D g) {

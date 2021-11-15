@@ -15,6 +15,7 @@ public abstract class UIElement {
     private Anchor anchor;
     private final Vector2D position;
     private final Vector2D alignment;
+    private int renderOrder;
 
     public enum Anchor {
         TOP_LEFT,
@@ -34,6 +35,7 @@ public abstract class UIElement {
         alignment = new Vector2D(0, 0);
         screenWidth = 1;
         screenHeight = 1;
+        renderOrder = 0;
     }
 
     public static void setUnit(int unit) {
@@ -157,4 +159,12 @@ public abstract class UIElement {
     }
 
     protected void update(double frameTime) {}
+
+    public int getRenderOrder() {
+        return renderOrder;
+    }
+
+    public void setRenderOrder(int renderOrder) {
+        this.renderOrder = renderOrder;
+    }
 }

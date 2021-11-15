@@ -2,6 +2,7 @@ package iut.projets.trivialpursuit.engine.userinterface;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class UIContainer extends UIElement {
@@ -29,5 +30,11 @@ public class UIContainer extends UIElement {
         for (UIElement element : elements) {
             element.tick(frameTime);
         }
+        elements.sort(new Comparator<UIElement>() {
+            @Override
+            public int compare(UIElement o1, UIElement o2) {
+                return o1.getRenderOrder() - o2.getRenderOrder();
+            }
+        });
     }
 }

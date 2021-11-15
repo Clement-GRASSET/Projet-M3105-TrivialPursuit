@@ -2,6 +2,7 @@ package iut.projets.trivialpursuit.game;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -9,14 +10,15 @@ import java.util.Map;
 
 public class Resources {
 
-    public static Map<String, Image> images = new HashMap<>();
+    public static Map<String, BufferedImage> images = new HashMap<>();
 
     public static Image getImage(String name) {
         if (images.containsKey(name)) {
             return images.get(name);
         } else {
             try {
-                return loadImage(name);
+                loadImage(name);
+                return images.get(name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -24,8 +26,8 @@ public class Resources {
         return null;
     }
 
-    public static Image loadImage(String name) throws IOException {
-        return ImageIO.read( getResource(name) );
+    public static void loadImage(String name) throws IOException {
+        images.put( name, ImageIO.read( getResource(name) ) );
     }
 
     public static URL getResource(String name) {

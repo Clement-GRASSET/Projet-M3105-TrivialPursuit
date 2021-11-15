@@ -52,6 +52,7 @@ public class StartScene extends Scene {
         timeElapsed = 0;
 
         FPSCounter fpsCounter = new FPSCounter();
+        fpsCounter.setRenderOrder(100);
         splashScreen = new SplashScreen();
         loadingIcon = new LoadingIcon();
         Engine.getUserInterface().addElement(fpsCounter);

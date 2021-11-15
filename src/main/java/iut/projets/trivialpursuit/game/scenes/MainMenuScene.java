@@ -10,8 +10,8 @@ public class MainMenuScene extends Scene {
     public MainMenuScene() {
         super();
 
-        Engine.getAudioManager().playMusic("origamiKingBB.wav", true, 2.18181818);
-        Engine.getAudioManager().playMusic("origamiKingBBT.wav", true, 2.18181818);
+        //Engine.getAudioManager().playMusic("origamiKingBB.wav", true, 2.18181818);
+        //Engine.getAudioManager().playMusic("origamiKingBBT.wav", true, 2.18181818);
 
         MainMenu mainMenuUI = new MainMenu();
         mainMenuUI.onPlayClicked(() -> {

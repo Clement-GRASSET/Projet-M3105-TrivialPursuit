@@ -187,7 +187,7 @@ public class SceneRenderer {
                     // Création d'un vecteur de longueur 1 représentant la direction du pixel
                     Vector3D pixel_angle = new Vector3D(
                             (normals.getRed()/255.0 - 0.5) * 2,
-                            (normals.getGreen()/255.0 - 0.5) * 2,
+                            (normals.getGreen()/255.0 - 0.5) * -2,
                             (normals.getBlue()/255.0 - 0.5) * 2
                     );
 
@@ -206,7 +206,7 @@ public class SceneRenderer {
                             // Direction inversée de la lumière
                             Vector3D direction = new Vector3D(
                                     light.getDirectionalLight().getDirection().getX()*-1,
-                                    light.getDirectionalLight().getDirection().getY(),
+                                    light.getDirectionalLight().getDirection().getY()*-1,
                                     light.getDirectionalLight().getDirection().getZ()*-1
                             );
 
