@@ -9,9 +9,13 @@ import iut.projets.trivialpursuit.game.Resources;
 public class MainMenu extends UIContainer {
 
     private Runnable onPlayClicked, onQuitClicked;
+    private UIImage logo;
+    private double compteur;
 
     public MainMenu() {
         super();
+        compteur = 0;
+
         onPlayClicked = () -> {};
         onQuitClicked = () -> {};
 
@@ -35,12 +39,21 @@ public class MainMenu extends UIContainer {
         quitButton.onClick( () -> onQuitClicked.run() );
         addElement(quitButton);
 
-        UIImage logo = new UIImage();
+        logo = new UIImage();
         logo.setRenderOrder(1);
         logo.setImage(Resources.getImage("/images/trivial-pursuit-logo.png"));
         logo.setSize(50);
         logo.setPosition(new Vector2D(0, -10));
         addElement(logo);
+    }
+
+    @Override
+    protected void update(double frameTime) {
+        super.update(frameTime);
+        compteur += frameTime;
+        double period = 60/117.0;
+        double scale = -Math.cos(compteur*2*Math.PI/period);
+        logo.setSize( Math.pow(scale+0.5, 5)*0.6 + 50);
     }
 
     public void onPlayClicked(Runnable onPlayClicked) {

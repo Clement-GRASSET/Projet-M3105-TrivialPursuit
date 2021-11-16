@@ -11,7 +11,7 @@ import java.util.Vector;
 public class AudioManager
 {
     private float general_volume, music_volume, SFX_volume;
-    private List<Clip> audio_list;
+    private final List<Clip> audio_list;
 
     public AudioManager()
     {
@@ -28,6 +28,10 @@ public class AudioManager
             FloatControl volumeFC = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             volumeFC.setValue(general_volume*music_volume);
         }
+    }
+
+    public void playMusic(Sound sound) {
+        sound.getClip().start();
     }
 
     public void playMusic(String music_name, boolean loop, double start_point)

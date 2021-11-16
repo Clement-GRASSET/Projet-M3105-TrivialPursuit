@@ -15,7 +15,7 @@ public class GameScene extends Scene {
         compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
         light.setDirection(new Vector3D(1,1,-1));
-        light.setIntensity(3);
+        light.setIntensity(1.5);
     }
 
     @Override
@@ -36,6 +36,8 @@ public class GameScene extends Scene {
         //getCamera().setPosition(new Vector2D(50, 0));
         //getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.02));
         //getCamera().setRotation(Rotation.deg(45));
+
+        //getCamera().setZoom(Math.sin(System.currentTimeMillis()/2000.0)+1);
 
         /*double zoom = getMousePositionInScene().getY()*-0.001;
         getCamera().setZoom(Math.min(Math.max(getCamera().getZoom() + zoom, 0.5), 10));
