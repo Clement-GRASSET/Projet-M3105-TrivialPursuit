@@ -1,10 +1,7 @@
 package iut.projets.trivialpursuit.engine.userinterface;
 
-import iut.projets.trivialpursuit.engine.graphics.Actor;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
@@ -90,8 +87,6 @@ public class UserInterface {
     }
 
     public void render(Graphics2D g) {
-        int [] pixels = ( (DataBufferInt) UIbuffer.getRaster().getDataBuffer() ).getData();
-
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (UIElement element : elements)
         {

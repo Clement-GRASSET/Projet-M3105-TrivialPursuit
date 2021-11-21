@@ -20,13 +20,6 @@ public class MainMenuScene extends Scene {
         //Engine.getAudioManager().playMusic("origamiKingBBT.wav", true, 2.18181818);
 
         MainMenu mainMenuUI = new MainMenu();
-        mainMenuUI.onPlayClicked(() -> {
-            Engine.setActiveScene(new GameScene());
-            Engine.getUserInterface().removeElement(mainMenuUI);
-        });
-        mainMenuUI.onQuitClicked(() -> {
-            System.exit(0);
-        });
         Engine.getUserInterface().addElement(mainMenuUI);
     }
 }

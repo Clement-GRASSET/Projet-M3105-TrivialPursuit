@@ -5,15 +5,21 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class UIContainer extends UIElement {
-    List<UIElement> elements;
+public abstract class UIContainer extends UIElement {
+    List<UIElement> elements, elementsToAdd, elementsToRemove;
 
     public UIContainer() {
         elements = new ArrayList<>();
+        elementsToAdd = new ArrayList<>();
+        elementsToRemove = new ArrayList<>();
+    }
+
+    public void removeElement(UIElement element) {
+        elementsToRemove.add(element);
     }
 
     public void addElement(UIElement element) {
-        elements.add(element);
+        elementsToAdd.add(element);
     }
 
     @Override
@@ -30,6 +36,14 @@ public class UIContainer extends UIElement {
         for (UIElement element : elements) {
             element.tick(frameTime);
         }
+        for (UIElement element : elementsToAdd) {
+            elements.add(element);
+        }
+        for (UIElement element : elementsToRemove) {
+            elements.remove(element);
+        }
+        elementsToAdd.clear();
+        elementsToRemove.clear();
         elements.sort(new Comparator<UIElement>() {
             @Override
             public int compare(UIElement o1, UIElement o2) {
