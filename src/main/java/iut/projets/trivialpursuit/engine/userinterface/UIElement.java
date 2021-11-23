@@ -1,12 +1,11 @@
 package iut.projets.trivialpursuit.engine.userinterface;
 
+import iut.projets.trivialpursuit.engine.game.GameObject;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
-public abstract class UIElement {
+public abstract class UIElement extends GameObject {
 
     private static double unit = 100;
     private static int screenWidth, screenHeight;
@@ -152,13 +151,13 @@ public abstract class UIElement {
         this.draw(g);
     }
 
-    protected void draw (Graphics2D g) {}
+    protected void draw(Graphics2D g) {}
 
-    public void tick(double frameTime) {
-        update(frameTime);
-    }
+    @Override
+    public void start() {}
 
-    protected void update(double frameTime) {}
+    @Override
+    public void update(double frameTime) {}
 
     public int getRenderOrder() {
         return renderOrder;

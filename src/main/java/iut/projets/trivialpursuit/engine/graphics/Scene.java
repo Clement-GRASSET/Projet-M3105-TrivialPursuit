@@ -1,6 +1,7 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
 import iut.projets.trivialpursuit.engine.Engine;
+import iut.projets.trivialpursuit.engine.game.GameObject;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Vector;
 
-public class Scene {
+public class Scene extends GameObject {
 
     private final Vector<Actor> actors;
     private final Vector<Actor> actorsToAdd;
@@ -30,11 +31,22 @@ public class Scene {
         camera = new Camera();
     }
 
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public void update(double frameTime) {
+
+    }
+
+    @Override
     public void tick(double frameTime) {
         updateMousePositionInScene();
         update(frameTime);
         for (Actor actor : actors) {
-            actor.update(frameTime);
+            actor.tick(frameTime);
         }
         for (Actor actor: actorsToRemove) {
             actors.removeElement(actor);
@@ -42,6 +54,7 @@ public class Scene {
         actorsToRemove.clear();
         for (Actor actor: actorsToAdd) {
             actors.addElement(actor);
+            actor.start();
         }
         actorsToAdd.clear();
         actors.sort(new Comparator<Actor>() {
@@ -50,10 +63,6 @@ public class Scene {
                 return o1.getRenderOrder() - o2.getRenderOrder();
             }
         });
-    }
-
-    protected void update(double frameTime) {
-        
     }
 
     public Vector<Actor> getActors() {

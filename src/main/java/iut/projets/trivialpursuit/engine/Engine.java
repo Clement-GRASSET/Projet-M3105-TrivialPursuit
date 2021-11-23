@@ -9,6 +9,7 @@ import iut.projets.trivialpursuit.engine.window.GameWindow;
 
 public class Engine {
 
+    private static Game game;
     private static GameWindow gameWindow;
     private static Scene activeScene;
     private static SceneRenderer sceneRenderer;
@@ -18,6 +19,7 @@ public class Engine {
     private static AudioManager audioManager;
 
     public static void start(Game game) {
+        Engine.game = game;
         activeScene = new Scene();
         sceneRenderer = new SceneRenderer();
         userInterface = new UserInterface();
@@ -33,6 +35,10 @@ public class Engine {
             activeScene.tick(frameTime);
     }
 
+    public static Game getGame() {
+        return game;
+    }
+
     public static GameWindow getGameWindow() {
         return gameWindow;
     }
@@ -43,6 +49,7 @@ public class Engine {
 
     public static void setActiveScene(Scene scene) {
         activeScene = scene;
+        scene.start();
     }
 
     public static SceneRenderer getSceneRenderer() {

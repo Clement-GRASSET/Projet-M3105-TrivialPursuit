@@ -48,6 +48,7 @@ public class UserInterface {
 
     public void addElement(UIElement element) {
         elementsToAdd.add(element);
+        element.start();
     }
 
     public void removeElement(UIElement element) {
@@ -92,6 +93,15 @@ public class UserInterface {
         {
             element.draw_all(g);
         }
+    }
+
+    public static BufferedImage uniformImage(Color color) {
+        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = image.getGraphics();
+        g.setColor(color);
+        g.clearRect(0,0,1,1);
+        g.dispose();
+        return image;
     }
 
 }

@@ -8,6 +8,7 @@ public class TrivialPursuit extends Game {
 
     @Override
     public void start() {
+        setName("Trivial Pursuit");
         Engine.getSettings().setMaxFPS(0);
         Engine.getSettings().setRenderScale(1);
         Engine.getGameLoop().setDebug(true);

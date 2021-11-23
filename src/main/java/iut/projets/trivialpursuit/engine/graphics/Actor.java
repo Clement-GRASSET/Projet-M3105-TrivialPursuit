@@ -1,9 +1,10 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
+import iut.projets.trivialpursuit.engine.game.GameObject;
 import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
-public abstract class Actor {
+public abstract class Actor extends GameObject {
 
     private Vector2D position;
     private Vector2D scale;
@@ -21,10 +22,6 @@ public abstract class Actor {
         this.renderOrder = 0;
         setMaterial( new Material() );
     }
-
-    public abstract void start();
-
-    public abstract void update(double frameTime);
 
     public Vector2D getPosition() {
         return position;

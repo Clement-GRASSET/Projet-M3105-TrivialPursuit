@@ -19,7 +19,7 @@ public class GameScene extends Scene {
     }
 
     @Override
-    protected void update(double frameTime) {
+    public void update(double frameTime) {
         compteur += frameTime;
         //Fait tourner la lumière autour de la scene
         //light.setDirection(new Vector3D(Math.cos(compteur), Math.sin(compteur), -0.3));

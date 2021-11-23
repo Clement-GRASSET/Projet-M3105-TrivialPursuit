@@ -1,15 +1,14 @@
 package iut.projets.trivialpursuit.engine.audio;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class Sound {
 
     private Clip clip;
+    private AudioInputStream dais;
 
     public Sound(InputStream inputStream) {
         try {
@@ -25,17 +24,43 @@ public class Sound {
                     base_format.getSampleRate(),
                     false);
 
-            AudioInputStream dais = AudioSystem.getAudioInputStream(decoded_format, ais);
+            dais = AudioSystem.getAudioInputStream(decoded_format, ais);
             clip = AudioSystem.getClip();
-            clip.open(dais);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
+
+        /*clip.addLineListener(new LineListener() {
+            @Override
+            public void update(LineEvent event) {
+                System.out.println(event);
+            }
+        });*/
     }
 
     Clip getClip() {
         return clip;
+    }
+
+    public void play() {
+        if (!clip.isOpen()) {
+            try {
+                clip.open(dais);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        }
+        clip.start();
+    }
+
+    public void stop() {
+        clip.stop();
+    }
+
+    public void pause() {
+        clip.stop();
     }
 
     public void setLoop(boolean loop) {
