@@ -9,8 +9,10 @@ public class Sound {
 
     private Clip clip;
     private AudioInputStream dais;
+    float volume;
 
     public Sound(InputStream inputStream) {
+        volume = 1;
         try {
             InputStream bufferedIS = new BufferedInputStream(inputStream);
 
@@ -26,6 +28,8 @@ public class Sound {
 
             dais = AudioSystem.getAudioInputStream(decoded_format, ais);
             clip = AudioSystem.getClip();
+            clip.open(dais);
+            clip.stop();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
@@ -44,14 +48,14 @@ public class Sound {
     }
 
     public void play() {
-        if (!clip.isOpen()) {
+        /*if (!clip.isOpen()) {
             try {
                 clip.open(dais);
             } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(1);
             }
-        }
+        }*/
         clip.start();
     }
 
@@ -69,6 +73,17 @@ public class Sound {
 
     public void setLoop(boolean loop, double startPoint) {
         setLoop(loop);
-        clip.setLoopPoints((int)(clip.getFrameLength()*startPoint/(clip.getMicrosecondLength()/1000000)), -1);
+        int startFrame = (int) (clip.getFrameLength()*startPoint/(clip.getMicrosecondLength()/1000000));
+        clip.setLoopPoints(startFrame, -1);
+    }
+
+    public float getVolume() {
+        return volume;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = Math.max(volume, 0);
+        FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(20f * (float) Math.log10(this.volume));
     }
 }

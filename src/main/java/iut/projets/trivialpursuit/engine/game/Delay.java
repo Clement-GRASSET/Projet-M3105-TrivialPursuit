@@ -7,7 +7,6 @@ public class Delay extends Task {
     public Delay(double duration) {
         super();
         this.duration = duration;
-        System.out.println("Delay: " + duration);
     }
 
     @Override

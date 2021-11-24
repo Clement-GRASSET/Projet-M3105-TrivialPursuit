@@ -111,15 +111,17 @@ public class MainMenu extends UIContainer {
     private UIContainer activeMenu;
     private final Sound menuMusic;
     private double time;
+    private final double music_bpm;
 
     public MainMenu() {
         super();
 
         time = 0;
+        music_bpm = 132.0;
 
         InputStream inputStream = MainMenu.class.getResourceAsStream("/sounds/musics/main_menu.wav");
         menuMusic = new Sound(inputStream);
-        menuMusic.setLoop(true);
+        menuMusic.setLoop(true, (60.0/music_bpm)*44);
         menuMusic.play();
 
         UIImage background = new UIImage();
@@ -139,8 +141,8 @@ public class MainMenu extends UIContainer {
     public void update(double frameTime) {
         super.update(frameTime);
         time += frameTime;
-        double period = 60/117.0;
-        double scale = -Math.cos( (time+0.1) * 2 * Math.PI/period );
+        double period = 60.0/music_bpm;
+        double scale = -Math.cos( (time+0.4) * 2 * Math.PI/period );
         logo.setSize( Math.pow(scale+0.5, 5)*0.3 + 50);
     }
 

@@ -43,6 +43,7 @@ public class Scene extends GameObject {
 
     @Override
     public void tick(double frameTime) {
+        super.tick(frameTime);
         updateMousePositionInScene();
         update(frameTime);
         for (Actor actor : actors) {
