@@ -1,10 +1,10 @@
-package iut.projets.trivialpursuit.game.assets.ui;
+package iut.projets.trivialpursuit.game.ui;
 
+import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 
 import java.awt.*;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Vector;
 
@@ -20,13 +20,7 @@ public class FPSCounter extends UIElement {
         fps = "";
         textSize = 3;
         frameTimes = new Vector<>();
-        InputStream is = getClass().getResourceAsStream("/fonts/Technology.ttf");
-        font = new Font("Arial", Font.PLAIN, 1);
-        try {
-            font = Font.createFont(Font.TRUETYPE_FONT, is);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        font = Resources.getFont("/fonts/Technology.ttf");
     }
 
     @Override

@@ -66,6 +66,10 @@ public class UIImage extends UIElement {
         this.size = size;
     }
 
+    public Vector2D getSize() {
+        return size;
+    }
+
     public Rotation getRotation() {
         return rotation;
     }

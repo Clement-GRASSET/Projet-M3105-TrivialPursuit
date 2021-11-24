@@ -3,11 +3,12 @@ package iut.projets.trivialpursuit.game.scenes;
 import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.graphics.Scene;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
-import iut.projets.trivialpursuit.game.Resources;
-import iut.projets.trivialpursuit.game.assets.ui.FPSCounter;
-import iut.projets.trivialpursuit.game.assets.ui.LoadingIcon;
-import iut.projets.trivialpursuit.game.assets.ui.SplashScreen;
+import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.game.ui.FPSCounter;
+import iut.projets.trivialpursuit.game.ui.LoadingIcon;
+import iut.projets.trivialpursuit.game.ui.SplashScreen;
 
+import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +17,11 @@ public class StartScene extends Scene {
 
     private class LoadThread extends Thread {
         private boolean isLoaded;
-        private final List<String> images;
+        private final String [] images, inputStreams;
 
-        private LoadThread(List<String> images) {
+        private LoadThread(String [] images, String [] inputStreams) {
             this.images = images;
+            this.inputStreams = inputStreams;
             isLoaded = false;
             start();
         }
@@ -30,6 +32,9 @@ public class StartScene extends Scene {
             try {
                 for (String image : images) {
                     Resources.loadImage(image);
+                }
+                for (String inputStream : inputStreams) {
+                    Resources.loadInputStream(inputStream);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -58,14 +63,21 @@ public class StartScene extends Scene {
         Engine.getUserInterface().addElement(fpsCounter);
         Engine.getUserInterface().addElement(splashScreen);
         Engine.getUserInterface().addElement(loadingIcon);
-        System.out.println("Loading resources...");
 
-        List<String> images = new ArrayList<>();
-        images.add("/textures/tiles/tiles_color.jpg");
-        images.add("/textures/tiles/tiles_normals.jpg");
-        images.add("/textures/game_board/game_board.png");
-        images.add("/textures/game_board/game_board_n.png");
-        loadThread = new LoadThread(images);
+        String [] images = {
+                "/textures/tiles/tiles_color.jpg",
+                "/textures/tiles/tiles_normals.jpg",
+                "/textures/game_board/game_board.png",
+                "/textures/game_board/game_board_n.png",
+                "/images/main-menu-background.png",
+                "/images/trivial-pursuit-logo.png"
+        };
+        String [] inputStreams = {
+                "/sounds/musics/main_menu.wav",
+                "/sounds/musics/origamikingBB.wav",
+                "/sounds/musics/origamikingBBT.wav"
+        };
+        loadThread = new LoadThread(images, inputStreams);
     }
 
     @Override

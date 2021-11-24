@@ -1,7 +1,7 @@
 package iut.projets.trivialpursuit.game.actors;
 
 import iut.projets.trivialpursuit.engine.graphics.Actor;
-import iut.projets.trivialpursuit.game.assets.materials.TilesMaterial;
+import iut.projets.trivialpursuit.game.materials.TilesMaterial;
 
 public class MaterialTestActor extends Actor {
 

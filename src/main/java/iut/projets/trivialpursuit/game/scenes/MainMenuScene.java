@@ -2,7 +2,7 @@ package iut.projets.trivialpursuit.game.scenes;
 
 import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.graphics.Scene;
-import iut.projets.trivialpursuit.game.assets.ui.MainMenu;
+import iut.projets.trivialpursuit.game.ui.MainMenu;
 
 public class MainMenuScene extends Scene {
 

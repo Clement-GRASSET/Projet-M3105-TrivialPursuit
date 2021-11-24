@@ -99,7 +99,7 @@ public class UserInterface {
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
         g.setColor(color);
-        g.clearRect(0,0,1,1);
+        g.fillRect(0,0,1,1);
         g.dispose();
         return image;
     }

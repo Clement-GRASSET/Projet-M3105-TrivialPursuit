@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.game.assets.materials;
+package iut.projets.trivialpursuit.game.materials;
 
 import iut.projets.trivialpursuit.engine.graphics.Material;
 

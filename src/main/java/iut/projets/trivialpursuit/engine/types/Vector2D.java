@@ -39,7 +39,19 @@ public class Vector2D {
         return new Vector2D(x, y);
     }
 
-    public static double length(Vector2D v1, Vector2D v2) {
+    public static double distance(Vector2D v1, Vector2D v2) {
         return Math.sqrt(Math.pow(v1.x - v2.x, 2) + Math.pow(v1.y - v2.y, 2));
+    }
+
+    public static double length(Vector2D vector) {
+        return Math.sqrt(Math.pow(vector.x, 2) + Math.pow(vector.y, 2));
+    }
+
+    public static Vector2D multiply(Vector2D vector, double value) {
+        return new Vector2D(vector.x * value, vector.y * value);
+    }
+
+    public static Vector2D normalize(Vector2D vector) {
+        return multiply(vector, 1/length(vector));
     }
 }

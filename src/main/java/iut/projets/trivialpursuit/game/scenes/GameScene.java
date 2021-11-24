@@ -1,6 +1,7 @@
 package iut.projets.trivialpursuit.game.scenes;
 
 import iut.projets.trivialpursuit.engine.Engine;
+import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.audio.Sound;
 import iut.projets.trivialpursuit.engine.game.Animation;
 import iut.projets.trivialpursuit.engine.game.Delay;
@@ -27,23 +28,14 @@ public class GameScene extends Scene {
         light.setDirection(new Vector3D(1,1,-1));
         light.setIntensity(1.5);
 
-        InputStream inputStream1 = GameScene.class.getResourceAsStream("/sounds/musics/origamikingBB.wav");
-        InputStream inputStream2 = GameScene.class.getResourceAsStream("/sounds/musics/origamikingBBT.wav");
-        music = new Sound(inputStream1);
-        music_thinking = new Sound(inputStream2);
+        music = new Sound(Resources.getInputStream("/sounds/musics/origamikingBB.wav"));
+        music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamikingBBT.wav"));
         music.setLoop(true, 2.18181818);
         music_thinking.setLoop(true, 2.18181818);
         music.setVolume(1);
         music_thinking.setVolume(0);
         music.play();
         music_thinking.play();
-        /*
-        Delay delay = new Delay(13);
-        delay.onFinish(() -> {
-            switchMusic(music, music_thinking);
-        });
-        delay.start(this);
-        */
 
         activeMusic = music;
         UIButton button = new UIButton("Switch music");

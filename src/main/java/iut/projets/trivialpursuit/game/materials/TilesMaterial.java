@@ -1,7 +1,7 @@
-package iut.projets.trivialpursuit.game.assets.materials;
+package iut.projets.trivialpursuit.game.materials;
 
 import iut.projets.trivialpursuit.engine.graphics.Material;
-import iut.projets.trivialpursuit.game.Resources;
+import iut.projets.trivialpursuit.engine.Resources;
 
 public class TilesMaterial extends Material {
 

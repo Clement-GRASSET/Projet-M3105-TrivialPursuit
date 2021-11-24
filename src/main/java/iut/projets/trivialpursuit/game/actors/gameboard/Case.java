@@ -1,10 +1,8 @@
 package iut.projets.trivialpursuit.game.actors.gameboard;
 
 import iut.projets.trivialpursuit.engine.graphics.Actor;
-import iut.projets.trivialpursuit.engine.graphics.Material;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.game.Resources;
-import iut.projets.trivialpursuit.game.assets.materials.BaseMaterial;
+import iut.projets.trivialpursuit.game.materials.BaseMaterial;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -50,7 +48,7 @@ public class Case extends Actor {
     @Override
     public void update(double frameTime) {
         Vector2D mouse = getScene().getMousePositionInScene();
-        if (Vector2D.length(getPosition(), mouse) < getScale().getX()/2) {
+        if (Vector2D.distance(getPosition(), mouse) < getScale().getX()/2) {
             ((BaseMaterial) getMaterial()).setColor(hoverImage);
         } else {
             ((BaseMaterial) getMaterial()).setColor(defaultImage);

@@ -1,7 +1,7 @@
-package iut.projets.trivialpursuit.game.assets.ui;
+package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.userinterface.UIImage;
-import iut.projets.trivialpursuit.game.Resources;
+import iut.projets.trivialpursuit.engine.Resources;
 
 public class SplashScreen extends UIImage {
 
