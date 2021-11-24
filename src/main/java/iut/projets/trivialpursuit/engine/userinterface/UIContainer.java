@@ -23,10 +23,10 @@ public abstract class UIContainer extends UIElement {
     }
 
     @Override
-    public void draw_all(Graphics2D g) {
-        super.draw_all(g);
+    public void draw(Graphics2D g) {
+        super.draw(g);
         for (UIElement element : elements) {
-            element.draw_all(g);
+            element.draw(g);
         }
     }
 

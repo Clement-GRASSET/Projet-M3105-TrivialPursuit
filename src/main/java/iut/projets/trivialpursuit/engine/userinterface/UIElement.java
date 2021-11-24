@@ -5,15 +5,15 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 
-public abstract class UIElement extends GameObject {
+public class UIElement extends GameObject {
 
     private static double unit = 100;
     private static int screenWidth, screenHeight;
     private static int mouseX, mouseY;
     private static boolean mousePressed;
     private Anchor anchor;
-    private final Vector2D position;
-    private final Vector2D alignment;
+    private Vector2D position;
+    private Vector2D alignment;
     private int renderOrder;
 
     public enum Anchor {
@@ -25,15 +25,13 @@ public abstract class UIElement extends GameObject {
         BOTTOM_CENTER,
         TOP_RIGHT,
         CENTER_RIGHT,
-        BOTTOM_RIGHT;
+        BOTTOM_RIGHT
     }
 
     public UIElement() {
         setAnchor(Anchor.TOP_LEFT);
         position = new Vector2D(0, 0);
         alignment = new Vector2D(0, 0);
-        screenWidth = 1;
-        screenHeight = 1;
         renderOrder = 0;
     }
 
@@ -122,8 +120,7 @@ public abstract class UIElement extends GameObject {
     }
 
     public final void setPosition(Vector2D position) {
-        this.position.setX(position.getX());
-        this.position.setY(position.getY());
+        this.position = position;
     }
 
     public static double getUnitSizeOnScreen() {
@@ -143,15 +140,10 @@ public abstract class UIElement extends GameObject {
     }
 
     public final void setAlignment(Vector2D alignment) {
-        this.alignment.setX(alignment.getX());
-        this.alignment.setY(alignment.getY());
+        this.alignment = alignment;
     }
 
-    public void draw_all(Graphics2D g) {
-        this.draw(g);
-    }
-
-    protected void draw(Graphics2D g) {}
+    public void draw(Graphics2D g) {}
 
     @Override
     public void start() {}

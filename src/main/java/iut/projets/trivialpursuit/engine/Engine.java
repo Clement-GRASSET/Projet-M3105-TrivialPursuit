@@ -11,7 +11,7 @@ public class Engine {
 
     private static Game game;
     private static GameWindow gameWindow;
-    private static Scene activeScene;
+    private static Scene activeScene, nextScene;
     private static SceneRenderer sceneRenderer;
     private static UserInterface userInterface;
     private static GameLoop gameLoop;
@@ -21,6 +21,7 @@ public class Engine {
     public static void start(Game game) {
         Engine.game = game;
         activeScene = new Scene();
+        nextScene = null;
         sceneRenderer = new SceneRenderer();
         userInterface = new UserInterface();
         gameWindow = new GameWindow();
@@ -31,8 +32,11 @@ public class Engine {
     }
 
     public static void tick(double frameTime) {
-        if (activeScene != null)
-            activeScene.tick(frameTime);
+        if (nextScene != null) {
+            activeScene = nextScene;
+            nextScene = null;
+            activeScene.start();
+        }
     }
 
     public static Game getGame() {
@@ -48,8 +52,7 @@ public class Engine {
     }
 
     public static void setActiveScene(Scene scene) {
-        activeScene = scene;
-        scene.start();
+        nextScene = scene;
     }
 
     public static SceneRenderer getSceneRenderer() {

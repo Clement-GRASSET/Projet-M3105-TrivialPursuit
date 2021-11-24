@@ -6,6 +6,7 @@ import iut.projets.trivialpursuit.engine.game.Delay;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.userinterface.UIButton;
 import iut.projets.trivialpursuit.engine.userinterface.UIContainer;
+import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.engine.userinterface.UIImage;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.game.scenes.GameScene;
@@ -90,10 +91,15 @@ public class MainMenu extends UIContainer {
                 GameLoadingScreen gameLoadingScreen = new GameLoadingScreen();
                 gameLoadingScreen.setRenderOrder(10);
                 gameLoadingScreen.onConstructAnimationFinished(() -> {
-                    Delay delay = new Delay(1);
+                    Delay delay = new Delay(2);
                     delay.onFinish(() -> {
-                        Engine.setActiveScene(new GameScene());
+                        long t1 = System.nanoTime();
+                        GameScene gameScene = new GameScene();
+                        Engine.setActiveScene(gameScene);
                         gameLoadingScreen.remove();
+                        long t2 = System.nanoTime();
+                        double time = (double)(t2-t1)/1000000000;
+                        System.out.println(time);
                     });
                     delay.start(gameLoadingScreen);
                 });
@@ -120,6 +126,7 @@ public class MainMenu extends UIContainer {
 
         menuMusic = new Sound(Resources.getInputStream("/sounds/musics/main_menu.wav"));
         menuMusic.setLoop(true, (60.0/music_bpm)*44);
+        menuMusic.setVolume(0.5f);
         menuMusic.play();
 
         UIImage background = new UIImage();
@@ -140,7 +147,8 @@ public class MainMenu extends UIContainer {
         super.update(frameTime);
         time += frameTime;
         double period = 60.0/music_bpm;
-        double scale = -Math.cos( (time+0.4) * 2 * Math.PI/period );
+        double time_offset = 0.24;
+        double scale = -Math.cos( (time+time_offset) * 2 * Math.PI/period );
         logo.setSize( Math.pow(scale+0.5, 5)*0.3 + 50);
     }
 

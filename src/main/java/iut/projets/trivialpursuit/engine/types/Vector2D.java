@@ -17,14 +17,6 @@ public class Vector2D {
         return y;
     }
 
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
     public static Vector2D add(Vector2D v1, Vector2D v2) {
         return new Vector2D(v1.x + v2.x, v1.y + v2.y);
     }

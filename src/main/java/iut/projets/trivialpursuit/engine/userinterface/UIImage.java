@@ -14,12 +14,7 @@ public class UIImage extends UIElement {
 
     public UIImage() {
         super();
-        BufferedImage bufferedImage = new BufferedImage(8, 8, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = bufferedImage.getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0, 0, bufferedImage.getWidth(), bufferedImage.getHeight());
-        g.dispose();
-        setImage(bufferedImage);
+        image = new BufferedImage(1,1, BufferedImage.TYPE_INT_RGB);
         setSize(10);
         rotation = Rotation.rad(0);
         setAnchor(Anchor.CENTER_CENTER);
@@ -30,21 +25,17 @@ public class UIImage extends UIElement {
         double unit = getUnitSizeOnScreen();
         double ratio = (double)image.getWidth(null) / image.getHeight(null);
         double angle = rotation.getRad();
-        //double angle_correction = (Math.cos(angle)-1)*-0.5; // 0 si angle = 0°, 1 si angle = 180°
-        //System.out.println(angle_correction);
         int width = (int)(size.getX()*unit*ratio);
         int height = (int)(size.getY()*unit);
 
         int x = (int)(
                 getAnchorX() + (getPosition().getX()*getUnitSizeOnScreen())
                 + ((getAlignmentX()-1)*width/2.0)
-                //+ (int)(angle_correction*width)
         );
 
         int y = (int)(
                 getAnchorY() + (getPosition().getY()*getUnitSizeOnScreen())
                 + ((getAlignmentY()-1)*height/2.0)
-                //+ (int)(angle_correction*height)
         );
 
         g.translate(x, y);
@@ -55,6 +46,15 @@ public class UIImage extends UIElement {
     }
 
     public final void setImage(Image image) {
+        this.image = image;
+    }
+
+    public void setImageUniform(Color color) {
+        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = image.getGraphics();
+        g.setColor(color);
+        g.fillRect(0,0,1,1);
+        g.dispose();
         this.image = image;
     }
 

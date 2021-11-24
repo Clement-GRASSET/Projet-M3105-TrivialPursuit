@@ -3,12 +3,12 @@ package iut.projets.trivialpursuit.game.ui;
 import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.game.Animation;
 import iut.projets.trivialpursuit.engine.game.Keyframe;
+import iut.projets.trivialpursuit.engine.graphics.Actor;
 import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.UIContainer;
-import iut.projets.trivialpursuit.engine.userinterface.UIImage;
-import iut.projets.trivialpursuit.engine.userinterface.UserInterface;
+import iut.projets.trivialpursuit.engine.userinterface.*;
 import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.game.actors.TestActor;
 
 import java.awt.*;
 
@@ -21,23 +21,23 @@ public class GameLoadingScreen extends UIContainer {
         onConstructAnimationFinished = () -> {};
 
         background = new UIImage();
-        background.setImage(UserInterface.uniformImage(Color.BLACK));
-        background.setSize(100);
-        addElement(background);
+        background.setImageUniform(Color.BLACK);
+        background.setSize(new Vector2D(500, 100));
 
         loadingSpinner = new LoadingIcon();
         loadingSpinner.setRenderOrder(1);
-        addElement(loadingSpinner);
 
         logo = new UIImage();
         logo.setRenderOrder(2);
         logo.setImage(Resources.getImage("/images/trivial-pursuit-logo.png"));
         logo.setPosition(new Vector2D(0, 0));
-        addElement(logo);
     }
 
     @Override
     public void start() {
+        addElement(background);
+        addElement(loadingSpinner);
+        addElement(logo);
         playConstructAnimation(onConstructAnimationFinished);
     }
 
@@ -71,21 +71,19 @@ public class GameLoadingScreen extends UIContainer {
     }
 
     private void playDestructAnimation(Runnable then) {
-        UIImage image_down = new UIImage(), image_up = new UIImage();
+        UIImage image_down, image_up;
+        image_down = new UIImage();
+        image_up = new UIImage();
 
-        image_down.setImage(UserInterface.uniformImage(new Color(13, 71, 101)));
+        image_down.setImageUniform(new Color(13, 71, 101));
         image_down.setRotation(Rotation.deg(-45));
-        //image_down.setSize(new Vector2D(2, 300));
         image_down.setSize(new Vector2D(0, 0));
-        //image_down.setPosition(new Vector2D(2, -2));
         image_down.setAnchor(Anchor.CENTER_CENTER);
         image_down.setRenderOrder(3);
 
-        image_up.setImage(UserInterface.uniformImage(new Color(34, 56, 75)));
+        image_up.setImageUniform(new Color(34, 56, 75));
         image_up.setRotation(Rotation.deg(-45));
-        //image_up.setSize(new Vector2D(2, 300));
         image_up.setSize(new Vector2D(0, 0));
-        //image_up.setPosition(new Vector2D(-2, 2));
         image_up.setAnchor(Anchor.CENTER_CENTER);
         image_up.setRenderOrder(3);
 
@@ -144,7 +142,11 @@ public class GameLoadingScreen extends UIContainer {
             removeElement(loadingSpinner);
             animation3.start(this);
         });
-        animation3.onFinish(then);
+        animation3.onFinish(() -> {
+            removeElement(image_up);
+            removeElement(image_down);
+            then.run();
+        });
 
         addElement(image_up);
         addElement(image_down);

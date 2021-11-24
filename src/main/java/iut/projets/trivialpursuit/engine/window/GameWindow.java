@@ -12,11 +12,12 @@ public class GameWindow extends JFrame {
         setSize(1280, 720);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        setIgnoreRepaint(true);
 
         canvas = new RenderCanvas();
         add(canvas);
         setVisible(true);
-        canvas.createBufferStrategy(3);
+        canvas.createBufferStrategy(2);
     }
 
     public RenderCanvas getCanvas() {

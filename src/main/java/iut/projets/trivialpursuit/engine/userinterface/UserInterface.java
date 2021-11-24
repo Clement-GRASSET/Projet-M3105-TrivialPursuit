@@ -65,43 +65,25 @@ public class UserInterface {
         UIElement.setMouseX(mouseX);
         UIElement.setMouseY(mouseY);
         UIElement.setMousePressed(mousePressed);
+
         for (UIElement element : elements)
-        {
             element.tick(frametime);
-        }
+
         for (UIElement element : elementsToAdd)
-        {
             elements.add(element);
-        }
+
         for (UIElement element : elementsToRemove)
-        {
             elements.remove(element);
-        }
+
         elementsToAdd.clear();
         elementsToRemove.clear();
-        elements.sort(new Comparator<UIElement>() {
-            @Override
-            public int compare(UIElement o1, UIElement o2) {
-                return o1.getRenderOrder() - o2.getRenderOrder();
-            }
-        });
     }
 
     public void render(Graphics2D g) {
+        elements.sort(Comparator.comparingInt(UIElement::getRenderOrder));
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (UIElement element : elements)
-        {
-            element.draw_all(g);
-        }
-    }
-
-    public static BufferedImage uniformImage(Color color) {
-        BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-        Graphics g = image.getGraphics();
-        g.setColor(color);
-        g.fillRect(0,0,1,1);
-        g.dispose();
-        return image;
+            element.draw(g);
     }
 
 }

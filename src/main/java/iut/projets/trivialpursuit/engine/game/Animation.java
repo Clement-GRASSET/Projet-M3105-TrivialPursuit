@@ -26,8 +26,9 @@ public class Animation extends Task {
             }
             else
                 stop();
+        } else {
+            value += frameTime*speed;
         }
-        value += frameTime*speed;
         sendUpdate();
     }
 

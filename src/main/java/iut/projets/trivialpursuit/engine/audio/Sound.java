@@ -2,14 +2,13 @@ package iut.projets.trivialpursuit.engine.audio;
 
 import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 public class Sound {
 
     private Clip clip;
-    private AudioInputStream dais;
     float volume;
+    double soundLength;
 
     public Sound(InputStream inputStream) {
         volume = 1;
@@ -26,7 +25,7 @@ public class Sound {
                     base_format.getSampleRate(),
                     false);
 
-            dais = AudioSystem.getAudioInputStream(decoded_format, ais);
+            AudioInputStream dais = AudioSystem.getAudioInputStream(decoded_format, ais);
             clip = AudioSystem.getClip();
             clip.open(dais);
             clip.stop();
@@ -34,6 +33,8 @@ public class Sound {
             e.printStackTrace();
             System.exit(1);
         }
+
+        soundLength = clip.getMicrosecondLength()/1000000.0;
 
         /*clip.addLineListener(new LineListener() {
             @Override
@@ -61,6 +62,7 @@ public class Sound {
 
     public void stop() {
         clip.stop();
+        clip.setMicrosecondPosition(0);
     }
 
     public void pause() {
@@ -73,7 +75,7 @@ public class Sound {
 
     public void setLoop(boolean loop, double startPoint) {
         setLoop(loop);
-        int startFrame = (int) (clip.getFrameLength()*startPoint/(clip.getMicrosecondLength()/1000000));
+        int startFrame = (int) (clip.getFrameLength()*startPoint/soundLength);
         clip.setLoopPoints(startFrame, -1);
     }
 

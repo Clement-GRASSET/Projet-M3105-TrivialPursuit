@@ -4,14 +4,12 @@ import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.audio.Sound;
 import iut.projets.trivialpursuit.engine.game.Animation;
-import iut.projets.trivialpursuit.engine.game.Delay;
 import iut.projets.trivialpursuit.engine.game.Keyframe;
 import iut.projets.trivialpursuit.engine.graphics.*;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.engine.userinterface.UIButton;
+import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.game.actors.gameboard.GameBoard;
-
-import java.io.InputStream;
 
 public class GameScene extends Scene {
 
@@ -21,15 +19,20 @@ public class GameScene extends Scene {
     private Sound activeMusic;
 
     public GameScene() {
+        music = new Sound(Resources.getInputStream("/sounds/musics/origamikingBB.wav"));
+        music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamikingBBT.wav"));
+    }
+
+    @Override
+    public void start() {
+        compteur = 0;
+
         GameBoard gameBoard = (GameBoard) addActor(GameBoard.class);
 
-        compteur = 0;
         light = (DirectionalLight) addLight(DirectionalLight.class);
         light.setDirection(new Vector3D(1,1,-1));
         light.setIntensity(1.5);
 
-        music = new Sound(Resources.getInputStream("/sounds/musics/origamikingBB.wav"));
-        music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamikingBBT.wav"));
         music.setLoop(true, 2.18181818);
         music_thinking.setLoop(true, 2.18181818);
         music.setVolume(1);
@@ -39,6 +42,9 @@ public class GameScene extends Scene {
 
         activeMusic = music;
         UIButton button = new UIButton("Switch music");
+        button.setAnchor(UIElement.Anchor.TOP_RIGHT);
+        button.setAlignment(new Vector2D(-1 ,1));
+        button.setPosition(new Vector2D(-2, 2));
         button.onClick(() ->  {
             if (activeMusic == music) {
                 switchMusic(music, music_thinking);
@@ -48,7 +54,21 @@ public class GameScene extends Scene {
                 activeMusic = music;
             }
         });
+
         Engine.getUserInterface().addElement(button);
+        playIntroAnimation(() -> {});
+    }
+
+    private void playIntroAnimation(Runnable then) {
+        Animation animation = new Animation(new Keyframe[] {
+                new Keyframe(0.8, 0),
+                new Keyframe(1.1, 5)
+        });
+        animation.onUpdate(() -> {
+            getCamera().setZoom(animation.getValue());
+        });
+        animation.onFinish(then);
+        animation.start(this);
     }
 
     public void switchMusic(Sound current, Sound target) {
@@ -75,11 +95,11 @@ public class GameScene extends Scene {
         //Fait tourner la lumière autour de la scene
         //light.setDirection(new Vector3D(Math.cos(compteur), Math.sin(compteur), -0.3));
 
-        light.setDirection(new Vector3D(
+        /*light.setDirection(new Vector3D(
                 getMousePositionInScene().getX()*-1,
                 getMousePositionInScene().getY()*-1,
                 -2
-        ));
+        ));*/
 
         //light.setDirection(new Vector3D(1,1,-0.5));
 

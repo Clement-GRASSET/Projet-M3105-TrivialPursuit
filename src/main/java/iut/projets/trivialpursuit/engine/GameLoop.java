@@ -39,6 +39,7 @@ public class GameLoop extends Thread {
             frameTime = (double)(newFrame-lastFrame)/1000000000;
             lastFrame = newFrame;
             update();
+            //noinspection StatementWithEmptyBody
             while (System.nanoTime() < newFrame + minFrameLength) {}
         }
     }
@@ -48,6 +49,8 @@ public class GameLoop extends Thread {
         Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
+
+        Engine.tick(frameTime);
 
         long t0 = System.nanoTime();
 

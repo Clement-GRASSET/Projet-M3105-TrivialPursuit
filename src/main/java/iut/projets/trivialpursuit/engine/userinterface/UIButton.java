@@ -98,7 +98,7 @@ public class UIButton extends UIElement {
     }
 
     @Override
-    protected void draw(Graphics2D g) {
+    public void draw(Graphics2D g) {
         double unit = getUnitSizeOnScreen();
         double ratio = (double)image.getWidth(null) / image.getHeight(null);
         int width = (int)(size.getX()*unit*ratio);
