@@ -147,9 +147,9 @@ public class MainMenu extends UIContainer {
         super.update(frameTime);
         time += frameTime;
         double period = 60.0/music_bpm;
-        double time_offset = 0.24;
-        double scale = -Math.cos( (time+time_offset) * 2 * Math.PI/period );
-        logo.setSize( Math.pow(scale+0.5, 5)*0.3 + 50);
+        double time_offset = period/2;
+        double scale = ( Math.cos( (time+time_offset) * 2 * Math.PI/period ) + 1 )/2;
+        logo.setSize( Math.pow(scale, 10)*2 + 50);
     }
 
     private void setActiveMenu(UIContainer menu) {
