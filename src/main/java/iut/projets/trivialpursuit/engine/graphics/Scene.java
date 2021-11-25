@@ -55,7 +55,6 @@ public class Scene extends GameObject {
         actorsToRemove.clear();
         for (Actor actor: actorsToAdd) {
             actors.addElement(actor);
-            actor.start();
         }
         actorsToAdd.clear();
         actors.sort(new Comparator<Actor>() {

@@ -61,8 +61,8 @@ public class GameScene extends Scene {
 
     private void playIntroAnimation(Runnable then) {
         Animation animation = new Animation(new Keyframe[] {
-                new Keyframe(0.8, 0),
-                new Keyframe(1.1, 5)
+                new Keyframe(0.7, 0),
+                new Keyframe(1.2, 4)
         });
         animation.onUpdate(() -> {
             getCamera().setZoom(animation.getValue());
