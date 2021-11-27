@@ -3,12 +3,10 @@ package iut.projets.trivialpursuit.game.ui;
 import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.game.Animation;
 import iut.projets.trivialpursuit.engine.game.Keyframe;
-import iut.projets.trivialpursuit.engine.graphics.Actor;
 import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.userinterface.*;
 import iut.projets.trivialpursuit.engine.Resources;
-import iut.projets.trivialpursuit.game.actors.TestActor;
 
 import java.awt.*;
 

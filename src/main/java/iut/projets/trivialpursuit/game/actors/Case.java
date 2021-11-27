@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.game.actors.gameboard;
+package iut.projets.trivialpursuit.game.actors;
 
 import iut.projets.trivialpursuit.engine.graphics.Actor;
 import iut.projets.trivialpursuit.engine.types.Vector2D;

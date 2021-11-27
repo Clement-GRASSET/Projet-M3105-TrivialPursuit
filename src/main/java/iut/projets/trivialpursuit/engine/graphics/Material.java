@@ -1,33 +1,16 @@
 package iut.projets.trivialpursuit.engine.graphics;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Material {
 
-    protected Image color;
-    protected Image normals;
-
-    private static Image DEFAULT_COLOR, DEFAULT_NORMALS;
+    private Image color;
+    private Image normals;
 
     public Material() {
-        Graphics2D g;
-
-        color = new BufferedImage(16,16, BufferedImage.TYPE_INT_RGB);
-        g = (Graphics2D) color.getGraphics();
-        g.setColor(Color.WHITE);
-        g.fillRect(0,0,16,16);
-        g.dispose();
-
-        normals = new BufferedImage(16,16, BufferedImage.TYPE_INT_RGB);
-        g = (Graphics2D) normals.getGraphics();
-        g.setColor(new Color(127, 127, 255));
-        g.fillRect(0,0,16,16);
-        g.dispose();
-
-        DEFAULT_COLOR = color;
-        DEFAULT_NORMALS = normals;
+        setColor(getDefaultColor());
+        setNormals(getDefaultNormals());
     }
 
     public Image getColor() {
@@ -38,11 +21,29 @@ public class Material {
         return normals;
     }
 
+    public void setColor(Image color) {
+        this.color = color;
+    }
+
+    public void setNormals(Image normals) {
+        this.normals = normals;
+    }
+
     public static Image getDefaultColor() {
-        return DEFAULT_COLOR;
+        BufferedImage color_img = new BufferedImage(16,16, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = (Graphics2D) color_img.getGraphics();
+        g.setColor(Color.WHITE);
+        g.fillRect(0,0,16,16);
+        g.dispose();
+        return color_img;
     }
 
     public static Image getDefaultNormals() {
-        return DEFAULT_NORMALS;
+        BufferedImage normals_img = new BufferedImage(16,16, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = (Graphics2D) normals_img.getGraphics();
+        g.setColor(new Color(127, 127, 255));
+        g.fillRect(0,0,16,16);
+        g.dispose();
+        return normals_img;
     }
 }

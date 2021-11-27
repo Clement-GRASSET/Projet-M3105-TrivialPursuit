@@ -69,8 +69,15 @@ public class StartScene extends Scene {
                 "/textures/tiles/tiles_normals.jpg",
                 "/textures/game_board/game_board.png",
                 "/textures/game_board/game_board_n.png",
+                "/textures/pawn/pawn_blue.png",
+                "/textures/pawn/pawn_green.png",
+                "/textures/pawn/pawn_orange.png",
+                "/textures/pawn/pawn_pink.png",
+                "/textures/pawn/pawn_purple.png",
+                "/textures/pawn/pawn_yellow.png",
+                "/textures/pawn/pawn_normals.png",
                 "/images/main-menu-background.png",
-                "/images/trivial-pursuit-logo.png"
+                "/images/trivial-pursuit-logo.png",
         };
         String [] inputStreams = {
                 "/sounds/musics/main_menu.wav",

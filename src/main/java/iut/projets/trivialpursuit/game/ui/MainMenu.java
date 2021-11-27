@@ -93,13 +93,9 @@ public class MainMenu extends UIContainer {
                 gameLoadingScreen.onConstructAnimationFinished(() -> {
                     Delay delay = new Delay(2);
                     delay.onFinish(() -> {
-                        long t1 = System.nanoTime();
                         GameScene gameScene = new GameScene();
                         Engine.setActiveScene(gameScene);
                         gameLoadingScreen.remove();
-                        long t2 = System.nanoTime();
-                        double time = (double)(t2-t1)/1000000000;
-                        System.out.println(time);
                     });
                     delay.start(gameLoadingScreen);
                 });
@@ -115,19 +111,19 @@ public class MainMenu extends UIContainer {
     private UIImage logo;
     private UIContainer activeMenu;
     private final Sound menuMusic;
-    private double time;
+    private final long music_start_time;
     private final double music_bpm;
 
     public MainMenu() {
         super();
 
-        time = 0;
         music_bpm = 132.0;
 
         menuMusic = new Sound(Resources.getInputStream("/sounds/musics/main_menu.wav"));
         menuMusic.setLoop(true, (60.0/music_bpm)*44);
         menuMusic.setVolume(0.5f);
         menuMusic.play();
+        music_start_time = System.nanoTime();
 
         UIImage background = new UIImage();
         background.setImage(Resources.getImage("/images/main-menu-background.png"));
@@ -145,9 +141,9 @@ public class MainMenu extends UIContainer {
     @Override
     public void update(double frameTime) {
         super.update(frameTime);
-        time += frameTime;
+        double time = (System.nanoTime() - music_start_time)/1000000000.0;
         double period = 60.0/music_bpm;
-        double time_offset = period/2;
+        double time_offset = 0;
         double scale = ( Math.cos( (time+time_offset) * 2 * Math.PI/period ) + 1 )/2;
         logo.setSize( Math.pow(scale, 10)*2 + 50);
     }

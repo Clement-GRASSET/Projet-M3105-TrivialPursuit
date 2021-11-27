@@ -86,6 +86,7 @@ public class Sound {
     public void setVolume(float volume) {
         this.volume = Math.max(volume, 0);
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        gainControl.setValue(20f * (float) Math.log10(this.volume));
+        float gain = 20f * (float) Math.log10(this.volume);
+        gainControl.setValue( (gain > -80) ? gain : -80 );
     }
 }

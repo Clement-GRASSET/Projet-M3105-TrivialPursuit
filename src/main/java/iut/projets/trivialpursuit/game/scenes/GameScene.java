@@ -9,7 +9,12 @@ import iut.projets.trivialpursuit.engine.graphics.*;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.engine.userinterface.UIButton;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
-import iut.projets.trivialpursuit.game.actors.gameboard.GameBoard;
+import iut.projets.trivialpursuit.game.actors.Pawn;
+import iut.projets.trivialpursuit.game.actors.GameBoard;
+import iut.projets.trivialpursuit.game.ui.MainMenu;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GameScene extends Scene {
 
@@ -26,8 +31,6 @@ public class GameScene extends Scene {
     @Override
     public void start() {
         compteur = 0;
-
-        GameBoard gameBoard = (GameBoard) addActor(GameBoard.class);
 
         light = (DirectionalLight) addLight(DirectionalLight.class);
         light.setDirection(new Vector3D(1,1,-1));
@@ -55,24 +58,48 @@ public class GameScene extends Scene {
             }
         });
 
+        GameBoard gameBoard = (GameBoard) addActor(GameBoard.class);
+
+        List<Pawn> pawns = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            Pawn pawn = (Pawn) addActor(Pawn.class);
+            double rotation = Rotation.deg(i*60).getRad();
+            pawn.setPosition(new Vector2D(Math.cos(rotation)*4, Math.sin(rotation)*4));
+            pawns.add(pawn);
+        }
+        pawns.get(0).setColor(Pawn.PawnColor.BLUE);
+        pawns.get(1).setColor(Pawn.PawnColor.GREEN);
+        pawns.get(2).setColor(Pawn.PawnColor.YELLOW);
+        pawns.get(3).setColor(Pawn.PawnColor.ORANGE);
+        pawns.get(4).setColor(Pawn.PawnColor.PINK);
+        pawns.get(5).setColor(Pawn.PawnColor.PURPLE);
+
         Engine.getUserInterface().addElement(button);
         playIntroAnimation(() -> {});
     }
 
     private void playIntroAnimation(Runnable then) {
         Animation animation = new Animation(new Keyframe[] {
-                new Keyframe(0.7, 0),
-                new Keyframe(1.2, 4)
+                new Keyframe(0, 0),
+                new Keyframe(1, 4)
         });
         animation.onUpdate(() -> {
-            getCamera().setZoom(animation.getValue());
+            getCamera().setZoom( interpolate(0.7, 1.2, animation.getValue()) );
+            light.setDirection(new Vector3D(
+                    1,
+                    1,
+                    1/interpolate(-20, -0.8, animation.getValue())
+            ));
         });
         animation.onFinish(then);
         animation.start(this);
     }
 
+    public double interpolate(double a, double b, double alpha) {
+        return (1-alpha)*a + alpha*b;
+    }
+
     public void switchMusic(Sound current, Sound target) {
-        System.out.println("Music switch");
         Animation animation = new Animation(new Keyframe[]{
                 new Keyframe(0, 0),
                 new Keyframe(1, 2)
