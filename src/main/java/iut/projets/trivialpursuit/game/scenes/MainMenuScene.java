@@ -13,9 +13,6 @@ public class MainMenuScene extends Scene {
     public MainMenuScene() {
         super();
 
-        //test questions XML
-        QuestionsManager.load();
-
         //Engine.getAudioManager().playMusic("origamiKingBB.wav", true, 2.18181818);
 
         MainMenu mainMenuUI = new MainMenu();

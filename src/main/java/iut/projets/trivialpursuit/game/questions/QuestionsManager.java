@@ -4,74 +4,209 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class QuestionsManager {
 
-    Map<String, List<Question>> question_list;
-    private static Document questions_doc;
+    static Map<String, Map<String, List<Question>>> question_list;
 
-    private static Element getRoot()
-    {
+    private static Document questions_doc;
+    private static File file;
+
+    private static Element getRoot() {
         return (Element) questions_doc.getElementsByTagName("Root").item(0);
     }
 
-    public static Element createCategory(String name)
-    {
+    public static Element createCategory(String name) {
         Element element = questions_doc.createElement("Category");
         getRoot().appendChild(element);
+
+        element.setAttribute("name", name);
 
         return element;
     }
 
-    public static void load()
-    {
-        File file = new File("questions.xml");
+    public static Element createDifficulty(String catname, String name) {
+        try {
+            Element element = questions_doc.createElement("Difficulty");
+            getCategory(catname).appendChild(element);
+
+            element.setAttribute("name", name);
+
+            return element;
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+
+        return null;
+    }
+
+    public static void createQuestion(String catname, String diffname, String content, String sanswer0, String sanswer1, String sanswer2, String sanswer3, int r_answer) {
+        try {
+            Element element = questions_doc.createElement("Question");
+            getDifficulty(diffname, catname).appendChild(element);
+
+            //Answer
+            Element answer0 = questions_doc.createElement("Answer");
+            answer0.appendChild(questions_doc.createTextNode(sanswer0));
+            element.appendChild(answer0);
+
+            Element answer1 = questions_doc.createElement("Answer");
+            answer1.appendChild(questions_doc.createTextNode(sanswer1));
+            element.appendChild(answer1);
+
+            Element answer2 = questions_doc.createElement("Answer");
+            answer2.appendChild(questions_doc.createTextNode(sanswer2));
+            element.appendChild(answer2);
+
+            Element answer3 = questions_doc.createElement("Answer");
+            answer3.appendChild(questions_doc.createTextNode(sanswer3));
+            element.appendChild(answer3);
+
+
+            element.setAttribute("name", content);
+            element.setAttribute("right", String.valueOf(r_answer));
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static void createQuestions() {
+        createCategory("Histoire");
+        createCategory("Science");
+        createCategory("Y");
+        createCategory("Nature");
+
+        createDifficulty("Histoire", "Débutant");
+        createDifficulty("Histoire", "Intermédiaire");
+        createDifficulty("Histoire", "Expert");
+
+        createDifficulty("Science", "Débutant");
+        createDifficulty("Science", "Intermédiaire");
+        createDifficulty("Science", "Expert");
+
+        createDifficulty("Y", "Débutant");
+        createDifficulty("Y", "Intermédiaire");
+        createDifficulty("Y", "Expert");
+
+        createDifficulty("Nature", "Débutant");
+        createDifficulty("Nature", "Intermédiaire");
+        createDifficulty("Nature", "Expert");
+
+        createQuestion("Y", "Intermédiaire", "Que doit-on faire afin d'être en bonne santé ?", "Aller chez le médecin", "Aller dans un désert sans provisions", "Ne pas se suicider", "Boire beaucoup d'eau", 1);
+        createQuestion("Y", "Débutant", "Quel est la bonne méthode pour être le plus efficace possible ?", "Avoir une approche scientifique", "Être rigoureux", "Avoir du talent", "Laisser tomber", 0);
+    }
+
+
+    public static void reset() {
+        questions_doc.removeChild(getRoot());
+
+        Element questions_root = questions_doc.createElement("Root");
+        questions_doc.appendChild(questions_root);
+
+        createQuestions();
+        save();
+    }
+
+    public static void save() {
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            DOMSource source = new DOMSource(questions_doc);
+            StreamResult result = new StreamResult(file);
+
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.transform(source, result);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static void load() {
+        file = new File("questions.xml");
+        question_list = new HashMap<>();
 
         try {
             if (file.exists()) {
                 questions_doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
                 System.out.println("Chargé");
-            }
-            else {
+            } else {
                 questions_doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+
+                Element questions_root = questions_doc.createElement("Root");
+                questions_doc.appendChild(questions_root);
 
                 createQuestions();
 
-                Transformer transformer = TransformerFactory.newInstance().newTransformer();
-                DOMSource source = new DOMSource(questions_doc);
-                StreamResult result = new StreamResult(file);
-
-                transformer.transform(source, result);
+                save();
                 System.out.println("Créé");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+            NodeList catlist = getRoot().getElementsByTagName("Category");
+
+            for (int i = 0; i < catlist.getLength(); i++) {
+                Element catnode = (Element) catlist.item(i);
+                String catname = catnode.getAttribute("name");
+                question_list.put(catname, new HashMap<>());
+
+                NodeList difflist = catnode.getElementsByTagName("Difficulty");
+
+                for (int j = 0; j < difflist.getLength(); j++) {
+                    Element diffnode = (Element) difflist.item(j);
+                    String diffname = diffnode.getAttribute("name");
+                    NodeList qlist = diffnode.getElementsByTagName("Question");
+
+                    question_list.get(catname).put(diffname, new ArrayList<>());
+
+                    for (int k = 0; k < qlist.getLength(); k++) {
+                        Element qnode = (Element) qlist.item(k);
+                        Question question = new Question();
+
+                        question.question = qnode.getAttribute("name");
+
+                        question.answer = new String[] {qnode.getChildNodes().item(1).getTextContent(),
+                                                        qnode.getChildNodes().item(3).getTextContent(),
+                                                        qnode.getChildNodes().item(5).getTextContent(),
+                                                        qnode.getChildNodes().item(7).getTextContent()};
+
+                        question.right = qnode.getAttribute("right");
+
+                        //showQuestion(question);
+
+                        question_list.get(catname).get(diffname).add(question);
+                    }
+                }
+            }
+
+        //showQuestion(question_list.get("Y").get("Débutant").get(0));
     }
 
-    private static Element getCategory(String name)throws Exception
-    {
+
+    private static Element getCategory(String name) throws Exception {
         questions_doc.getDocumentElement().normalize();
 
         NodeList list = questions_doc.getElementsByTagName("Category");
 
-        for (int i = 0 ; i < list.getLength() ; i++) {
-            Node node  = list.item(i);
+        for (int i = 0; i < list.getLength(); i++) {
+            Node node = list.item(i);
 
-            if (node.getNodeType() == Node.ELEMENT_NODE)
-            {
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
                 Element element = (Element) node;
 
                 if (name.equals(element.getAttribute("name")))
@@ -82,219 +217,29 @@ public class QuestionsManager {
         throw new Exception("Catégorie " + name + " introuvable !");
     }
 
-    public static void createQuestions() {/*
-        try {
-            //<Root>
-            Element questions_root = questions_doc.createElement("Root");
-            questions_doc.appendChild(questions_root);
+    private static Element getDifficulty(String name, String catname) throws Exception {
+        questions_doc.getDocumentElement().normalize();
 
-            //<Category>
-            Element category_h = questions_doc.createElement("Category");
-            questions_root.appendChild(category_h);
+        NodeList list = getCategory(catname).getElementsByTagName("Difficulty");
 
-            //<Name>
-            Element cath_name = questions_doc.createElement("Name");
-            cath_name.appendChild(questions_doc.createTextNode("Histoire"));
-            category_h.appendChild(cath_name);
-            //</Name>
+        for (int i = 0; i < list.getLength(); i++) {
+            Node node = list.item(i);
 
-            //<Difficulty>
-            Element hdifficulty_e = questions_doc.createElement("Difficulty");
-            category_h.appendChild(hdifficulty_e);
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
+                Element element = (Element) node;
 
-            //<Name>
-            Element hdifficulty_ename = questions_doc.createElement("Name");
-            hdifficulty_ename.appendChild(questions_doc.createTextNode("Facile"));
-            hdifficulty_e.appendChild(hdifficulty_ename);
-            //</Name>
+                if (name.equals(element.getAttribute("name")))
+                    return element;
+            }
+        }
 
-            //<Question>
-            Element hquestion1_e = questions_doc.createElement("Question");
-            hdifficulty_e.appendChild(hquestion1_e);
-
-            //<Text>
-            Element hq1_e_text = questions_doc.createElement("Text");
-            hq1_e_text.appendChild(questions_doc.createTextNode("Où se trouve l'Australie ?"));
-            hquestion1_e.appendChild(hq1_e_text);
-            //</Text>
-
-            //<Answers>
-            Element hq1_e_answers = questions_doc.createElement("Answers");
-            hquestion1_e.appendChild(hq1_e_answers);
-
-            //<Answer>
-            Element hq1_e_answer1 = questions_doc.createElement("Answer");
-            hq1_e_answer1.appendChild(questions_doc.createTextNode("A - Dans l'océan Indien"));
-            hq1_e_answers.appendChild(hq1_e_answer1);
-            //</Answer>
-
-            //<Answer>
-            Element hq1_e_answer2 = questions_doc.createElement("Answer");
-            hq1_e_answer2.appendChild(questions_doc.createTextNode("B - En Océanie"));
-            hq1_e_answers.appendChild(hq1_e_answer2);
-            //</Answer>
-
-            //<Answer>
-            Element hq1_e_answer3 = questions_doc.createElement("Answer");
-            hq1_e_answer3.appendChild(questions_doc.createTextNode("C - À l'envers"));
-            hq1_e_answers.appendChild(hq1_e_answer3);
-            //<Answer>
-            //</Answers>
-
-            //<RightAnswer>
-            Element hq1_e_r_answer = questions_doc.createElement("RightAnswer");
-            hq1_e_r_answer.appendChild(questions_doc.createTextNode("2"));
-            hquestion1_e.appendChild(hq1_e_r_answer);
-            //</RightAnswer>
-            //</Question>
-
-            //<Difficulty>
-            Element hdifficulty_i = questions_doc.createElement("Difficulty");
-            category_h.appendChild(hdifficulty_i);
-
-            //<Name>
-            Element hdifficulty_iname = questions_doc.createElement("Name");
-            hdifficulty_iname.appendChild(questions_doc.createTextNode("Intermédiaire"));
-            hdifficulty_i.appendChild(hdifficulty_iname);
-            //</Name>
-
-            //<Question>
-            Element hquestion1_i  = questions_doc.createElement("Question");
-            hdifficulty_i.appendChild(hquestion1_i);
-
-            //<Text>
-            Element hq1_i_text = questions_doc.createElement("Text");
-            hq1_i_text.appendChild(questions_doc.createTextNode("Que doit-on faire pour être en bonne santé ?"));
-            hquestion1_i.appendChild(hq1_i_text);
-            //</Text>
-
-            //<Answers>
-            Element hq1_i_answers = questions_doc.createElement("Answers");
-            hquestion1_i.appendChild(hq1_i_answers);
-
-            //<Answer>
-            Element hq1_i_answer1 = questions_doc.createElement("Answer");
-            hq1_i_answer1.appendChild(questions_doc.createTextNode("A - Ne pas se suicider"));
-            hq1_i_answers.appendChild(hq1_i_answer1);
-            //</Answer>
-
-            //<Answer>
-            Element hq1_i_answer2 = questions_doc.createElement("Answer");
-            hq1_i_answer2.appendChild(questions_doc.createTextNode("B - Aller dans un désert sans provisions"));
-            hq1_i_answers.appendChild(hq1_i_answer2);
-            //</Answer>
-
-            //<Answer>
-            Element hq1_i_answer3 = questions_doc.createElement("Answer");
-            hq1_i_answer3.appendChild(questions_doc.createTextNode("C - Boire de l'eau"));
-            hq1_i_answers.appendChild(hq1_i_answer3);
-            //<Answer>
-            //</Answers>
-
-            //<RightAnswer>
-            Element hq1_i_r_answer = questions_doc.createElement("RightAnswer");
-            hq1_i_r_answer.appendChild(questions_doc.createTextNode("1"));
-            hquestion1_i.appendChild(hq1_i_r_answer);
-            //</RightAnswer>
-            //</Question>
-            //</Difficulty>
-
-
-
-
-            //<Category>
-            Element category_sci = questions_doc.createElement("Category");
-            questions_root.appendChild(category_sci);
-
-            //<Name>
-            Element catsci_name = questions_doc.createElement("Name");
-            catsci_name.appendChild(questions_doc.createTextNode("Science"));
-            category_sci.appendChild(catsci_name);
-            //</Name>
-
-            //<Difficulty>
-            Element scidifficulty_i = questions_doc.createElement("Difficulty");
-            category_sci.appendChild(scidifficulty_i);
-
-            //<Name>
-            Element scidifficulty_iname = questions_doc.createElement("Name");
-            scidifficulty_iname.appendChild(questions_doc.createTextNode("Intermédiaire"));
-            scidifficulty_i.appendChild(scidifficulty_iname);
-            //</Name>
-
-            //<Question>
-            Element sciquestion1_i = questions_doc.createElement("Question");
-            scidifficulty_i.appendChild(sciquestion1_i);
-
-            //<Text>
-            Element sciq1_i_text = questions_doc.createElement("Text");
-            sciq1_i_text.appendChild(questions_doc.createTextNode("Que doit-on faire afin d'être le plus efficace possible ?"));
-            sciquestion1_i.appendChild(sciq1_i_text);
-            //</Text>
-
-            //<Answers>
-            Element sciq1_i_answers = questions_doc.createElement("Answers");
-            sciquestion1_i.appendChild(sciq1_i_answers);
-
-            //<Answer>
-            Element sciq1_i_answer1 = questions_doc.createElement("Answer");
-            sciq1_i_answer1.appendChild(questions_doc.createTextNode("A - Avoir une approche scientifique"));
-            sciq1_i_answers.appendChild(sciq1_i_answer1);
-            //</Answer>
-
-            //<Answer>
-            Element sciq1_i_answer2 = questions_doc.createElement("Answer");
-            sciq1_i_answer2.appendChild(questions_doc.createTextNode("B - Être méthodique"));
-            sciq1_i_answers.appendChild(sciq1_i_answer2);
-            //</Answer>
-
-            //<Answer>
-            Element sciq1_i_answer3 = questions_doc.createElement("Answer");
-            sciq1_i_answer3.appendChild(questions_doc.createTextNode("C - Laisser tomber"));
-            sciq1_i_answers.appendChild(sciq1_i_answer3);
-            //<Answer>
-            //</Answers>
-
-            //<RightAnswer>
-            Element sciq1_i_r_answer = questions_doc.createElement("RightAnswer");
-            sciq1_i_r_answer.appendChild(questions_doc.createTextNode("0"));
-            sciquestion1_i.appendChild(sciq1_i_r_answer);
-            //</RightAnswer>
-            //</Question>
-            //</Difficulty>
-            //</Category>
-            //</Root>
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-
-
+        throw new Exception("Catégorie " + name + " introuvable !");
     }
 
-    public static void getQuestion(String searched)
+    private static void showQuestion(Question question)
     {
-        try {
-            Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File("questions.xml"));
-
-            //root element
-            doc.getDocumentElement().normalize();
-
-            NodeList list = doc.getElementsByTagName("category");
-
-            for (int i = 0 ; i < list.getLength() ; i++)
-            {
-                //category
-                Node node = list.item(i);
-
-                if (node.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element element = (Element) node;
-                    //element.getAttribute();
-                    System.out.println(element.getElementsByTagName(searched).item(0).getTextContent());
-                }
-            }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Question : " + question.question + " - Réponses : "
+                + question.answer[0] + " ; " + question.answer[1] + " ; " + question.answer[2] + " ; " + question.answer[3]
+                + " -  Bonne réponse : " + question.right);
     }
 }
