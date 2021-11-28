@@ -12,10 +12,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class QuestionsManager {
 
@@ -241,5 +238,26 @@ public class QuestionsManager {
         System.out.println("Question : " + question.question + " - Réponses : "
                 + question.answer[0] + " ; " + question.answer[1] + " ; " + question.answer[2] + " ; " + question.answer[3]
                 + " -  Bonne réponse : " + question.right);
+    }
+
+    public static Question getRandomQuestion(String category, String difficulty) {
+        Map<String, Map<String, List<Question>>> categories = question_list;
+        System.out.println("Categories :");
+        System.out.println(categories);
+
+        Map<String, List<Question>> difficulties = question_list.get(category);
+        System.out.println("Difficulties :");
+        System.out.println(difficulties);
+
+        List<Question> questions = difficulties.get(difficulty);
+        System.out.println("Questions :");
+        System.out.println(questions);
+
+        Random random = new Random();
+        Question question = questions.get( random.nextInt(questions.size()) );
+        System.out.println("Question :");
+        System.out.println(question);
+
+        return question;
     }
 }

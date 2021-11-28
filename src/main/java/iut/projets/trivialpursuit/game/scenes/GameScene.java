@@ -14,8 +14,10 @@ import iut.projets.trivialpursuit.game.Player;
 import iut.projets.trivialpursuit.game.actors.Case;
 import iut.projets.trivialpursuit.game.actors.Pawn;
 import iut.projets.trivialpursuit.game.actors.GameBoard;
+import iut.projets.trivialpursuit.game.questions.QuestionsManager;
 import iut.projets.trivialpursuit.game.ui.CaseSelectionUI;
 import iut.projets.trivialpursuit.game.ui.NewTurnAnnouncement;
+import iut.projets.trivialpursuit.game.ui.QuestionUI;
 import iut.projets.trivialpursuit.game.ui.RandomNumberUI;
 
 import java.util.HashMap;
@@ -64,7 +66,7 @@ public class GameScene extends Scene {
         music_thinking.play();
 
         activeMusic = music;
-        UIButton button = new UIButton("Switch music");
+        /*UIButton button = new UIButton("Switch music");
         button.setAnchor(UIElement.Anchor.TOP_RIGHT);
         button.setAlignment(new Vector2D(-1 ,1));
         button.setPosition(new Vector2D(-2, 2));
@@ -78,6 +80,9 @@ public class GameScene extends Scene {
             }
         });
 
+        Engine.getUserInterface().addElement(button);
+        */
+
         for (int i = 0; i < players.size(); i++) {
             Pawn pawn = (Pawn) addActor(Pawn.class);
             double rotation = Rotation.deg( 180 - i * 360.0/players.size() ).getRad();
@@ -87,7 +92,6 @@ public class GameScene extends Scene {
             pawns.put(players.get(i), pawn);
         }
 
-        Engine.getUserInterface().addElement(button);
         playIntroAnimation(() -> {
             newTurn();
         });
@@ -99,6 +103,7 @@ public class GameScene extends Scene {
         RandomNumberUI randomNumberUI = new RandomNumberUI();
         NewTurnAnnouncement newTurnAnnouncement = new NewTurnAnnouncement(player);
         CaseSelectionUI caseSelectionUI = new CaseSelectionUI();
+        QuestionUI questionUI = new QuestionUI();
 
         newTurnAnnouncement.onDestroy(() -> {
             Engine.getUserInterface().addElement(randomNumberUI);
@@ -117,9 +122,16 @@ public class GameScene extends Scene {
             pawns.get(player).setCurrentCase(c);
             pawns.get(player).moveTo(c.getPosition());
             moveCameraTo(c.getPosition(), 3, 0.5, () -> {
-                playerIndex = Math.floorMod(playerIndex+1, players.size());
-                newTurn();
+                switchMusic(music, music_thinking);
+                questionUI.addQuestion(QuestionsManager.getRandomQuestion("Y", "Intermédiaire"));
+                Engine.getUserInterface().addElement(questionUI);
             });
+        });
+
+        questionUI.onDestroy(() -> {
+            switchMusic(music_thinking, music);
+            playerIndex = Math.floorMod(playerIndex+1, players.size());
+            newTurn();
         });
 
 
