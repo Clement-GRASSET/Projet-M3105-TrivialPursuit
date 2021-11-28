@@ -1,26 +1,32 @@
 package iut.projets.trivialpursuit.game.ui;
 
+import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
+import iut.projets.trivialpursuit.engine.userinterface.UIImage;
+import iut.projets.trivialpursuit.engine.userinterface.UIText;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Vector;
 
-public class FPSCounter extends UIElement {
+public class FPSCounter extends UIText {
 
     String fps;
-    double textSize;
     List<Long> frameTimes;
-    Font font;
 
     public FPSCounter() {
         setPosition(new Vector2D(2, 2));
+        setAnchor(Anchor.TOP_LEFT);
+        setTextAlign(Anchor.TOP_LEFT);
+        setAlignment(new Vector2D(1,1));
+        setSize(new Vector2D(15,3));
+        setFont(Resources.getFont("/fonts/Technology.ttf"));
+        setFontSize(3);
+
         fps = "";
-        textSize = 3;
         frameTimes = new Vector<>();
-        font = Resources.getFont("/fonts/Technology.ttf");
     }
 
     @Override
@@ -30,16 +36,6 @@ public class FPSCounter extends UIElement {
             frameTimes.remove(0);
 
         fps = "FPS: " + frameTimes.size();
-    }
-
-    @Override
-    public void draw(Graphics2D g) {
-        int size = (int)(getUnitSizeOnScreen() * textSize);
-        int x = (int)(getAnchorX() + getPosition().getX()*getUnitSizeOnScreen());
-        int y = (int)(getAnchorY() + getPosition().getY()*getUnitSizeOnScreen() + size);
-
-        g.setFont(font.deriveFont(Font.PLAIN, size));
-        g.setColor(Color.WHITE);
-        g.drawString(fps, x, y);
+        setText(fps);
     }
 }

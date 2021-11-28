@@ -5,7 +5,7 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 
-public class UIElement extends GameObject {
+public abstract class UIElement extends GameObject {
 
     private static double unitSize = 100;
     private int containerX, containerY, containerWidth, containerHeight;
@@ -40,35 +40,35 @@ public class UIElement extends GameObject {
         UIElement.unitSize = unitSize;
     }
 
-    public int getContainerX() {
+    public final int getContainerX() {
         return containerX;
     }
 
-    public int getContainerY() {
+    public final int getContainerY() {
         return containerY;
     }
 
-    public int getContainerWidth() {
+    public final int getContainerWidth() {
         return containerWidth;
     }
 
-    public int getContainerHeight() {
+    public final int getContainerHeight() {
         return containerHeight;
     }
 
-    public void setContainerX(int containerX) {
+    public final void setContainerX(int containerX) {
         this.containerX = containerX;
     }
 
-    public void setContainerY(int containerY) {
+    public final void setContainerY(int containerY) {
         this.containerY = containerY;
     }
 
-    public void setContainerHeight(int containerHeight) {
+    public final void setContainerHeight(int containerHeight) {
         this.containerHeight = containerHeight;
     }
 
-    public void setContainerWidth(int containerWidth) {
+    public final void setContainerWidth(int containerWidth) {
         this.containerWidth = containerWidth;
     }
 
@@ -96,7 +96,7 @@ public class UIElement extends GameObject {
         return mousePressed;
     }
 
-    public void setAnchor(Anchor anchor) {
+    public final void setAnchor(Anchor anchor) {
         this.anchor = anchor;
     }
 
@@ -152,7 +152,7 @@ public class UIElement extends GameObject {
         this.size = size;
     }
 
-    public Vector2D getSize() {
+    public final Vector2D getSize() {
         return size;
     }
 
@@ -180,29 +180,29 @@ public class UIElement extends GameObject {
         this.alignment = alignment;
     }
 
-    public int getPositionXOnScreen() {
+    public final int getPositionXOnScreen() {
         return (int)(
                 getAnchorX() + (getPosition().getX()*getUnitSizeOnScreen())
                         + ((getAlignmentX()-1)*getWidthOnScreen()/2.0)
         );
     }
 
-    public int getPositionYOnScreen() {
+    public final int getPositionYOnScreen() {
         return (int)(
                 getAnchorY() + (getPosition().getY()*getUnitSizeOnScreen())
                         + ((getAlignmentY()-1)*getHeightOnScreen()/2.0)
         );
     }
 
-    public int getWidthOnScreen() {
+    public final int getWidthOnScreen() {
         return (int)(getSize().getX()*getUnitSizeOnScreen());
     }
 
-    public int getHeightOnScreen() {
+    public final int getHeightOnScreen() {
         return (int)(getSize().getY()*getUnitSizeOnScreen());
     }
 
-    public void draw(Graphics2D g) {}
+    public abstract void draw(Graphics2D g);
 
     @Override
     public void start() {}
@@ -210,11 +210,11 @@ public class UIElement extends GameObject {
     @Override
     public void update(double frameTime) {}
 
-    public int getRenderOrder() {
+    public final int getRenderOrder() {
         return renderOrder;
     }
 
-    public void setRenderOrder(int renderOrder) {
+    public final void setRenderOrder(int renderOrder) {
         this.renderOrder = renderOrder;
     }
 }
