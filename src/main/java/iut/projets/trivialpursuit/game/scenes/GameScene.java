@@ -119,6 +119,7 @@ public class GameScene extends Scene {
 
         caseSelectionUI.onDestroy(() -> {
             Case c = caseSelectionUI.getSelected();
+            System.out.println("Case choisie : " + c.getType().name());
             pawns.get(player).setCurrentCase(c);
             pawns.get(player).moveTo(c.getPosition());
             moveCameraTo(c.getPosition(), 3, 0.5, () -> {

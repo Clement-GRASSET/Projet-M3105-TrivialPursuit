@@ -131,6 +131,50 @@ public class GameBoard extends Actor {
         c40.setLinkedCases(new Case[] {c39, c41});
         c41.setLinkedCases(new Case[] {c40, c42});
         c42.setLinkedCases(new Case[] {c41, c19});
+
+        c0.setType(Case.CaseType.MULTI);
+        c1.setType(Case.CaseType.YELLOW);
+        c2.setType(Case.CaseType.ORANGE);
+        c3.setType(Case.CaseType.PINK);
+        c4.setType(Case.CaseType.PURPLE);
+        c5.setType(Case.CaseType.BLUE);
+        c6.setType(Case.CaseType.GREEN);
+        c7.setType(Case.CaseType.BLUE);
+        c8.setType(Case.CaseType.GREEN);
+        c9.setType(Case.CaseType.YELLOW);
+        c10.setType(Case.CaseType.ORANGE);
+        c11.setType(Case.CaseType.PINK);
+        c12.setType(Case.CaseType.PURPLE);
+        c13.setType(Case.CaseType.PINK);
+        c14.setType(Case.CaseType.PURPLE);
+        c15.setType(Case.CaseType.BLUE);
+        c16.setType(Case.CaseType.GREEN);
+        c17.setType(Case.CaseType.YELLOW);
+        c18.setType(Case.CaseType.ORANGE);
+        c19.setType(Case.CaseType.SPECIAL_GREEN);
+        c20.setType(Case.CaseType.ROLL_AGAIN);
+        c21.setType(Case.CaseType.ORANGE);
+        c22.setType(Case.CaseType.BLUE);
+        c23.setType(Case.CaseType.SPECIAL_YELLOW);
+        c24.setType(Case.CaseType.ROLL_AGAIN);
+        c25.setType(Case.CaseType.PINK);
+        c26.setType(Case.CaseType.GREEN);
+        c27.setType(Case.CaseType.SPECIAL_ORANGE);
+        c28.setType(Case.CaseType.ROLL_AGAIN);
+        c29.setType(Case.CaseType.PURPLE);
+        c30.setType(Case.CaseType.YELLOW);
+        c31.setType(Case.CaseType.SPECIAL_PINK);
+        c32.setType(Case.CaseType.ROLL_AGAIN);
+        c33.setType(Case.CaseType.BLUE);
+        c34.setType(Case.CaseType.ORANGE);
+        c35.setType(Case.CaseType.SPECIAL_PURPLE);
+        c36.setType(Case.CaseType.ROLL_AGAIN);
+        c37.setType(Case.CaseType.GREEN);
+        c38.setType(Case.CaseType.PINK);
+        c39.setType(Case.CaseType.SPECIAL_BLUE);
+        c40.setType(Case.CaseType.ROLL_AGAIN);
+        c41.setType(Case.CaseType.YELLOW);
+        c42.setType(Case.CaseType.PURPLE);
     }
 
     @Override
