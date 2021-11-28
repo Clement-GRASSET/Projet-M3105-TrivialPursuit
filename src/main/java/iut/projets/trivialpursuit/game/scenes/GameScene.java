@@ -31,9 +31,11 @@ public class GameScene extends Scene {
     private final List<Player> players;
     private final Map<Player, Pawn> pawns;
     private final GameBoard gameBoard;
+    private int playerIndex;
 
     public GameScene(GameInfo gameInfo) {
         this.players = gameInfo.getPlayers();
+        playerIndex = 0;
         pawns = new HashMap<>();
 
         for (Player player : players) {
@@ -81,6 +83,7 @@ public class GameScene extends Scene {
             double rotation = Rotation.deg( 180 - i * 360.0/players.size() ).getRad();
             pawn.setPosition(new Vector2D(Math.cos(rotation)*4.3, Math.sin(rotation)*4.3));
             pawn.setColor(players.get(i).getPawnColor());
+            pawn.setCurrentCase(gameBoard.getCenter());
             pawns.put(players.get(i), pawn);
         }
 
@@ -91,7 +94,7 @@ public class GameScene extends Scene {
     }
 
     private void newTurn() {
-        Player player = players.get(0);
+        Player player = players.get(playerIndex);
 
         RandomNumberUI randomNumberUI = new RandomNumberUI();
         NewTurnAnnouncement newTurnAnnouncement = new NewTurnAnnouncement(player);
@@ -103,16 +106,20 @@ public class GameScene extends Scene {
 
         randomNumberUI.onDestroy(() -> {
             moveCameraTo(new Vector2D(0,0), 1, 0.3, () -> {
-                List<Case> cases = gameBoard.getReachableCases(gameBoard.getCenter(), 1);
+                List<Case> cases = gameBoard.getReachableCases(pawns.get(player).getCurrentCase(), randomNumberUI.getNumber());
                 caseSelectionUI.addButtons(cases);
                 Engine.getUserInterface().addElement(caseSelectionUI);
             });
         });
 
         caseSelectionUI.onDestroy(() -> {
-            Vector2D casePosition = caseSelectionUI.getSelected().getPosition();
-            pawns.get(player).moveTo(casePosition);
-            moveCameraTo(casePosition, 3, 0.5, null);
+            Case c = caseSelectionUI.getSelected();
+            pawns.get(player).setCurrentCase(c);
+            pawns.get(player).moveTo(c.getPosition());
+            moveCameraTo(c.getPosition(), 3, 0.5, () -> {
+                playerIndex = Math.floorMod(playerIndex+1, players.size());
+                newTurn();
+            });
         });
 
 

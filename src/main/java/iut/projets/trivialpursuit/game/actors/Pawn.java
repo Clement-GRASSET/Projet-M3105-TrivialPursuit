@@ -12,6 +12,8 @@ import java.awt.*;
 
 public class Pawn extends Actor {
 
+    private Case currentCase;
+
     private static final Image
             blue = Resources.getImage("/textures/pawn/pawn_blue.png"),
             green = Resources.getImage("/textures/pawn/pawn_green.png"),
@@ -71,5 +73,13 @@ public class Pawn extends Actor {
             setPosition(new Vector2D(x,y));
         });
         animation.start(this);
+    }
+
+    public Case getCurrentCase() {
+        return currentCase;
+    }
+
+    public void setCurrentCase(Case currentCase) {
+        this.currentCase = currentCase;
     }
 }

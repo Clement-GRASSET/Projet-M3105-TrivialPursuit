@@ -88,6 +88,49 @@ public class GameBoard extends Actor {
         c41 = addCase(Rotation.deg(240), distance4);
         c42 = addCase(Rotation.deg(255), distance4);
 
+        c0.setLinkedCases(new Case[] {c1, c2, c3, c4, c5, c6});
+        c1.setLinkedCases(new Case[] {c0, c7});
+        c2.setLinkedCases(new Case[] {c0, c8});
+        c3.setLinkedCases(new Case[] {c0, c9});
+        c4.setLinkedCases(new Case[] {c0, c10});
+        c5.setLinkedCases(new Case[] {c0, c11});
+        c6.setLinkedCases(new Case[] {c0, c12});
+        c7.setLinkedCases(new Case[] {c1, c13});
+        c8.setLinkedCases(new Case[] {c2, c14});
+        c9.setLinkedCases(new Case[] {c3, c15});
+        c10.setLinkedCases(new Case[] {c4, c16});
+        c11.setLinkedCases(new Case[] {c5, c17});
+        c12.setLinkedCases(new Case[] {c6, c18});
+        c13.setLinkedCases(new Case[] {c7, c19});
+        c14.setLinkedCases(new Case[] {c8, c23});
+        c15.setLinkedCases(new Case[] {c9, c27});
+        c16.setLinkedCases(new Case[] {c10, c31});
+        c17.setLinkedCases(new Case[] {c11, c35});
+        c18.setLinkedCases(new Case[] {c12, c39});
+        c19.setLinkedCases(new Case[] {c42, c20, c13});
+        c20.setLinkedCases(new Case[] {c19, c21});
+        c21.setLinkedCases(new Case[] {c20, c22});
+        c22.setLinkedCases(new Case[] {c21, c23});
+        c23.setLinkedCases(new Case[] {c22, c24, c14});
+        c24.setLinkedCases(new Case[] {c23, c25});
+        c25.setLinkedCases(new Case[] {c24, c26});
+        c26.setLinkedCases(new Case[] {c25, c27});
+        c27.setLinkedCases(new Case[] {c26, c28, c15});
+        c28.setLinkedCases(new Case[] {c27, c29});
+        c29.setLinkedCases(new Case[] {c28, c30});
+        c30.setLinkedCases(new Case[] {c29, c31});
+        c31.setLinkedCases(new Case[] {c30, c32, c16});
+        c32.setLinkedCases(new Case[] {c31, c33});
+        c33.setLinkedCases(new Case[] {c32, c34});
+        c34.setLinkedCases(new Case[] {c33, c35});
+        c35.setLinkedCases(new Case[] {c34, c36, c17});
+        c36.setLinkedCases(new Case[] {c35, c37});
+        c37.setLinkedCases(new Case[] {c36, c38});
+        c38.setLinkedCases(new Case[] {c37, c39});
+        c39.setLinkedCases(new Case[] {c38, c40, c18});
+        c40.setLinkedCases(new Case[] {c39, c41});
+        c41.setLinkedCases(new Case[] {c40, c42});
+        c42.setLinkedCases(new Case[] {c41, c19});
     }
 
     @Override
@@ -108,13 +151,43 @@ public class GameBoard extends Actor {
     }
 
     public List<Case> getReachableCases(Case start, int steps) {
+        List<List<Case>> chemins = new ArrayList<>();
+        List<Case> base = new ArrayList<>();
+        base.add(start);
+        chemins.add(base);
+
+        for (int i = 0; i < steps; i++) {
+
+            //System.out.println("Etape " + (i+1));
+
+            List<List<Case>> nouveaux_chemins = new ArrayList<>();
+            List<Case> cases_adjacentes = new ArrayList<>();
+
+            for (List<Case> chemin : chemins) {
+
+                Case derniere_case = chemin.get(chemin.size()-1);
+                for (Case case_adjacente : derniere_case.getLinkedCases()) {
+                    if (!chemin.contains(case_adjacente) && !cases_adjacentes.contains(case_adjacente)) {
+                        //System.out.println("Case adjacente trouvée");
+                        cases_adjacentes.add(case_adjacente);
+                        List<Case> nouveau_chemin = new ArrayList<>();
+                        nouveau_chemin.addAll(chemin);
+                        nouveau_chemin.add(case_adjacente);
+                        nouveaux_chemins.add(nouveau_chemin);
+                    }
+                }
+            }
+            chemins.clear();
+            chemins.addAll(nouveaux_chemins);
+            //System.out.println("Nombre de chemins : " + chemins.size());
+
+        }
+
         List<Case> list = new ArrayList<>();
-        list.add(c1);
-        list.add(c2);
-        list.add(c3);
-        list.add(c4);
-        list.add(c5);
-        list.add(c6);
+        for (List<Case> chemin : chemins) {
+            list.add(chemin.get(chemin.size()-1));
+        }
+
         return list;
     }
 }
