@@ -36,4 +36,8 @@ public abstract class GameObject {
         tasksToRemove.add(task);
     }
 
+    public double interpolate(double a, double b, double alpha) {
+        return (1-alpha)*a + alpha*b;
+    }
+
 }

@@ -1,13 +1,9 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.UIElement;
-import iut.projets.trivialpursuit.engine.userinterface.UIImage;
 import iut.projets.trivialpursuit.engine.userinterface.UIText;
 
-import java.awt.*;
 import java.util.List;
 import java.util.Vector;
 

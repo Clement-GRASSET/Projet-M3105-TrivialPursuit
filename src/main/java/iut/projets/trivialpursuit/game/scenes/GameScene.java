@@ -11,13 +11,16 @@ import iut.projets.trivialpursuit.engine.userinterface.UIButton;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
-import iut.projets.trivialpursuit.game.TrivialPursuitColor;
+import iut.projets.trivialpursuit.game.actors.Case;
 import iut.projets.trivialpursuit.game.actors.Pawn;
 import iut.projets.trivialpursuit.game.actors.GameBoard;
-import iut.projets.trivialpursuit.game.ui.MainMenu;
+import iut.projets.trivialpursuit.game.ui.CaseSelectionUI;
+import iut.projets.trivialpursuit.game.ui.NewTurnAnnouncement;
+import iut.projets.trivialpursuit.game.ui.RandomNumberUI;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GameScene extends Scene {
 
@@ -26,15 +29,18 @@ public class GameScene extends Scene {
     private final Sound music, music_thinking;
     private Sound activeMusic;
     private final List<Player> players;
-    private final List<Pawn> pawns;
+    private final Map<Player, Pawn> pawns;
+    private final GameBoard gameBoard;
 
     public GameScene(GameInfo gameInfo) {
         this.players = gameInfo.getPlayers();
-        pawns = new ArrayList<>();
+        pawns = new HashMap<>();
 
         for (Player player : players) {
             System.out.println("Player : " + player.getProfile().getName());
         }
+
+        this.gameBoard = (GameBoard) addActor(GameBoard.class);
 
         music = new Sound(Resources.getInputStream("/sounds/musics/origamikingBB.wav"));
         music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamikingBBT.wav"));
@@ -70,18 +76,68 @@ public class GameScene extends Scene {
             }
         });
 
-        GameBoard gameBoard = (GameBoard) addActor(GameBoard.class);
-
         for (int i = 0; i < players.size(); i++) {
             Pawn pawn = (Pawn) addActor(Pawn.class);
-            double rotation = Rotation.deg( i * 360.0/players.size() ).getRad();
+            double rotation = Rotation.deg( 180 - i * 360.0/players.size() ).getRad();
             pawn.setPosition(new Vector2D(Math.cos(rotation)*4.3, Math.sin(rotation)*4.3));
             pawn.setColor(players.get(i).getPawnColor());
-            pawns.add(pawn);
+            pawns.put(players.get(i), pawn);
         }
 
         Engine.getUserInterface().addElement(button);
-        playIntroAnimation(() -> {});
+        playIntroAnimation(() -> {
+            newTurn();
+        });
+    }
+
+    private void newTurn() {
+        Player player = players.get(0);
+
+        RandomNumberUI randomNumberUI = new RandomNumberUI();
+        NewTurnAnnouncement newTurnAnnouncement = new NewTurnAnnouncement(player);
+        CaseSelectionUI caseSelectionUI = new CaseSelectionUI();
+
+        newTurnAnnouncement.onDestroy(() -> {
+            Engine.getUserInterface().addElement(randomNumberUI);
+        });
+
+        randomNumberUI.onDestroy(() -> {
+            moveCameraTo(new Vector2D(0,0), 1, 0.3, () -> {
+                List<Case> cases = gameBoard.getReachableCases(gameBoard.getCenter(), 1);
+                caseSelectionUI.addButtons(cases);
+                Engine.getUserInterface().addElement(caseSelectionUI);
+            });
+        });
+
+        caseSelectionUI.onDestroy(() -> {
+            Vector2D casePosition = caseSelectionUI.getSelected().getPosition();
+            pawns.get(player).moveTo(casePosition);
+            moveCameraTo(casePosition, 3, 0.5, null);
+        });
+
+
+        moveCameraTo(pawns.get(player).getPosition(), 3, 0.8, null);
+        Engine.getUserInterface().addElement(newTurnAnnouncement);
+    }
+
+    private void moveCameraTo(Vector2D position, double zoom, double speed, Runnable then) {
+        Vector2D cameraPosition = getCamera().getPosition();
+        double cameraZoom = getCamera().getZoom();
+
+        Animation animation = new Animation(new Keyframe[] {
+                new Keyframe(0, 0),
+                new Keyframe(1, speed)
+        });
+        animation.onUpdate(() -> {
+            getCamera().setPosition(new Vector2D(
+                    interpolate(cameraPosition.getX(), position.getX(), animation.getValue()),
+                    interpolate(cameraPosition.getY(), position.getY(), animation.getValue())
+            ));
+            getCamera().setZoom( interpolate(cameraZoom, zoom, animation.getValue()) );
+        });
+        if (then != null)
+            animation.onFinish(then);
+        animation.start(this);
     }
 
     private void playIntroAnimation(Runnable then) {
@@ -99,10 +155,6 @@ public class GameScene extends Scene {
         });
         animation.onFinish(then);
         animation.start(this);
-    }
-
-    public double interpolate(double a, double b, double alpha) {
-        return (1-alpha)*a + alpha*b;
     }
 
     public void switchMusic(Sound current, Sound target) {

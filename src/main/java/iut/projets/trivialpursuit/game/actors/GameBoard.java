@@ -7,6 +7,8 @@ import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.game.materials.BaseMaterial;
 
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GameBoard extends Actor {
 
@@ -26,7 +28,7 @@ public class GameBoard extends Actor {
 
     @Override
     public void start() {
-        /*c0 = addCase(Rotation.deg(0),0);
+        c0 = addCase(Rotation.deg(0),0);
         c0.setScale(new Vector2D(17,17));
 
         double distance1 = 13.8;
@@ -84,7 +86,7 @@ public class GameBoard extends Actor {
         c39 = addCase(Rotation.deg(210), distance4);
         c40 = addCase(Rotation.deg(225), distance4);
         c41 = addCase(Rotation.deg(240), distance4);
-        c42 = addCase(Rotation.deg(255), distance4);*/
+        c42 = addCase(Rotation.deg(255), distance4);
 
     }
 
@@ -99,5 +101,20 @@ public class GameBoard extends Actor {
         double y = Math.sin(angle.getRad()) * distance;
         caseAcor.setPosition(new Vector2D(x, y));
         return (Case) caseAcor;
+    }
+
+    public Case getCenter() {
+        return c0;
+    }
+
+    public List<Case> getReachableCases(Case start, int steps) {
+        List<Case> list = new ArrayList<>();
+        list.add(c1);
+        list.add(c2);
+        list.add(c3);
+        list.add(c4);
+        list.add(c5);
+        list.add(c6);
+        return list;
     }
 }
