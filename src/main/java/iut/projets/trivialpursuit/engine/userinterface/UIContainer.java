@@ -9,6 +9,7 @@ public abstract class UIContainer extends UIElement {
     List<UIElement> elements, elementsToAdd, elementsToRemove;
 
     public UIContainer() {
+        super();
         elements = new ArrayList<>();
         elementsToAdd = new ArrayList<>();
         elementsToRemove = new ArrayList<>();
@@ -22,6 +23,8 @@ public abstract class UIContainer extends UIElement {
         elementsToAdd.add(element);
     }
 
+    protected abstract void setElementContainer(UIElement element);
+
     @Override
     public void draw(Graphics2D g) {
         super.draw(g);
@@ -33,17 +36,22 @@ public abstract class UIContainer extends UIElement {
     @Override
     public void tick(double frameTime) {
         super.tick(frameTime);
-        for (UIElement element : elements) {
-            element.tick(frameTime);
-        }
+
         for (UIElement element : elementsToAdd) {
             elements.add(element);
         }
+        elementsToAdd.clear();
+
+        for (UIElement element : elements) {
+            setElementContainer(element);
+            element.tick(frameTime);
+        }
+
         for (UIElement element : elementsToRemove) {
             elements.remove(element);
         }
-        elementsToAdd.clear();
         elementsToRemove.clear();
+
         elements.sort(new Comparator<UIElement>() {
             @Override
             public int compare(UIElement o1, UIElement o2) {

@@ -10,7 +10,7 @@ import iut.projets.trivialpursuit.engine.Resources;
 
 import java.awt.*;
 
-public class GameLoadingScreen extends UIContainer {
+public class GameLoadingScreen extends UIScreenContainer {
 
     private final UIImage background, logo, loadingSpinner;
     private Runnable onConstructAnimationFinished;

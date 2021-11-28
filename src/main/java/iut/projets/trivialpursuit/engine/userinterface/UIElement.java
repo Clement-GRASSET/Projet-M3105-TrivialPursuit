@@ -7,12 +7,12 @@ import java.awt.*;
 
 public class UIElement extends GameObject {
 
-    private static double unit = 100;
-    private static int screenWidth, screenHeight;
+    private static double unitSize = 100;
+    private int containerX, containerY, containerWidth, containerHeight;
     private static int mouseX, mouseY;
     private static boolean mousePressed;
     private Anchor anchor;
-    private Vector2D position;
+    private Vector2D position, size;
     private Vector2D alignment;
     private int renderOrder;
 
@@ -31,20 +31,45 @@ public class UIElement extends GameObject {
     public UIElement() {
         setAnchor(Anchor.TOP_LEFT);
         position = new Vector2D(0, 0);
+        size = new Vector2D(0, 0);
         alignment = new Vector2D(0, 0);
         renderOrder = 0;
     }
 
-    public static void setUnit(int unit) {
-        UIElement.unit = unit;
+    public static void setUnitSize(int unitSize) {
+        UIElement.unitSize = unitSize;
     }
 
-    public static void setScreenHeight(int screenHeight) {
-        UIElement.screenHeight = screenHeight;
+    public int getContainerX() {
+        return containerX;
     }
 
-    public static void setScreenWidth(int screenWidth) {
-        UIElement.screenWidth = screenWidth;
+    public int getContainerY() {
+        return containerY;
+    }
+
+    public int getContainerWidth() {
+        return containerWidth;
+    }
+
+    public int getContainerHeight() {
+        return containerHeight;
+    }
+
+    public void setContainerX(int containerX) {
+        this.containerX = containerX;
+    }
+
+    public void setContainerY(int containerY) {
+        this.containerY = containerY;
+    }
+
+    public void setContainerHeight(int containerHeight) {
+        this.containerHeight = containerHeight;
+    }
+
+    public void setContainerWidth(int containerWidth) {
+        this.containerWidth = containerWidth;
     }
 
     public static void setMouseX(int mouseX) {
@@ -76,44 +101,44 @@ public class UIElement extends GameObject {
     }
 
     public final int getAnchorX() {
-        int x = 0;
+        int x = containerX;
         switch (anchor) {
             case TOP_LEFT:
             case CENTER_LEFT:
             case BOTTOM_LEFT:
-                x = 0;
+                x += 0;
                 break;
             case TOP_CENTER:
             case CENTER_CENTER:
             case BOTTOM_CENTER:
-                x = screenWidth/2;
+                x += containerWidth /2;
                 break;
             case TOP_RIGHT:
             case CENTER_RIGHT:
             case BOTTOM_RIGHT:
-                x = screenWidth;
+                x += containerWidth;
                 break;
         }
         return x;
     }
 
     public final int getAnchorY() {
-        int y = 0;
+        int y = containerY;
         switch (anchor) {
             case TOP_LEFT:
             case TOP_CENTER:
             case TOP_RIGHT:
-                y = 0;
+                y += 0;
                 break;
             case CENTER_LEFT:
             case CENTER_CENTER:
             case CENTER_RIGHT:
-                y = screenHeight/2;
+                y += containerHeight /2;
                 break;
             case BOTTOM_LEFT:
             case BOTTOM_CENTER:
             case BOTTOM_RIGHT:
-                y = screenHeight;
+                y += containerHeight;
                 break;
         }
         return y;
@@ -123,8 +148,20 @@ public class UIElement extends GameObject {
         this.position = position;
     }
 
+    public final void setSize(Vector2D size) {
+        this.size = size;
+    }
+
+    public Vector2D getSize() {
+        return size;
+    }
+
     public static double getUnitSizeOnScreen() {
-        return screenHeight/unit;
+        return unitSize;
+    }
+
+    public static void setUnitSize(double unitSize) {
+        UIElement.unitSize = unitSize;
     }
 
     public final Vector2D getPosition() {
@@ -141,6 +178,28 @@ public class UIElement extends GameObject {
 
     public final void setAlignment(Vector2D alignment) {
         this.alignment = alignment;
+    }
+
+    public int getPositionXOnScreen() {
+        return (int)(
+                getAnchorX() + (getPosition().getX()*getUnitSizeOnScreen())
+                        + ((getAlignmentX()-1)*getWidthOnScreen()/2.0)
+        );
+    }
+
+    public int getPositionYOnScreen() {
+        return (int)(
+                getAnchorY() + (getPosition().getY()*getUnitSizeOnScreen())
+                        + ((getAlignmentY()-1)*getHeightOnScreen()/2.0)
+        );
+    }
+
+    public int getWidthOnScreen() {
+        return (int)(getSize().getX()*getUnitSizeOnScreen());
+    }
+
+    public int getHeightOnScreen() {
+        return (int)(getSize().getY()*getUnitSizeOnScreen());
     }
 
     public void draw(Graphics2D g) {}

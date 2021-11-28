@@ -4,10 +4,7 @@ import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.audio.Sound;
 import iut.projets.trivialpursuit.engine.game.Delay;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.UIButton;
-import iut.projets.trivialpursuit.engine.userinterface.UIContainer;
-import iut.projets.trivialpursuit.engine.userinterface.UIElement;
-import iut.projets.trivialpursuit.engine.userinterface.UIImage;
+import iut.projets.trivialpursuit.engine.userinterface.*;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
@@ -15,9 +12,27 @@ import iut.projets.trivialpursuit.game.Profile;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.scenes.GameScene;
 
-public class MainMenu extends UIContainer {
+public class MainMenu extends UIScreenContainer {
 
-    private class TitleScreen extends UIContainer {
+    private class PlayerInfo extends UIBoxContainer {
+        PlayerInfo() {
+            super();
+            setAnchor(Anchor.CENTER_CENTER);
+
+            UIImage image = new UIImage();
+            setSize(new Vector2D(25,40));
+            image.setSize(getSize());
+            image.setAnchor(Anchor.TOP_LEFT);
+            image.setAlignment(new Vector2D(1,1));
+            addElement(image);
+
+            UIButton button = new UIButton("Test");
+            button.setSize(new Vector2D(20, 8));
+            addElement(button);
+        }
+    }
+
+    private class TitleScreen extends UIScreenContainer {
         TitleScreen() {
             UIButton playButton = new UIButton("Jouer");
             playButton.setRenderOrder(1);
@@ -59,7 +74,7 @@ public class MainMenu extends UIContainer {
         }
     }
 
-    private class OptionsMenu extends UIContainer {
+    private class OptionsMenu extends UIScreenContainer {
         OptionsMenu() {
             UIButton backButton = new UIButton("Retour");
             backButton.setAnchor(Anchor.BOTTOM_LEFT);
@@ -73,7 +88,7 @@ public class MainMenu extends UIContainer {
         }
     }
 
-    private class ProfileSelectionScreen extends UIContainer {
+    private class ProfileSelectionScreen extends UIScreenContainer {
         ProfileSelectionScreen() {
             UIButton backButton = new UIButton("Retour");
             backButton.setAnchor(Anchor.BOTTOM_LEFT);
@@ -84,6 +99,16 @@ public class MainMenu extends UIContainer {
                 setActiveMenu(titleScreen);
             });
             addElement(backButton);
+
+            PlayerInfo playerInfo1, playerInfo2, playerInfo3;
+            playerInfo1 = new PlayerInfo();
+            playerInfo1.setPosition(new Vector2D(-30, 0));
+            playerInfo2 = new PlayerInfo();
+            playerInfo3 = new PlayerInfo();
+            playerInfo3.setPosition(new Vector2D(30, 0));
+            addElement(playerInfo1);
+            addElement(playerInfo2);
+            addElement(playerInfo3);
 
             UIButton startButton = new UIButton("Démarrer");
             startButton.setAnchor(Anchor.BOTTOM_RIGHT);

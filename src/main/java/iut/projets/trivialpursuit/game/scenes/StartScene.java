@@ -49,7 +49,7 @@ public class StartScene extends Scene {
 
     private final LoadThread loadThread;
     private boolean sceneTransitionStarted;
-    private final UIElement splashScreen, loadingIcon;
+    private final UIElement splashScreen;
     private double timeElapsed;
 
     public StartScene() {
@@ -58,11 +58,10 @@ public class StartScene extends Scene {
 
         FPSCounter fpsCounter = new FPSCounter();
         fpsCounter.setRenderOrder(100);
-        splashScreen = new SplashScreen();
-        loadingIcon = new LoadingIcon();
         Engine.getUserInterface().addElement(fpsCounter);
+
+        splashScreen = new SplashScreen();
         Engine.getUserInterface().addElement(splashScreen);
-        Engine.getUserInterface().addElement(loadingIcon);
 
         String [] images = {
                 "/textures/game_board/game_board.png",
@@ -91,7 +90,6 @@ public class StartScene extends Scene {
         if (loadThread.isLoadComplete() && !sceneTransitionStarted && timeElapsed > 1) {
             System.out.println("Starting game...");
             sceneTransitionStarted = true;
-            Engine.getUserInterface().removeElement(loadingIcon);
             Engine.getUserInterface().removeElement(splashScreen);
             Engine.setActiveScene(new MainMenuScene());
         }

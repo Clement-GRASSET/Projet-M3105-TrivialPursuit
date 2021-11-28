@@ -60,22 +60,25 @@ public class UserInterface {
     }
 
     public void tick(double frametime) {
-        UIElement.setScreenWidth(w);
-        UIElement.setScreenHeight(h);
+        UIElement.setUnitSize(h/100.0);
         UIElement.setMouseX(mouseX);
         UIElement.setMouseY(mouseY);
         UIElement.setMousePressed(mousePressed);
 
-        for (UIElement element : elements)
-            element.tick(frametime);
-
         for (UIElement element : elementsToAdd)
             elements.add(element);
+        elementsToAdd.clear();
+
+        for (UIElement element : elements) {
+            element.setContainerX(0);
+            element.setContainerY(0);
+            element.setContainerWidth(w);
+            element.setContainerHeight(h);
+            element.tick(frametime);
+        }
 
         for (UIElement element : elementsToRemove)
             elements.remove(element);
-
-        elementsToAdd.clear();
         elementsToRemove.clear();
     }
 

@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 public class UIImage extends UIElement {
 
     private Image image;
-    private Vector2D size;
     private Rotation rotation;
 
     public UIImage() {
@@ -23,20 +22,13 @@ public class UIImage extends UIElement {
     @Override
     public void draw(Graphics2D g) {
         double unit = getUnitSizeOnScreen();
-        double ratio = (double)image.getWidth(null) / image.getHeight(null);
         double angle = rotation.getRad();
-        int width = (int)(size.getX()*unit*ratio);
-        int height = (int)(size.getY()*unit);
+        int width = getWidthOnScreen();
+        int height = getHeightOnScreen();
 
-        int x = (int)(
-                getAnchorX() + (getPosition().getX()*getUnitSizeOnScreen())
-                + ((getAlignmentX()-1)*width/2.0)
-        );
+        int x = getPositionXOnScreen();
 
-        int y = (int)(
-                getAnchorY() + (getPosition().getY()*getUnitSizeOnScreen())
-                + ((getAlignmentY()-1)*height/2.0)
-        );
+        int y = getPositionYOnScreen();
 
         g.translate(x, y);
         g.rotate(angle, width/2.0, height/2.0);
@@ -59,15 +51,8 @@ public class UIImage extends UIElement {
     }
 
     public final void setSize(double size) {
-        this.size = new Vector2D(size, size);
-    }
-
-    public final void setSize(Vector2D size) {
-        this.size = size;
-    }
-
-    public Vector2D getSize() {
-        return size;
+        double ratio = (double)image.getWidth(null) / image.getHeight(null);
+        setSize(new Vector2D(size*ratio, size));
     }
 
     public Rotation getRotation() {

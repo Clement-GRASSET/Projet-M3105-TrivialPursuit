@@ -9,7 +9,6 @@ import java.util.concurrent.Callable;
 public class UIButton extends UIElement {
 
     private Image image, defaultImage, hoverImage, pressedImage;
-    private Vector2D size;
     private Font font;
     private String text;
     private boolean hovered, pressed;
@@ -51,14 +50,6 @@ public class UIButton extends UIElement {
         this.pressedImage = image;
     }
 
-    public final void setSize(double size) {
-        this.size = new Vector2D(size, size);
-    }
-
-    public final void setSize(Vector2D size) {
-        this.size = size;
-    }
-
     public void setFont(Font font) {
         this.font = font;
     }
@@ -71,8 +62,8 @@ public class UIButton extends UIElement {
         int mouseX = getMouseX();
         int mouseY = getMouseY();
         double unit = getUnitSizeOnScreen();
-        int w = (int)(size.getX()*unit);
-        int h = (int)(size.getY()*unit);
+        int w = (int)(getSize().getX()*unit);
+        int h = (int)(getSize().getY()*unit);
         int x = (int)( getPosition().getX()*unit + (getAlignmentX()-1)/2 * w + getAnchorX() );
         int y = (int)( getPosition().getY()*unit + (getAlignmentY()-1)/2 * h + getAnchorY() );
         return (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h);
@@ -100,18 +91,12 @@ public class UIButton extends UIElement {
     @Override
     public void draw(Graphics2D g) {
         double unit = getUnitSizeOnScreen();
-        double ratio = (double)image.getWidth(null) / image.getHeight(null);
-        int width = (int)(size.getX()*unit*ratio);
-        int height = (int)(size.getY()*unit);
 
-        int x = (int)(
-                getAnchorX() + getPosition().getX()*getUnitSizeOnScreen()
-                + ((getAlignmentX()-1)*width/2.0)
-        );
-        int y = (int)(
-                getAnchorY() + getPosition().getY()*getUnitSizeOnScreen()
-                + ((getAlignmentY()-1)*height/2.0)
-        );
+        int width = getWidthOnScreen();
+        int height = getHeightOnScreen();
+
+        int x = getPositionXOnScreen();
+        int y = getPositionYOnScreen();
 
         int fontSize = (int)(unit*3);
         Font renderFont = font.deriveFont(Font.PLAIN, fontSize);

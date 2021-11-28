@@ -2,13 +2,19 @@ package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.userinterface.UIImage;
 import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.engine.userinterface.UIScreenContainer;
 
-public class SplashScreen extends UIImage {
+public class SplashScreen extends UIScreenContainer {
 
     public SplashScreen() {
         super();
-        setImage(Resources.getImage("/images/iut-logo.png"));
-        setSize(20);
+        UIImage logo = new UIImage();
+        logo.setImage(Resources.getImage("/images/iut-logo.png"));
+        logo.setSize(20);
+        addElement(logo);
+
+        UIImage loadingIcon = new LoadingIcon();
+        addElement(loadingIcon);
     }
 
 }
