@@ -9,6 +9,9 @@ import iut.projets.trivialpursuit.engine.graphics.*;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.engine.userinterface.UIButton;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
+import iut.projets.trivialpursuit.game.GameInfo;
+import iut.projets.trivialpursuit.game.Player;
+import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.actors.Pawn;
 import iut.projets.trivialpursuit.game.actors.GameBoard;
 import iut.projets.trivialpursuit.game.ui.MainMenu;
@@ -22,8 +25,17 @@ public class GameScene extends Scene {
     double compteur;
     private final Sound music, music_thinking;
     private Sound activeMusic;
+    private final List<Player> players;
+    private final List<Pawn> pawns;
 
-    public GameScene() {
+    public GameScene(GameInfo gameInfo) {
+        this.players = gameInfo.getPlayers();
+        pawns = new ArrayList<>();
+
+        for (Player player : players) {
+            System.out.println("Player : " + player.getProfile().getName());
+        }
+
         music = new Sound(Resources.getInputStream("/sounds/musics/origamikingBB.wav"));
         music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamikingBBT.wav"));
     }
@@ -48,7 +60,7 @@ public class GameScene extends Scene {
         button.setAnchor(UIElement.Anchor.TOP_RIGHT);
         button.setAlignment(new Vector2D(-1 ,1));
         button.setPosition(new Vector2D(-2, 2));
-        button.onClick(() ->  {
+        button.onClick(() -> {
             if (activeMusic == music) {
                 switchMusic(music, music_thinking);
                 activeMusic = music_thinking;
@@ -60,19 +72,13 @@ public class GameScene extends Scene {
 
         GameBoard gameBoard = (GameBoard) addActor(GameBoard.class);
 
-        List<Pawn> pawns = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < players.size(); i++) {
             Pawn pawn = (Pawn) addActor(Pawn.class);
-            double rotation = Rotation.deg(i*60).getRad();
-            pawn.setPosition(new Vector2D(Math.cos(rotation)*4, Math.sin(rotation)*4));
+            double rotation = Rotation.deg( i * 360.0/players.size() ).getRad();
+            pawn.setPosition(new Vector2D(Math.cos(rotation)*4.3, Math.sin(rotation)*4.3));
+            pawn.setColor(players.get(i).getPawnColor());
             pawns.add(pawn);
         }
-        pawns.get(0).setColor(Pawn.PawnColor.BLUE);
-        pawns.get(1).setColor(Pawn.PawnColor.GREEN);
-        pawns.get(2).setColor(Pawn.PawnColor.YELLOW);
-        pawns.get(3).setColor(Pawn.PawnColor.ORANGE);
-        pawns.get(4).setColor(Pawn.PawnColor.PINK);
-        pawns.get(5).setColor(Pawn.PawnColor.PURPLE);
 
         Engine.getUserInterface().addElement(button);
         playIntroAnimation(() -> {});
@@ -84,7 +90,7 @@ public class GameScene extends Scene {
                 new Keyframe(1, 4)
         });
         animation.onUpdate(() -> {
-            getCamera().setZoom( interpolate(0.7, 1.2, animation.getValue()) );
+            getCamera().setZoom( interpolate(0.7, 3, animation.getValue()) );
             light.setDirection(new Vector3D(
                     1,
                     1,
@@ -102,7 +108,7 @@ public class GameScene extends Scene {
     public void switchMusic(Sound current, Sound target) {
         Animation animation = new Animation(new Keyframe[]{
                 new Keyframe(0, 0),
-                new Keyframe(1, 2)
+                new Keyframe(1, 1)
         });
         animation.onUpdate(() -> {
             float volume = (float) animation.getValue();

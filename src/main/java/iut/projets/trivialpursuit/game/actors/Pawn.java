@@ -3,6 +3,7 @@ package iut.projets.trivialpursuit.game.actors;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.graphics.Actor;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
+import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.materials.BaseMaterial;
 
 import java.awt.*;
@@ -17,16 +18,6 @@ public class Pawn extends Actor {
             purple = Resources.getImage("/textures/pawn/pawn_purple.png"),
             yellow = Resources.getImage("/textures/pawn/pawn_yellow.png"),
             normals = Resources.getImage("/textures/pawn/pawn_normals.png");
-
-
-    public enum PawnColor {
-        BLUE,
-        GREEN,
-        ORANGE,
-        PINK,
-        PURPLE,
-        YELLOW
-    }
 
     public Pawn() {
         setMaterial(new BaseMaterial(blue, normals));
@@ -43,7 +34,7 @@ public class Pawn extends Actor {
 
     }
 
-    public void setColor(PawnColor pawnColor) {
+    public void setColor(TrivialPursuitColor pawnColor) {
         switch (pawnColor) {
             case BLUE:
                 getMaterial().setColor(blue);

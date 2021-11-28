@@ -65,8 +65,6 @@ public class StartScene extends Scene {
         Engine.getUserInterface().addElement(loadingIcon);
 
         String [] images = {
-                "/textures/tiles/tiles_color.jpg",
-                "/textures/tiles/tiles_normals.jpg",
                 "/textures/game_board/game_board.png",
                 "/textures/game_board/game_board_n.png",
                 "/textures/pawn/pawn_blue.png",

@@ -9,6 +9,10 @@ import iut.projets.trivialpursuit.engine.userinterface.UIContainer;
 import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.engine.userinterface.UIImage;
 import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.game.GameInfo;
+import iut.projets.trivialpursuit.game.Player;
+import iut.projets.trivialpursuit.game.Profile;
+import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.scenes.GameScene;
 
 public class MainMenu extends UIContainer {
@@ -93,7 +97,7 @@ public class MainMenu extends UIContainer {
                 gameLoadingScreen.onConstructAnimationFinished(() -> {
                     Delay delay = new Delay(2);
                     delay.onFinish(() -> {
-                        GameScene gameScene = new GameScene();
+                        GameScene gameScene = new GameScene(gameInfo);
                         Engine.setActiveScene(gameScene);
                         gameLoadingScreen.remove();
                     });
@@ -114,8 +118,12 @@ public class MainMenu extends UIContainer {
     private final long music_start_time;
     private final double music_bpm;
 
+    private GameInfo gameInfo;
+
     public MainMenu() {
         super();
+
+        initializeGameInfo();
 
         music_bpm = 132.0;
 
@@ -153,6 +161,36 @@ public class MainMenu extends UIContainer {
             removeElement(activeMenu);
         activeMenu = menu;
         addElement(activeMenu);
+    }
+
+    private void initializeGameInfo() {
+        gameInfo = new GameInfo();
+        Profile profile;
+        Player player;
+
+        // Player 1
+        profile = new Profile();
+        profile.setName("Joueur 1");
+        profile.setCategory(TrivialPursuitColor.BLUE, "", "");
+        profile.setCategory(TrivialPursuitColor.GREEN, "", "");
+        profile.setCategory(TrivialPursuitColor.ORANGE, "", "");
+        profile.setCategory(TrivialPursuitColor.PINK, "", "");
+        profile.setCategory(TrivialPursuitColor.PURPLE, "", "");
+        profile.setCategory(TrivialPursuitColor.YELLOW, "", "");
+        player = new Player(profile, TrivialPursuitColor.PINK);
+        gameInfo.addPlayer(player);
+
+        // Player 2
+        profile = new Profile();
+        profile.setName("Joueur 2");
+        profile.setCategory(TrivialPursuitColor.BLUE, "", "");
+        profile.setCategory(TrivialPursuitColor.GREEN, "", "");
+        profile.setCategory(TrivialPursuitColor.ORANGE, "", "");
+        profile.setCategory(TrivialPursuitColor.PINK, "", "");
+        profile.setCategory(TrivialPursuitColor.PURPLE, "", "");
+        profile.setCategory(TrivialPursuitColor.YELLOW, "", "");
+        player = new Player(profile, TrivialPursuitColor.YELLOW);
+        gameInfo.addPlayer(player);
     }
 
 }
