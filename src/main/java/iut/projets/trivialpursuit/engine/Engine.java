@@ -3,7 +3,6 @@ package iut.projets.trivialpursuit.engine;
 import iut.projets.trivialpursuit.engine.audio.AudioManager;
 import iut.projets.trivialpursuit.engine.graphics.Scene;
 import iut.projets.trivialpursuit.engine.graphics.SceneRenderer;
-import iut.projets.trivialpursuit.engine.settings.Settings;
 import iut.projets.trivialpursuit.engine.userinterface.UserInterface;
 import iut.projets.trivialpursuit.engine.window.GameWindow;
 
@@ -15,7 +14,6 @@ public class Engine {
     private static SceneRenderer sceneRenderer;
     private static UserInterface userInterface;
     private static GameLoop gameLoop;
-    private static Settings settings;
     private static AudioManager audioManager;
 
     public static void start(Game game) {
@@ -26,9 +24,9 @@ public class Engine {
         userInterface = new UserInterface();
         gameWindow = new GameWindow();
         audioManager = new AudioManager();
-        settings = new Settings();
         gameLoop = new GameLoop(game);
         gameLoop.start();
+        Settings.load();
     }
 
     public static void tick(double frameTime) {
@@ -65,10 +63,6 @@ public class Engine {
 
     public static GameLoop getGameLoop() {
         return gameLoop;
-    }
-
-    public static Settings getSettings() {
-        return settings;
     }
 
     public static AudioManager getAudioManager() {
