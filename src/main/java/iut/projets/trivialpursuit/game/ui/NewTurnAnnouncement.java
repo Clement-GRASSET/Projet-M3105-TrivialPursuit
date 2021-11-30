@@ -27,6 +27,7 @@ public class NewTurnAnnouncement extends UIScreenContainer {
         text.setPosition(new Vector2D(0,0));
         text.setTextAlign(Anchor.CENTER_CENTER);
         text.setFontSize(13);
+        text.setColor(player.getPawnColor().getRGB());
         addElement(text);
 
         Animation animation = new Animation(new Keyframe[] {
