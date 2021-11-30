@@ -7,18 +7,13 @@ import iut.projets.trivialpursuit.engine.game.Animation;
 import iut.projets.trivialpursuit.engine.game.Keyframe;
 import iut.projets.trivialpursuit.engine.graphics.*;
 import iut.projets.trivialpursuit.engine.types.*;
-import iut.projets.trivialpursuit.engine.userinterface.UIButton;
-import iut.projets.trivialpursuit.engine.userinterface.UIElement;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
 import iut.projets.trivialpursuit.game.actors.Case;
 import iut.projets.trivialpursuit.game.actors.Pawn;
 import iut.projets.trivialpursuit.game.actors.GameBoard;
 import iut.projets.trivialpursuit.game.questions.QuestionsManager;
-import iut.projets.trivialpursuit.game.ui.CaseSelectionUI;
-import iut.projets.trivialpursuit.game.ui.NewTurnAnnouncement;
-import iut.projets.trivialpursuit.game.ui.QuestionUI;
-import iut.projets.trivialpursuit.game.ui.RandomNumberUI;
+import iut.projets.trivialpursuit.game.ui.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -66,22 +61,6 @@ public class GameScene extends Scene {
         music_thinking.play();
 
         activeMusic = music;
-        /*UIButton button = new UIButton("Switch music");
-        button.setAnchor(UIElement.Anchor.TOP_RIGHT);
-        button.setAlignment(new Vector2D(-1 ,1));
-        button.setPosition(new Vector2D(-2, 2));
-        button.onClick(() -> {
-            if (activeMusic == music) {
-                switchMusic(music, music_thinking);
-                activeMusic = music_thinking;
-            } else {
-                switchMusic(music_thinking, music);
-                activeMusic = music;
-            }
-        });
-
-        Engine.getUserInterface().addElement(button);
-        */
 
         for (int i = 0; i < players.size(); i++) {
             Pawn pawn = (Pawn) addActor(Pawn.class);
@@ -100,44 +79,72 @@ public class GameScene extends Scene {
     private void newTurn() {
         Player player = players.get(playerIndex);
 
-        RandomNumberUI randomNumberUI = new RandomNumberUI();
         NewTurnAnnouncement newTurnAnnouncement = new NewTurnAnnouncement(player);
-        CaseSelectionUI caseSelectionUI = new CaseSelectionUI();
-        QuestionUI questionUI = new QuestionUI();
-
         newTurnAnnouncement.onDestroy(() -> {
-            Engine.getUserInterface().addElement(randomNumberUI);
+            beginTurn();
         });
-
-        randomNumberUI.onDestroy(() -> {
-            moveCameraTo(new Vector2D(0,0), 1, 0.3, () -> {
-                List<Case> cases = gameBoard.getReachableCases(pawns.get(player).getCurrentCase(), randomNumberUI.getNumber());
-                caseSelectionUI.addButtons(cases);
-                Engine.getUserInterface().addElement(caseSelectionUI);
-            });
-        });
-
-        caseSelectionUI.onDestroy(() -> {
-            Case c = caseSelectionUI.getSelected();
-            System.out.println("Case choisie : " + c.getType().name());
-            pawns.get(player).setCurrentCase(c);
-            pawns.get(player).moveTo(c.getPosition());
-            moveCameraTo(c.getPosition(), 3, 0.5, () -> {
-                switchMusic(music, music_thinking);
-                questionUI.addQuestion(QuestionsManager.getRandomQuestion("Y", "Intermédiaire"));
-                Engine.getUserInterface().addElement(questionUI);
-            });
-        });
-
-        questionUI.onDestroy(() -> {
-            switchMusic(music_thinking, music);
-            playerIndex = Math.floorMod(playerIndex+1, players.size());
-            newTurn();
-        });
-
 
         moveCameraTo(pawns.get(player).getPosition(), 3, 0.8, null);
         Engine.getUserInterface().addElement(newTurnAnnouncement);
+    }
+
+    private void beginTurn() {
+        Player player = players.get(playerIndex);
+
+        RandomNumberUI randomNumberUI = new RandomNumberUI();
+
+        randomNumberUI.onDestroy(() -> {
+
+            moveCameraTo(new Vector2D(0,0), 1, 0.3, () -> {
+
+                List<Case> cases = gameBoard.getReachableCases(pawns.get(player).getCurrentCase(), randomNumberUI.getNumber());
+                CaseSelectionUI caseSelectionUI = new CaseSelectionUI();
+                caseSelectionUI.addButtons(cases);
+
+                caseSelectionUI.onDestroy(() -> {
+
+                    Case c = caseSelectionUI.getSelected();
+                    System.out.println("Case choisie : " + c.getType().name());
+                    pawns.get(player).setCurrentCase(c);
+                    pawns.get(player).moveTo(c.getPosition());
+
+                    CaseAnnouncement caseAnnouncement = new CaseAnnouncement(c.getType(), player.getProfile());
+
+                    caseAnnouncement.onDestroy(() ->  {
+
+                        if (c.getType() == Case.CaseType.ROLL_AGAIN) {
+                            beginTurn();
+                        } else if (c.getType() == Case.CaseType.MULTI) {
+                            playerIndex = Math.floorMod(playerIndex + 1, players.size());
+                            newTurn();
+                        } else {
+                            moveCameraTo(c.getPosition(), 3, 0.5, () -> {
+
+                                switchMusic(music, music_thinking);
+
+                                QuestionUI questionUI = new QuestionUI();
+                                questionUI.addQuestion(QuestionsManager.getRandomQuestion("Y", "Intermédiaire"));
+                                questionUI.onDestroy(() -> {
+                                    switchMusic(music_thinking, music);
+                                    playerIndex = Math.floorMod(playerIndex + 1, players.size());
+                                    newTurn();
+                                });
+                                Engine.getUserInterface().addElement(questionUI);
+
+                            });
+                        }
+
+                    });
+                    Engine.getUserInterface().addElement(caseAnnouncement);
+
+                });
+                Engine.getUserInterface().addElement(caseSelectionUI);
+
+            });
+
+        });
+
+        Engine.getUserInterface().addElement(randomNumberUI);
     }
 
     private void moveCameraTo(Vector2D position, double zoom, double speed, Runnable then) {
