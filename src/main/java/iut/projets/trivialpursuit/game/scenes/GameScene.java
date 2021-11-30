@@ -40,7 +40,7 @@ public class GameScene extends Scene {
         gameUI = new GameUI(players);
         Engine.getUserInterface().addElement(gameUI);
 
-        setBackgroundColor(Color.WHITE);
+        setBackgroundColor(new Color(20,20,20));
 
         for (Player player : players) {
             System.out.println("Player : " + player.getProfile().getName());
