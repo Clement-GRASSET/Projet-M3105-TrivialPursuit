@@ -15,6 +15,7 @@ import iut.projets.trivialpursuit.game.actors.GameBoard;
 import iut.projets.trivialpursuit.game.questions.QuestionsManager;
 import iut.projets.trivialpursuit.game.ui.*;
 
+import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +29,18 @@ public class GameScene extends Scene {
     private final List<Player> players;
     private final Map<Player, Pawn> pawns;
     private final GameBoard gameBoard;
+    private final GameUI gameUI;
     private int playerIndex;
 
     public GameScene(GameInfo gameInfo) {
         this.players = gameInfo.getPlayers();
         playerIndex = 0;
         pawns = new HashMap<>();
+
+        gameUI = new GameUI(players);
+        Engine.getUserInterface().addElement(gameUI);
+
+        setBackgroundColor(Color.WHITE);
 
         for (Player player : players) {
             System.out.println("Player : " + player.getProfile().getName());
