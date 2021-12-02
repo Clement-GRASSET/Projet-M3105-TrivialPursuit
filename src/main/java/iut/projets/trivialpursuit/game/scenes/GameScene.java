@@ -129,12 +129,15 @@ public class GameScene extends Scene {
 
                                 switchMusic(music, music_thinking);
 
-                                QuestionUI questionUI = new QuestionUI();
-                                questionUI.addQuestion(QuestionsManager.getRandomQuestion("Y", "Intermédiaire"));
+                                QuestionUI questionUI = new QuestionUI(QuestionsManager.getRandomQuestion("Y", "Intermédiaire"));
                                 questionUI.onDestroy(() -> {
                                     switchMusic(music_thinking, music);
-                                    playerIndex = Math.floorMod(playerIndex + 1, players.size());
-                                    newTurn();
+                                    if (questionUI.getSuccess()) {
+                                        beginTurn();
+                                    } else {
+                                        playerIndex = Math.floorMod(playerIndex + 1, players.size());
+                                        newTurn();
+                                    }
                                 });
                                 Engine.getUserInterface().addElement(questionUI);
 

@@ -216,6 +216,50 @@ public class MainMenu extends UIScreenContainer {
         profile.setCategory(TrivialPursuitColor.YELLOW, "", "");
         player = new Player(profile, TrivialPursuitColor.YELLOW);
         gameInfo.addPlayer(player);
+
+        profile = new Profile();
+        profile.setName("Joueur 3");
+        profile.setCategory(TrivialPursuitColor.BLUE, "", "");
+        profile.setCategory(TrivialPursuitColor.GREEN, "", "");
+        profile.setCategory(TrivialPursuitColor.ORANGE, "", "");
+        profile.setCategory(TrivialPursuitColor.PINK, "", "");
+        profile.setCategory(TrivialPursuitColor.PURPLE, "", "");
+        profile.setCategory(TrivialPursuitColor.YELLOW, "", "");
+        player = new Player(profile, TrivialPursuitColor.BLUE);
+        gameInfo.addPlayer(player);
+
+        profile = new Profile();
+        profile.setName("Joueur 4");
+        profile.setCategory(TrivialPursuitColor.BLUE, "", "");
+        profile.setCategory(TrivialPursuitColor.GREEN, "", "");
+        profile.setCategory(TrivialPursuitColor.ORANGE, "", "");
+        profile.setCategory(TrivialPursuitColor.PINK, "", "");
+        profile.setCategory(TrivialPursuitColor.PURPLE, "", "");
+        profile.setCategory(TrivialPursuitColor.YELLOW, "", "");
+        player = new Player(profile, TrivialPursuitColor.GREEN);
+        gameInfo.addPlayer(player);
+
+        profile = new Profile();
+        profile.setName("Joueur 5");
+        profile.setCategory(TrivialPursuitColor.BLUE, "", "");
+        profile.setCategory(TrivialPursuitColor.GREEN, "", "");
+        profile.setCategory(TrivialPursuitColor.ORANGE, "", "");
+        profile.setCategory(TrivialPursuitColor.PINK, "", "");
+        profile.setCategory(TrivialPursuitColor.PURPLE, "", "");
+        profile.setCategory(TrivialPursuitColor.YELLOW, "", "");
+        player = new Player(profile, TrivialPursuitColor.PURPLE);
+        gameInfo.addPlayer(player);
+
+        profile = new Profile();
+        profile.setName("Joueur 6");
+        profile.setCategory(TrivialPursuitColor.BLUE, "", "");
+        profile.setCategory(TrivialPursuitColor.GREEN, "", "");
+        profile.setCategory(TrivialPursuitColor.ORANGE, "", "");
+        profile.setCategory(TrivialPursuitColor.PINK, "", "");
+        profile.setCategory(TrivialPursuitColor.PURPLE, "", "");
+        profile.setCategory(TrivialPursuitColor.YELLOW, "", "");
+        player = new Player(profile, TrivialPursuitColor.ORANGE);
+        gameInfo.addPlayer(player);
     }
 
 }

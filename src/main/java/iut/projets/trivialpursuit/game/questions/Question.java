@@ -3,7 +3,7 @@ package iut.projets.trivialpursuit.game.questions;
 public class Question {
     String question;
     String [] answer;
-    String right;
+    int right;
 
     public String getQuestion() {
         return question;
@@ -13,7 +13,7 @@ public class Question {
         return answer;
     }
 
-    public String getRight() {
+    public int getRight() {
         return right;
     }
 }

@@ -182,7 +182,7 @@ public class QuestionsManager {
                                                         qnode.getChildNodes().item(5).getTextContent(),
                                                         qnode.getChildNodes().item(7).getTextContent()};
 
-                        question.right = qnode.getAttribute("right");
+                        question.right = Integer.parseInt( qnode.getAttribute("right") );
 
                         //showQuestion(question);
 
