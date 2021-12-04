@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Game trivialPursuit = new Game("Trivial Pursuit", "trivial pursuit") {
+        Game trivialPursuit = new Game("Trivial Pursuit", "trivial pursuit", "/images/game-icon.png") {
             @Override
             public void start() {
 

@@ -10,7 +10,7 @@ public abstract class Game {
     private static GameLoop gameLoop;
     private static String directory;
 
-    public Game(String name, String directory) {
+    public Game(String name, String directory, String iconPath) {
 
         Game.directory = directory;
         File file = new File(directory);
@@ -21,6 +21,7 @@ public abstract class Game {
         gameLoop.start();
         Settings.load();
         Game.getWindow().setTitle(name);
+        Game.getWindow().setIconImage(Resources.getImage(iconPath));
     }
 
     public static GameWindow getWindow() {
