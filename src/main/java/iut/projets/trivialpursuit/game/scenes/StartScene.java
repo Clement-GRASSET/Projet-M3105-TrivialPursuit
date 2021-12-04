@@ -75,11 +75,24 @@ public class StartScene extends Scene {
                 "/textures/pawn/pawn_normals.png",
                 "/images/main-menu-background.png",
                 "/images/trivial-pursuit-logo.png",
+                "/images/player_info_blue.png",
+                "/images/player_info_green.png",
+                "/images/player_info_orange.png",
+                "/images/player_info_pink.png",
+                "/images/player_info_purple.png",
+                "/images/player_info_yellow.png",
+                "/images/pawn.png",
+                "/images/slice_blue.png",
+                "/images/slice_green.png",
+                "/images/slice_orange.png",
+                "/images/slice_pink.png",
+                "/images/slice_purple.png",
+                "/images/slice_yellow.png",
         };
         String [] inputStreams = {
                 "/sounds/musics/main_menu.wav",
-                "/sounds/musics/origamikingBB.wav",
-                "/sounds/musics/origamikingBBT.wav"
+                "/sounds/musics/origamiKingBB.wav",
+                "/sounds/musics/origamiKingBBT.wav"
         };
         loadThread = new LoadThread(images, inputStreams);
     }

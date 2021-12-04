@@ -242,21 +242,21 @@ public class QuestionsManager {
 
     public static Question getRandomQuestion(String category, String difficulty) {
         Map<String, Map<String, List<Question>>> categories = question_list;
-        System.out.println("Categories :");
-        System.out.println(categories);
+        //System.out.println("Categories :");
+        //System.out.println(categories);
 
         Map<String, List<Question>> difficulties = question_list.get(category);
-        System.out.println("Difficulties :");
-        System.out.println(difficulties);
+        //System.out.println("Difficulties :");
+        //System.out.println(difficulties);
 
         List<Question> questions = difficulties.get(difficulty);
-        System.out.println("Questions :");
-        System.out.println(questions);
+        //System.out.println("Questions :");
+        //System.out.println(questions);
 
         Random random = new Random();
         Question question = questions.get( random.nextInt(questions.size()) );
-        System.out.println("Question :");
-        System.out.println(question);
+        //System.out.println("Question :");
+        //System.out.println(question);
 
         return question;
     }

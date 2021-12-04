@@ -47,8 +47,8 @@ public class GameScene extends Scene {
 
         this.gameBoard = (GameBoard) addActor(GameBoard.class);
 
-        music = new Sound(Resources.getInputStream("/sounds/musics/origamikingBB.wav"));
-        music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamikingBBT.wav"));
+        music = new Sound(Resources.getInputStream("/sounds/musics/origamiKingBB.wav"));
+        music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamiKingBBT.wav"));
     }
 
     @Override
@@ -119,7 +119,6 @@ public class GameScene extends Scene {
                 caseSelectionUI.onDestroy(() -> {
 
                     Case c = caseSelectionUI.getSelected();
-                    System.out.println("Case choisie : " + c.getType().name());
                     pawns.get(player).setCurrentCase(c);
                     pawns.get(player).moveTo(c.getPosition());
 
