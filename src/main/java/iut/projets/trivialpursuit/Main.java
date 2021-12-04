@@ -23,10 +23,6 @@ public class Main {
                 ProfilesManager.load();
                 ProfilesManager.reset();
 
-                Settings.setMaxFPS(0);
-                Settings.setRenderScale(1);
-                Settings.setShowDebug(false);
-
                 SceneManager.setActiveScene(new StartScene());
             }
         };

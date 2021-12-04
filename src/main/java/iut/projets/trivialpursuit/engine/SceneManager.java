@@ -73,8 +73,8 @@ public class SceneManager {
         PointLightToRender(PointLight pointLight) {
             this.pointLight = pointLight;
             Vector2D screenPosition = activeScene.sceneToScreenCoordinates(pointLight.getPosition());
-            x = (int) screenPosition.getX();
-            y = (int) screenPosition.getY();
+            x = (int) (screenPosition.getX() * (double) width/canvasWidth);
+            y = (int) (screenPosition.getY() * (double) height/canvasHeight);
             radius = (int)(pointLight.getRadius() * height/100 * activeScene.getCamera().getZoom());
         }
     }
