@@ -97,6 +97,7 @@ public class GameScene extends Scene {
             pawn.setPosition(new Vector2D(Math.cos(rotation)*4.3, Math.sin(rotation)*4.3));
             pawn.setColor(players.get(i).getPawnColor());
             pawn.setCurrentCase(gameBoard.getCenter());
+            pawn.setRenderOrder(i);
             pawns.put(players.get(i), pawn);
 
             Map<TrivialPursuitColor, Boolean> playerScore = new HashMap<>();
@@ -158,7 +159,7 @@ public class GameScene extends Scene {
                         } else {
 
                             setLightIntensity(light, lightQuestionIntensity, 0.5);
-                            setLightIntensity(questionLight, Vector3D.multiply(new Vector3D(c.getColor().getRGB()), 10), 0.5);
+                            setLightIntensity(questionLight, Vector3D.add(Vector3D.multiply(new Vector3D(c.getColor().getRGB()), 6), new Vector3D(0.2,0.2,0.2)), 0.5);
                             questionLight.setPosition(c.getPosition());
                             moveCameraTo(c.getPosition(), 3, 0.5, () -> {
 
@@ -171,6 +172,7 @@ public class GameScene extends Scene {
                                     setLightIntensity(questionLight, new Vector3D(0,0,0), 0.5);
                                     if (questionUI.getSuccess()) {
                                         scores.get(player).put(c.getColor(), true);
+                                        pawns.get(player).addSlice(c.getColor());
                                         gameUI.updateScores();
                                         beginTurn();
                                     } else {

@@ -251,7 +251,7 @@ public class SceneManager {
 
                         Vector3D intensity = light.directionalLight.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
                         // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
-                        lightColor.add(new Vector3D(
+                        lightColor = Vector3D.add(lightColor, new Vector3D(
                                 lightValue * intensity.getX(),
                                 lightValue * intensity.getY(),
                                 lightValue * intensity.getZ()
@@ -273,7 +273,7 @@ public class SceneManager {
 
                             Vector3D intensity = light.pointLight.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
                             // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
-                            lightColor.add(new Vector3D(
+                            Vector3D.add(lightColor, new Vector3D(
                                     lightValue * intensity.getX(),
                                     lightValue * intensity.getY(),
                                     lightValue * intensity.getZ()

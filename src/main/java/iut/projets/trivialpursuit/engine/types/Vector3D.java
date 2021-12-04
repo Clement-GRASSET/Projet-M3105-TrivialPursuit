@@ -34,11 +34,12 @@ public class Vector3D {
         return Math.sqrt(x*x + y*y + z*z);
     }
 
-    public Vector3D add(Vector3D vector) {
-        this.x += vector.x;
-        this.y += vector.y;
-        this.z += vector.z;
-        return this;
+    public static Vector3D add(Vector3D vector1, Vector3D vector2) {
+        return new Vector3D(
+                vector1.x += vector2.x,
+                vector1.y += vector2.y,
+                vector1.z += vector2.z
+        );
     }
 
     public Vector3D multiply(double value) {

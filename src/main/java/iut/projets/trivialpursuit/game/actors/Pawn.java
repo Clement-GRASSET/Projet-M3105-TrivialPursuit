@@ -9,10 +9,13 @@ import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.materials.BaseMaterial;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Pawn extends Actor {
 
     private Case currentCase;
+    private Map<TrivialPursuitColor, Slice> slices;
 
     private static final Image
             blue = Resources.getImage("/textures/pawn/pawn_blue.png"),
@@ -26,16 +29,17 @@ public class Pawn extends Actor {
     public Pawn() {
         setMaterial(new BaseMaterial(blue, normals));
         setScale(new Vector2D(8,8));
+        slices = new HashMap<>();
     }
 
     @Override
-    public void start() {
-
-    }
+    public void start() {}
 
     @Override
     public void update(double frameTime) {
-
+        slices.forEach((color, slice) -> {
+            slice.setPosition(getPosition());
+        });
     }
 
     public void setColor(TrivialPursuitColor pawnColor) {
@@ -81,5 +85,13 @@ public class Pawn extends Actor {
 
     public void setCurrentCase(Case currentCase) {
         this.currentCase = currentCase;
+    }
+
+    public void addSlice(TrivialPursuitColor color) {
+        Slice slice = (Slice) getScene().addActor(Slice.class);
+        slice.setColor(color);
+        slice.setScale(getScale());
+        slice.setRenderOrder(getRenderOrder());
+        slices.put(color, slice);
     }
 }
