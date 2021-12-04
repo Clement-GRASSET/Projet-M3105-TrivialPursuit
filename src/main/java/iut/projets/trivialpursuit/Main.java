@@ -10,17 +10,19 @@ import iut.projets.trivialpursuit.game.scenes.StartScene;
 public class Main {
 
     public static void main(String[] args) {
-        //test questions XML
-        QuestionsManager.load();
-        QuestionsManager.reset();
 
-        //test profiles XML
-        ProfilesManager.load();
-        ProfilesManager.reset();
-
-        Game trivialPursuit = new Game("Trivial Pursuit") {
+        Game trivialPursuit = new Game("Trivial Pursuit", "trivial pursuit") {
             @Override
             public void start() {
+
+                //test questions XML
+                QuestionsManager.load();
+                QuestionsManager.reset();
+
+                //test profiles XML
+                ProfilesManager.load();
+                ProfilesManager.reset();
+
                 Settings.setMaxFPS(0);
                 Settings.setRenderScale(1);
                 Settings.setShowDebug(false);
@@ -28,6 +30,7 @@ public class Main {
                 SceneManager.setActiveScene(new StartScene());
             }
         };
+
     }
 
 }

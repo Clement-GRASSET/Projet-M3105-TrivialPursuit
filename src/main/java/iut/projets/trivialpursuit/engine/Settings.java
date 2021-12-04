@@ -5,7 +5,7 @@ import java.util.Properties;
 
 public class Settings {
 
-    private static String path = "settings.txt";
+    private static String path = Game.getDirectory() + "/settings.txt";
 
     public static void load() {
         try {

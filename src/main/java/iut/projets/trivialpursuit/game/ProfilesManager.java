@@ -1,5 +1,6 @@
 package iut.projets.trivialpursuit.game;
 
+import iut.projets.trivialpursuit.engine.Game;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -18,6 +19,7 @@ import java.util.*;
 public class ProfilesManager {
     private static Document profiles_doc;
     private static File file;
+    private static String path = Game.getDirectory() + "/profiles.xml";
 
     static List<Profile> profiles_list;
 
@@ -77,7 +79,7 @@ public class ProfilesManager {
     }
 
     public static void load() {
-        file = new File("profiles.xml");
+        file = new File(path);
         profiles_list = new ArrayList<>();
 
         try {

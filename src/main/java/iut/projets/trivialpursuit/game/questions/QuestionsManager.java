@@ -1,5 +1,6 @@
 package iut.projets.trivialpursuit.game.questions;
 
+import iut.projets.trivialpursuit.engine.Game;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -20,6 +21,7 @@ public class QuestionsManager {
 
     private static Document questions_doc;
     private static File file;
+    private static String path = Game.getDirectory() + "/questions.xml";
 
     private static Element getRoot() {
         return (Element) questions_doc.getElementsByTagName("Root").item(0);
@@ -146,7 +148,7 @@ public class QuestionsManager {
     }
 
     public static void load() {
-        file = new File("questions.xml");
+        file = new File(path);
         question_list = new HashMap<>();
 
         try {
