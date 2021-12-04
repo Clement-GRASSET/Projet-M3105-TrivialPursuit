@@ -9,6 +9,7 @@ import iut.projets.trivialpursuit.engine.graphics.*;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
+import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.actors.Case;
 import iut.projets.trivialpursuit.game.actors.Pawn;
 import iut.projets.trivialpursuit.game.actors.GameBoard;
@@ -28,6 +29,7 @@ public class GameScene extends Scene {
     private Sound activeMusic;
     private final List<Player> players;
     private final Map<Player, Pawn> pawns;
+    private final Map<Player, Map<TrivialPursuitColor, Boolean>> scores;
     private final GameBoard gameBoard;
     private final GameUI gameUI;
     private int playerIndex;
@@ -36,15 +38,12 @@ public class GameScene extends Scene {
         this.players = gameInfo.getPlayers();
         playerIndex = 0;
         pawns = new HashMap<>();
+        scores = new HashMap<>();
 
-        gameUI = new GameUI(players);
+        gameUI = new GameUI(players, scores);
         Engine.getUserInterface().addElement(gameUI);
 
         setBackgroundColor(new Color(20,20,20));
-
-        for (Player player : players) {
-            System.out.println("Player : " + player.getProfile().getName());
-        }
 
         this.gameBoard = (GameBoard) addActor(GameBoard.class);
 
@@ -76,6 +75,15 @@ public class GameScene extends Scene {
             pawn.setColor(players.get(i).getPawnColor());
             pawn.setCurrentCase(gameBoard.getCenter());
             pawns.put(players.get(i), pawn);
+
+            Map<TrivialPursuitColor, Boolean> playerScore = new HashMap<>();
+            playerScore.put(TrivialPursuitColor.BLUE, false);
+            playerScore.put(TrivialPursuitColor.GREEN, false);
+            playerScore.put(TrivialPursuitColor.ORANGE, false);
+            playerScore.put(TrivialPursuitColor.PINK, false);
+            playerScore.put(TrivialPursuitColor.PURPLE, false);
+            playerScore.put(TrivialPursuitColor.YELLOW, false);
+            scores.put(players.get(i), playerScore);
         }
 
         playIntroAnimation(() -> {
@@ -115,7 +123,7 @@ public class GameScene extends Scene {
                     pawns.get(player).setCurrentCase(c);
                     pawns.get(player).moveTo(c.getPosition());
 
-                    CaseAnnouncement caseAnnouncement = new CaseAnnouncement(c.getType(), player.getProfile());
+                    CaseAnnouncement caseAnnouncement = new CaseAnnouncement(c, player.getProfile());
 
                     caseAnnouncement.onDestroy(() ->  {
 
@@ -133,6 +141,8 @@ public class GameScene extends Scene {
                                 questionUI.onDestroy(() -> {
                                     switchMusic(music_thinking, music);
                                     if (questionUI.getSuccess()) {
+                                        scores.get(player).put(c.getColor(), true);
+                                        gameUI.updateScores();
                                         beginTurn();
                                     } else {
                                         playerIndex = Math.floorMod(playerIndex + 1, players.size());

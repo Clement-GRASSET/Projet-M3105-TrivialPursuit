@@ -59,12 +59,12 @@ public class GameUI extends UIScreenContainer {
             pawn.setImage(Resources.getImage("/images/pawn.png"));
             addElement(pawn);
 
-            addSlice(TrivialPursuitColor.BLUE);
+            /*addSlice(TrivialPursuitColor.BLUE);
             addSlice(TrivialPursuitColor.GREEN);
             addSlice(TrivialPursuitColor.ORANGE);
             addSlice(TrivialPursuitColor.PINK);
             addSlice(TrivialPursuitColor.PURPLE);
-            addSlice(TrivialPursuitColor.YELLOW);
+            addSlice(TrivialPursuitColor.YELLOW);*/
         }
 
         public void addSlice(TrivialPursuitColor color) {
@@ -90,16 +90,29 @@ public class GameUI extends UIScreenContainer {
         }
     }
 
-    private List<Player> players;
+    private final List<Player> players;
+    private final Map<Player, Map<TrivialPursuitColor, Boolean>> scores;
+    private final Map<Player, PlayerStatsUI> playerStatsUI;
 
-    public GameUI(List<Player> players) {
+    public GameUI(List<Player> players, Map<Player, Map<TrivialPursuitColor, Boolean>> scores) {
         this.players = players;
+        this.scores = scores;
+        playerStatsUI = new HashMap<>();
 
         for (int i = 0; i < players.size(); i++) {
             PlayerStatsUI statsUI = new PlayerStatsUI(players.get(i));
             statsUI.setPosition(new Vector2D(0, -5 - (players.size()-1)*7.5 + i*7.5));
+            playerStatsUI.put(players.get(i), statsUI);
             addElement(statsUI);
         }
+    }
+
+    public void updateScores() {
+        scores.forEach((player, colorMap) -> {
+            colorMap.forEach((color, value) -> {
+                if (value) playerStatsUI.get(player).addSlice(color);
+            });
+        });
     }
 
 }

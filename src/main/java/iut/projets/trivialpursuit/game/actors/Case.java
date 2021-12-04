@@ -2,6 +2,7 @@ package iut.projets.trivialpursuit.game.actors;
 
 import iut.projets.trivialpursuit.engine.graphics.Actor;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
+import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.materials.BaseMaterial;
 
 import java.awt.*;
@@ -77,5 +78,23 @@ public class Case extends Actor {
 
     public CaseType getType() {
         return type;
+    }
+
+    public TrivialPursuitColor getColor() {
+        switch (type) {
+            case BLUE:
+            case SPECIAL_BLUE: return TrivialPursuitColor.BLUE;
+            case GREEN:
+            case SPECIAL_GREEN: return TrivialPursuitColor.GREEN;
+            case ORANGE:
+            case SPECIAL_ORANGE: return TrivialPursuitColor.ORANGE;
+            case PINK:
+            case SPECIAL_PINK: return TrivialPursuitColor.PINK;
+            case PURPLE:
+            case SPECIAL_PURPLE: return TrivialPursuitColor.PURPLE;
+            case YELLOW:
+            case SPECIAL_YELLOW: return TrivialPursuitColor.YELLOW;
+            default: return null;
+        }
     }
 }

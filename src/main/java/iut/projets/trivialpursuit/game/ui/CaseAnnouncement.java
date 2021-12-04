@@ -13,11 +13,18 @@ public class CaseAnnouncement extends UIScreenContainer {
 
     private Runnable onDestroy;
 
-    public CaseAnnouncement(Case.CaseType caseType, Profile playerProfile) {
+    public CaseAnnouncement(Case c, Profile playerProfile) {
         onDestroy = () -> {};
 
         UIText textElement = new UIText();
-        textElement.setText(caseType.name());
+
+        if (c.getType() == Case.CaseType.MULTI)
+            textElement.setText("Multi !");
+        else if (c.getType() == Case.CaseType.ROLL_AGAIN)
+            textElement.setText("Rejouez !");
+        else
+            textElement.setText(c.getType().name());
+
         textElement.setAnchor(Anchor.CENTER_CENTER);
         textElement.setAlignment(new Vector2D(0, 0));
         textElement.setTextAlign(Anchor.CENTER_CENTER);
