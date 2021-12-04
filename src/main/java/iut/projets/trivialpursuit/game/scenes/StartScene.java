@@ -2,62 +2,21 @@ package iut.projets.trivialpursuit.game.scenes;
 
 import iut.projets.trivialpursuit.engine.SceneManager;
 import iut.projets.trivialpursuit.engine.UIManager;
+import iut.projets.trivialpursuit.engine.basetypes.LoadingTask;
 import iut.projets.trivialpursuit.engine.core.Scene;
-import iut.projets.trivialpursuit.engine.core.UIElement;
-import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.game.ui.FPSCounter;
 import iut.projets.trivialpursuit.game.ui.SplashScreen;
 
-import java.io.IOException;
-
 public class StartScene extends Scene {
 
-    private class LoadThread extends Thread {
-        private boolean isLoaded;
-        private final String [] images, inputStreams;
-
-        private LoadThread(String [] images, String [] inputStreams) {
-            this.images = images;
-            this.inputStreams = inputStreams;
-            isLoaded = false;
-            start();
-        }
-
-        @Override
-        public void run() {
-            super.run();
-            try {
-                for (String image : images) {
-                    Resources.loadImage(image);
-                }
-                for (String inputStream : inputStreams) {
-                    Resources.loadInputStream(inputStream);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            isLoaded = true;
-        }
-
-        public boolean isLoadComplete() {
-            return isLoaded;
-        }
-    }
-
-    private final LoadThread loadThread;
-    private boolean sceneTransitionStarted;
-    private final UIElement splashScreen;
-    private double timeElapsed;
-
-    public StartScene() {
-        sceneTransitionStarted = false;
-        timeElapsed = 0;
+    @Override
+    public void start() {
 
         FPSCounter fpsCounter = new FPSCounter();
         fpsCounter.setRenderOrder(100);
         UIManager.addElement(fpsCounter);
 
-        splashScreen = new SplashScreen();
+        SplashScreen splashScreen = new SplashScreen();
         UIManager.addElement(splashScreen);
 
         String [] images = {
@@ -91,17 +50,16 @@ public class StartScene extends Scene {
                 "/sounds/musics/origamiKingBB.wav",
                 "/sounds/musics/origamiKingBBT.wav"
         };
-        loadThread = new LoadThread(images, inputStreams);
-    }
 
-    @Override
-    public void update(double frameTime) {
-        timeElapsed += frameTime;
-        if (loadThread.isLoadComplete() && !sceneTransitionStarted && timeElapsed > 1) {
+        LoadingTask loadingTask = new LoadingTask(images, inputStreams);
+        loadingTask.onUpdate(() -> {
+            splashScreen.setProgress(loadingTask.getProgress());
+        });
+        loadingTask.onFinish(() -> {
             System.out.println("Starting game...");
-            sceneTransitionStarted = true;
             UIManager.removeElement(splashScreen);
             SceneManager.setActiveScene(new MainMenuScene());
-        }
+        });
+        loadingTask.start(this);
     }
 }

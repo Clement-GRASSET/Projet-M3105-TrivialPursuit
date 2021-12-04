@@ -3,8 +3,12 @@ package iut.projets.trivialpursuit.game.ui;
 import iut.projets.trivialpursuit.engine.basetypes.UIImage;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
+import iut.projets.trivialpursuit.engine.basetypes.UIText;
+import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 public class SplashScreen extends UIScreenContainer {
+
+    private final UIText progressText;
 
     public SplashScreen() {
         super();
@@ -13,8 +17,22 @@ public class SplashScreen extends UIScreenContainer {
         logo.setSize(20);
         addElement(logo);
 
-        UIImage loadingIcon = new LoadingIcon();
+        LoadingIcon loadingIcon = new LoadingIcon();
         addElement(loadingIcon);
+
+        progressText = new UIText();
+        progressText.setAnchor(Anchor.BOTTOM_RIGHT);
+        progressText.setTextAlign(Anchor.CENTER_RIGHT);
+        progressText.setAlignment(new Vector2D(-1, -1));
+        progressText.setPosition(new Vector2D(-17,-8));
+        progressText.setFontSize(4);
+        addElement(progressText);
+
+        setProgress(0);
+    }
+
+    public void setProgress(double progress) {
+        progressText.setText(String.format("%,.0f", progress*100) + "%");
     }
 
 }

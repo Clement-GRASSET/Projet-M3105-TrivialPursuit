@@ -11,8 +11,8 @@ public class LoadingIcon extends UIImage {
         super();
         setImage(Resources.getImage("/images/loading-icon.png"));
         setAnchor(Anchor.BOTTOM_RIGHT);
-        setAlignment(new Vector2D(-1, -1));
-        setPosition(new Vector2D(-5, -5));
+        setAlignment(new Vector2D(-1, 0));
+        setPosition(new Vector2D(-5, -8));
         setSize(10);
     }
 
