@@ -12,10 +12,12 @@ import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
+import iut.projets.trivialpursuit.game.Profile;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.actors.Case;
 import iut.projets.trivialpursuit.game.actors.Pawn;
 import iut.projets.trivialpursuit.game.actors.GameBoard;
+import iut.projets.trivialpursuit.game.questions.Question;
 import iut.projets.trivialpursuit.game.questions.QuestionsManager;
 import iut.projets.trivialpursuit.game.ui.*;
 
@@ -80,7 +82,7 @@ public class GameScene extends Scene {
         mouseLight.setPosition(new Vector2D(0,0));
         mouseLight.setIntensity(new Vector3D(0,0,0));
         mouseLight.setRadius(4);
-        mouseLight.setHeight(2);
+        mouseLight.setHeight(1);
 
         music.setLoop(true, 2.18181818);
         music_thinking.setLoop(true, 2.18181818);
@@ -165,7 +167,9 @@ public class GameScene extends Scene {
 
                                 switchMusic(music, music_thinking);
 
-                                QuestionUI questionUI = new QuestionUI(QuestionsManager.getRandomQuestion("Y", "Intermédiaire"));
+                                Profile.Category questionCategory = player.getProfile().getCategory(c.getColor());
+                                Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
+                                QuestionUI questionUI = new QuestionUI(question);
                                 questionUI.onDestroy(() -> {
                                     switchMusic(music_thinking, music);
                                     setLightIntensity(light, lightDefaultIntensity, 0.5);

@@ -22,8 +22,11 @@ public class CaseAnnouncement extends UIScreenContainer {
             textElement.setText("Multi !");
         else if (c.getType() == Case.CaseType.ROLL_AGAIN)
             textElement.setText("Rejouez !");
-        else
-            textElement.setText(c.getType().name());
+        else {
+            textElement.setColor(c.getColor().getRGB());
+            textElement.setText( playerProfile.getCategory(c.getColor()).getCategoryName() );
+        }
+
 
         textElement.setAnchor(Anchor.CENTER_CENTER);
         textElement.setAlignment(new Vector2D(0, 0));

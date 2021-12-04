@@ -5,9 +5,17 @@ import java.util.Map;
 
 public class Profile {
 
-    private class Category {
+    public class Category {
         private String categoryName;
         private String difficulty;
+
+        public String getCategoryName() {
+            return categoryName;
+        }
+
+        public String getDifficulty() {
+            return difficulty;
+        }
     }
 
     private String name;
@@ -29,6 +37,10 @@ public class Profile {
 
     public String getName() {
         return name;
+    }
+
+    public Category getCategory(TrivialPursuitColor color) {
+        return categories.get(color);
     }
 
     public void setCategory(TrivialPursuitColor color, String categoryName, String difficulty) {
