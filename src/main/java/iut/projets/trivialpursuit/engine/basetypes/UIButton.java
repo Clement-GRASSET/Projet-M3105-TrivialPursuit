@@ -1,26 +1,22 @@
 package iut.projets.trivialpursuit.engine.basetypes;
 
-import iut.projets.trivialpursuit.engine.core.UIElement;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class UIButton extends UIElement {
+public class UIButton extends UIBoxContainer {
 
     private Image image, defaultImage, hoverImage, pressedImage;
-    private Font font;
-    private String text;
     private boolean hovered, pressed;
     private Runnable onClick;
 
-    public UIButton(String text) {
+    public UIButton() {
         super();
-        setText(text);
+
         setSize(new Vector2D(30, 10));
         setAlignment(new Vector2D(0, 0));
         setAnchor(Anchor.CENTER_CENTER);
-        setFont(new Font("Arial", Font.PLAIN, 1));
         setDefaultImage( makeColoredImage(new Color(255, 120, 0)) );
         setHoverImage( makeColoredImage(new Color(255, 160, 0)) );
         setPressedImage( makeColoredImage(new Color(255, 220, 50)) );
@@ -48,14 +44,6 @@ public class UIButton extends UIElement {
 
     public void setPressedImage(Image image) {
         this.pressedImage = image;
-    }
-
-    public void setFont(Font font) {
-        this.font = font;
-    }
-
-    public void setText(String text) {
-        this.text = text;
     }
 
     private boolean isHovered() {
@@ -90,24 +78,17 @@ public class UIButton extends UIElement {
 
     @Override
     public void draw(Graphics2D g) {
-        double unit = getUnitSizeOnScreen();
-
         int width = getWidthOnScreen();
         int height = getHeightOnScreen();
 
         int x = getPositionXOnScreen();
         int y = getPositionYOnScreen();
 
-        int fontSize = (int)(unit*3);
-        Font renderFont = font.deriveFont(Font.PLAIN, fontSize);
-        FontMetrics fontMetrics = g.getFontMetrics(renderFont);
-
         g.translate(x, y);
         g.drawImage(image, 0, 0, width, height, null);
-        g.setFont(renderFont);
-        g.setColor(Color.BLACK);
-        g.drawString(text, width/2 -fontMetrics.stringWidth(text)/2, height/2 - fontMetrics.getHeight()/2 + fontMetrics.getAscent());
         g.translate(-x, -y);
+
+        super.draw(g);
     }
 
     public void onClick(Runnable onClick) {

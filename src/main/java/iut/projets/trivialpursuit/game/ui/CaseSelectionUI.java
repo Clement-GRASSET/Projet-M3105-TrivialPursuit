@@ -1,6 +1,7 @@
 package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.UIManager;
+import iut.projets.trivialpursuit.engine.basetypes.UITextButton;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.basetypes.UIButton;
 import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
@@ -23,7 +24,7 @@ public class CaseSelectionUI extends UIScreenContainer {
     public void addButtons(List<Case> cases) {
         buttons = new HashMap<>();
         for (Case c : cases) {
-            UIButton button = new UIButton("Case");
+            UIButton button = new UIButton();
             button.setAnchor(Anchor.CENTER_CENTER);
             button.setAlignment(new Vector2D(0, 0));
             button.setSize(new Vector2D(8, 8));

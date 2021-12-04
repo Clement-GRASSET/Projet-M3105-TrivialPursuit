@@ -28,7 +28,7 @@ public class MainMenu extends UIScreenContainer {
             image.setAlignment(new Vector2D(1,1));
             addElement(image);
 
-            UIButton button = new UIButton("Test");
+            UITextButton button = new UITextButton("Test");
             button.setSize(new Vector2D(20, 8));
             addElement(button);
         }
@@ -36,7 +36,7 @@ public class MainMenu extends UIScreenContainer {
 
     private class TitleScreen extends UIScreenContainer {
         TitleScreen() {
-            UIButton playButton = new UIButton("Jouer");
+            UITextButton playButton = new UITextButton("Jouer");
             playButton.setRenderOrder(1);
             playButton.setAnchor(Anchor.CENTER_CENTER);
             playButton.setPosition(new Vector2D(0, 15));
@@ -46,7 +46,7 @@ public class MainMenu extends UIScreenContainer {
             } );
             addElement(playButton);
 
-            UIButton optionButton = new UIButton("Options");
+            UITextButton optionButton = new UITextButton("Options");
             optionButton.setRenderOrder(1);
             optionButton.setAnchor(Anchor.CENTER_CENTER);
             optionButton.setPosition(new Vector2D(0, 25));
@@ -56,7 +56,7 @@ public class MainMenu extends UIScreenContainer {
             });
             addElement(optionButton);
 
-            UIButton quitButton = new UIButton("Quitter");
+            UITextButton quitButton = new UITextButton("Quitter");
             quitButton.setRenderOrder(1);
             quitButton.setAnchor(Anchor.CENTER_CENTER);
             quitButton.setPosition(new Vector2D(0, 35));
@@ -78,7 +78,7 @@ public class MainMenu extends UIScreenContainer {
 
     private class OptionsMenu extends UIScreenContainer {
         OptionsMenu() {
-            UIButton backButton = new UIButton("Retour");
+            UITextButton backButton = new UITextButton("Retour");
             backButton.setAnchor(Anchor.BOTTOM_LEFT);
             backButton.setAlignment(new Vector2D(1, -1));
             backButton.setPosition(new Vector2D(5, -3));
@@ -92,7 +92,7 @@ public class MainMenu extends UIScreenContainer {
 
     private class ProfileSelectionScreen extends UIScreenContainer {
         ProfileSelectionScreen() {
-            UIButton backButton = new UIButton("Retour");
+            UITextButton backButton = new UITextButton("Retour");
             backButton.setAnchor(Anchor.BOTTOM_LEFT);
             backButton.setAlignment(new Vector2D(1, -1));
             backButton.setPosition(new Vector2D(5, -3));
@@ -112,7 +112,7 @@ public class MainMenu extends UIScreenContainer {
             addElement(playerInfo2);
             addElement(playerInfo3);
 
-            UIButton startButton = new UIButton("Démarrer");
+            UITextButton startButton = new UITextButton("Démarrer");
             startButton.setAnchor(Anchor.BOTTOM_RIGHT);
             startButton.setAlignment(new Vector2D(-1, -1));
             startButton.setPosition(new Vector2D(-5, -3));

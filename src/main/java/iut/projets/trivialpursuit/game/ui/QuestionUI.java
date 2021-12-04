@@ -1,12 +1,8 @@
 package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.UIManager;
-import iut.projets.trivialpursuit.engine.basetypes.Animation;
-import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
+import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.basetypes.UIButton;
-import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
-import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.game.questions.Question;
 
 public class QuestionUI extends UIScreenContainer {
@@ -42,7 +38,7 @@ public class QuestionUI extends UIScreenContainer {
 
         for (int i = 0; i < question.getAnswer().length; i++) {
             String answer = question.getAnswer()[i];
-            UIButton answerBtn = new UIButton(answer);
+            UITextButton answerBtn = new UITextButton(answer);
             answerBtn.setAnchor(Anchor.CENTER_CENTER);
             answerBtn.setAlignment(new Vector2D(0,0));
             answerBtn.setPosition(new Vector2D(0,5 + i*10));
