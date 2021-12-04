@@ -52,12 +52,12 @@ public class Vector3D {
         return vector1.x*vector2.x + vector1.y*vector2.y + vector1.z*vector2.z;
     }
 
-    public Vector3D normalize() {
-        double length = this.length();
+    public static Vector3D normalize(Vector3D vector) {
+        double length = vector.length();
         return new Vector3D(
-                this.x/length,
-                this.y/length,
-                this.z/length
+                vector.x/length,
+                vector.y/length,
+                vector.z/length
         );
     }
 }

@@ -2,6 +2,8 @@ package iut.projets.trivialpursuit.engine.core;
 
 import iut.projets.trivialpursuit.engine.Game;
 import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
+import iut.projets.trivialpursuit.engine.basetypes.PointLight;
+import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
@@ -15,6 +17,7 @@ public class Scene extends GameObject {
     private final Vector<Actor> actorsToAdd;
     private final Vector<Actor> actorsToRemove;
     private final ArrayList<DirectionalLight> directionalLights;
+    private final ArrayList<PointLight> pointLights;
     private Color backgroundColor;
     private Camera camera;
 
@@ -25,6 +28,7 @@ public class Scene extends GameObject {
         actorsToAdd = new Vector<>();
         actorsToRemove = new Vector<>();
         directionalLights = new ArrayList<>();
+        pointLights = new ArrayList<>();
         backgroundColor = Color.BLACK;
         mousePosition = new Vector2D(0,0);
         mousePositionInScene = new Vector2D(0,0);
@@ -88,20 +92,28 @@ public class Scene extends GameObject {
         actorsToRemove.addElement(actor);
     }
 
-    public ArrayList<DirectionalLight> getLights() {
+    public ArrayList<DirectionalLight> getDirectionalLights() {
         return directionalLights;
     }
 
-    public Light addLight(Class<? extends DirectionalLight> LightClass) {
-        DirectionalLight light;
-        try {
-            light = LightClass.getConstructor().newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public ArrayList<PointLight> getPointLights() {
+        return pointLights;
+    }
+
+    public void addLight(DirectionalLight light) {
         directionalLights.add(light);
-        return light;
+    }
+
+    public void addLight(PointLight light) {
+        pointLights.add(light);
+    }
+
+    public void removeLight(DirectionalLight light) {
+        directionalLights.remove(light);
+    }
+
+    public void removeLight(PointLight light) {
+        pointLights.remove(light);
     }
 
     public Color getBackgroundColor() {
@@ -129,13 +141,28 @@ public class Scene extends GameObject {
     }
 
     private void updateMousePositionInScene() {
+        this.mousePositionInScene = screenToSceneCoordinates(mousePosition);
+    }
+
+    public Vector2D screenToSceneCoordinates(Vector2D coordinates) {
         double zoom = camera.getZoom();
         double unit = Game.getWindow().getCanvas().getHeight()/100.0;
         double screenCenterX = Game.getWindow().getCanvas().getWidth()/2.0;
         double screenCenterY = Game.getWindow().getCanvas().getHeight()/2.0;
-        double x = (mousePosition.getX() - screenCenterX)/unit/zoom;
-        double y = (mousePosition.getY() - screenCenterY)/unit/zoom;
-        this.mousePositionInScene = Vector2D.add( Vector2D.rotate(new Vector2D(x, y), camera.getRotation()), camera.getPosition() );
+        double x = (coordinates.getX() - screenCenterX)/unit/zoom;
+        double y = (coordinates.getY() - screenCenterY)/unit/zoom;
+        return Vector2D.add( Vector2D.rotate(new Vector2D(x, y), camera.getRotation()), camera.getPosition() );
+    }
+
+    public Vector2D sceneToScreenCoordinates(Vector2D coordinates) {
+        double zoom = camera.getZoom();
+        double unit = Game.getWindow().getCanvas().getHeight()/100.0;
+        double screenCenterX = Game.getWindow().getCanvas().getWidth()/2.0;
+        double screenCenterY = Game.getWindow().getCanvas().getHeight()/2.0;
+        Vector2D rotated_position = Vector2D.rotate(Vector2D.subtract(coordinates, camera.getPosition()), Rotation.rad(camera.getRotation().getRad()*-1));
+        double x = ((rotated_position.getX())*zoom*unit + screenCenterX);
+        double y = ((rotated_position.getY())*zoom*unit + screenCenterY);
+        return new Vector2D(x, y);
     }
 
     public Vector2D getMousePositionInScene() {

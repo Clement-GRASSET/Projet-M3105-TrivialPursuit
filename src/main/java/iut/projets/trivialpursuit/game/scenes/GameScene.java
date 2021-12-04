@@ -6,6 +6,7 @@ import iut.projets.trivialpursuit.engine.audio.Sound;
 import iut.projets.trivialpursuit.engine.basetypes.Animation;
 import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
 import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
+import iut.projets.trivialpursuit.engine.basetypes.PointLight;
 import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.GameInfo;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class GameScene extends Scene {
 
     DirectionalLight light;
+    PointLight mouseLight;
     double compteur;
     private final Sound music, music_thinking;
     private Sound activeMusic;
@@ -56,9 +58,15 @@ public class GameScene extends Scene {
     public void start() {
         compteur = 0;
 
-        light = (DirectionalLight) addLight(DirectionalLight.class);
+        light = new DirectionalLight();
+        addLight(light);
         light.setDirection(new Vector3D(1,1,-1));
         light.setIntensity(1.5);
+
+        mouseLight = new PointLight();
+        addLight(mouseLight);
+        mouseLight.setPosition(new Vector2D(0,0));
+        mouseLight.setIntensity(new Vector3D(1,5,20));
 
         music.setLoop(true, 2.18181818);
         music_thinking.setLoop(true, 2.18181818);
@@ -224,6 +232,9 @@ public class GameScene extends Scene {
     @Override
     public void update(double frameTime) {
         compteur += frameTime;
+
+        mouseLight.setPosition(getMousePositionInScene());
+
         //Fait tourner la lumière autour de la scene
         //light.setDirection(new Vector3D(Math.cos(compteur), Math.sin(compteur), -0.3));
 
