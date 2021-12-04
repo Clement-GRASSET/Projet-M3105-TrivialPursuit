@@ -1,9 +1,9 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.Engine;
+import iut.projets.trivialpursuit.engine.UIManager;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.UIButton;
-import iut.projets.trivialpursuit.engine.userinterface.UIScreenContainer;
+import iut.projets.trivialpursuit.engine.basetypes.UIButton;
+import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
 import iut.projets.trivialpursuit.game.actors.Case;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ public class CaseSelectionUI extends UIScreenContainer {
 
             button.onClick(() -> {
                 selected = c;
-                Engine.getUserInterface().removeElement(this);
+                UIManager.removeElement(this);
                 onDestroy.run();
             });
 

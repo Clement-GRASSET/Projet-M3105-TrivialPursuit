@@ -31,15 +31,15 @@ public class Settings {
     }
 
     public static void setMaxFPS(int fps) {
-        Engine.getGameLoop().setMaxFPS(fps);
+        Game.getGameLoop().setMaxFPS(fps);
     }
 
     public static void setRenderScale(double scale) {
-        Engine.getSceneRenderer().setRenderScale(scale);
+        SceneManager.setRenderScale(scale);
     }
 
     public static void setShowDebug(boolean showDebug) {
-        Engine.getGameLoop().setDebug(showDebug);
+        Game.getGameLoop().setDebug(showDebug);
     }
 
 }

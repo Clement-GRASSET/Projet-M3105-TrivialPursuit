@@ -1,5 +1,6 @@
-package iut.projets.trivialpursuit.engine.userinterface;
+package iut.projets.trivialpursuit.engine.basetypes;
 
+import iut.projets.trivialpursuit.engine.core.UIElement;
 import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 

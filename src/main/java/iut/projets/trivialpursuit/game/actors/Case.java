@@ -1,12 +1,7 @@
 package iut.projets.trivialpursuit.game.actors;
 
-import iut.projets.trivialpursuit.engine.graphics.Actor;
-import iut.projets.trivialpursuit.engine.types.Vector2D;
+import iut.projets.trivialpursuit.engine.core.Actor;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
-import iut.projets.trivialpursuit.game.materials.BaseMaterial;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
 
 public class Case extends Actor {
 

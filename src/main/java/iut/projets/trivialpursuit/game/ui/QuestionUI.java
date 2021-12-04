@@ -1,12 +1,12 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.Engine;
-import iut.projets.trivialpursuit.engine.game.Animation;
-import iut.projets.trivialpursuit.engine.game.Keyframe;
+import iut.projets.trivialpursuit.engine.UIManager;
+import iut.projets.trivialpursuit.engine.basetypes.Animation;
+import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.UIButton;
-import iut.projets.trivialpursuit.engine.userinterface.UIScreenContainer;
-import iut.projets.trivialpursuit.engine.userinterface.UIText;
+import iut.projets.trivialpursuit.engine.basetypes.UIButton;
+import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
+import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.game.questions.Question;
 
 public class QuestionUI extends UIScreenContainer {
@@ -105,7 +105,7 @@ public class QuestionUI extends UIScreenContainer {
             UItext.setFontSize(animation.getValue());
         });
         animation.onFinish(() -> {
-            Engine.getUserInterface().removeElement(this);
+            UIManager.removeElement(this);
             onDestroy.run();
         });
         animation.start(this);

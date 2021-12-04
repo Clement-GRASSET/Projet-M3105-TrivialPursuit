@@ -1,10 +1,12 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.Engine;
+import iut.projets.trivialpursuit.engine.SceneManager;
+import iut.projets.trivialpursuit.engine.UIManager;
 import iut.projets.trivialpursuit.engine.audio.Sound;
-import iut.projets.trivialpursuit.engine.game.Delay;
+import iut.projets.trivialpursuit.engine.basetypes.Delay;
+import iut.projets.trivialpursuit.engine.core.UIContainer;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.*;
+import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
@@ -123,13 +125,13 @@ public class MainMenu extends UIScreenContainer {
                     Delay delay = new Delay(2);
                     delay.onFinish(() -> {
                         GameScene gameScene = new GameScene(gameInfo);
-                        Engine.setActiveScene(gameScene);
+                        SceneManager.setActiveScene(gameScene);
                         gameLoadingScreen.remove();
                     });
                     delay.start(gameLoadingScreen);
                 });
-                Engine.getUserInterface().addElement(gameLoadingScreen);
-                Engine.getUserInterface().removeElement(mainMenu);
+                UIManager.addElement(gameLoadingScreen);
+                UIManager.removeElement(mainMenu);
             });
             addElement(startButton);
         }

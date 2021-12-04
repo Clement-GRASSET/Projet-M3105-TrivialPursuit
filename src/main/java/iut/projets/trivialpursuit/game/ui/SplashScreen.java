@@ -1,8 +1,8 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.userinterface.UIImage;
+import iut.projets.trivialpursuit.engine.basetypes.UIImage;
 import iut.projets.trivialpursuit.engine.Resources;
-import iut.projets.trivialpursuit.engine.userinterface.UIScreenContainer;
+import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
 
 public class SplashScreen extends UIScreenContainer {
 

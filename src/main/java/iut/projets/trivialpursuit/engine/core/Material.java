@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.engine.graphics;
+package iut.projets.trivialpursuit.engine.core;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

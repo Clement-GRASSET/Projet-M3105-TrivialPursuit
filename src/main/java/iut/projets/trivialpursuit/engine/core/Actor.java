@@ -1,6 +1,5 @@
-package iut.projets.trivialpursuit.engine.graphics;
+package iut.projets.trivialpursuit.engine.core;
 
-import iut.projets.trivialpursuit.engine.game.GameObject;
 import iut.projets.trivialpursuit.engine.types.Rotation;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 

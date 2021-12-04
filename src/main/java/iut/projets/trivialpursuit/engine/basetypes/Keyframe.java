@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.engine.game;
+package iut.projets.trivialpursuit.engine.basetypes;
 
 public class Keyframe {
     double value, time;

@@ -2,10 +2,10 @@ package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.UIBoxContainer;
-import iut.projets.trivialpursuit.engine.userinterface.UIImage;
-import iut.projets.trivialpursuit.engine.userinterface.UIScreenContainer;
-import iut.projets.trivialpursuit.engine.userinterface.UIText;
+import iut.projets.trivialpursuit.engine.basetypes.UIBoxContainer;
+import iut.projets.trivialpursuit.engine.basetypes.UIImage;
+import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
+import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.game.Player;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 

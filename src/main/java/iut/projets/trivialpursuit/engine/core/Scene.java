@@ -1,7 +1,7 @@
-package iut.projets.trivialpursuit.engine.graphics;
+package iut.projets.trivialpursuit.engine.core;
 
-import iut.projets.trivialpursuit.engine.Engine;
-import iut.projets.trivialpursuit.engine.game.GameObject;
+import iut.projets.trivialpursuit.engine.Game;
+import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
@@ -130,9 +130,9 @@ public class Scene extends GameObject {
 
     private void updateMousePositionInScene() {
         double zoom = camera.getZoom();
-        double unit = Engine.getGameWindow().getCanvas().getHeight()/100.0;
-        double screenCenterX = Engine.getGameWindow().getCanvas().getWidth()/2.0;
-        double screenCenterY = Engine.getGameWindow().getCanvas().getHeight()/2.0;
+        double unit = Game.getWindow().getCanvas().getHeight()/100.0;
+        double screenCenterX = Game.getWindow().getCanvas().getWidth()/2.0;
+        double screenCenterY = Game.getWindow().getCanvas().getHeight()/2.0;
         double x = (mousePosition.getX() - screenCenterX)/unit/zoom;
         double y = (mousePosition.getY() - screenCenterY)/unit/zoom;
         this.mousePositionInScene = Vector2D.add( Vector2D.rotate(new Vector2D(x, y), camera.getRotation()), camera.getPosition() );

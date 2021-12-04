@@ -1,4 +1,6 @@
-package iut.projets.trivialpursuit.engine.userinterface;
+package iut.projets.trivialpursuit.engine.core;
+
+import iut.projets.trivialpursuit.engine.core.UIElement;
 
 import java.awt.*;
 import java.util.ArrayList;

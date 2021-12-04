@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.engine.game;
+package iut.projets.trivialpursuit.engine.core;
 
 import java.util.ArrayList;
 import java.util.List;

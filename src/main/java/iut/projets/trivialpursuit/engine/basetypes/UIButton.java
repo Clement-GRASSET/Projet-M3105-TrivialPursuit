@@ -1,10 +1,10 @@
-package iut.projets.trivialpursuit.engine.userinterface;
+package iut.projets.trivialpursuit.engine.basetypes;
 
+import iut.projets.trivialpursuit.engine.core.UIElement;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.util.concurrent.Callable;
 
 public class UIButton extends UIElement {
 
@@ -59,13 +59,13 @@ public class UIButton extends UIElement {
     }
 
     private boolean isHovered() {
-        int mouseX = getMouseX();
-        int mouseY = getMouseY();
+        double mouseX = getMousePosition().getX();
+        double mouseY = getMousePosition().getY();
         double unit = getUnitSizeOnScreen();
-        int w = (int)(getSize().getX()*unit);
-        int h = (int)(getSize().getY()*unit);
-        int x = (int)( getPosition().getX()*unit + (getAlignmentX()-1)/2 * w + getAnchorX() );
-        int y = (int)( getPosition().getY()*unit + (getAlignmentY()-1)/2 * h + getAnchorY() );
+        double w = (getSize().getX()*unit);
+        double h = (getSize().getY()*unit);
+        double x = ( getPosition().getX()*unit + (getAlignmentX()-1)/2 * w + getAnchorX() );
+        double y = ( getPosition().getY()*unit + (getAlignmentY()-1)/2 * h + getAnchorY() );
         return (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h);
     }
 

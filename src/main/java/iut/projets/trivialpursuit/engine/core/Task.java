@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.engine.game;
+package iut.projets.trivialpursuit.engine.core;
 
 public abstract class Task {
 
@@ -6,7 +6,7 @@ public abstract class Task {
     private Runnable onUpdate, onFinish;
     private GameObject objectOwner;
 
-    Task() {
+    public Task() {
         time = 0;
         onUpdate = () -> {};
         onFinish = () -> {};

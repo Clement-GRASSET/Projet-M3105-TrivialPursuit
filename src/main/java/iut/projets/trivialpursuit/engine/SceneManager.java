@@ -1,5 +1,9 @@
-package iut.projets.trivialpursuit.engine.graphics;
+package iut.projets.trivialpursuit.engine;
 
+import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
+import iut.projets.trivialpursuit.engine.core.Actor;
+import iut.projets.trivialpursuit.engine.core.Camera;
+import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
 
@@ -10,9 +14,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class SceneRenderer {
+public class SceneManager {
 
-    private class ActorToDraw {
+    private static class ActorToDraw {
 
         Actor actor;
         double x, y, w, h;
@@ -34,7 +38,7 @@ public class SceneRenderer {
             );
         }
 
-        public void drawColor(Graphics2D g) {
+        void drawColor(Graphics2D g) {
             g.translate(translation.getX(), translation.getY());
             g.rotate(r, w/2, h/2);
             g.drawImage(actor.getMaterial().getColor(), 0, 0, (int)w, (int)h, null);
@@ -42,7 +46,7 @@ public class SceneRenderer {
             g.translate(-translation.getX(), -translation.getY());
         }
 
-        public void drawNormal(Graphics2D g) {
+        void drawNormal(Graphics2D g) {
             g.translate(translation.getX(), translation.getY());
             g.rotate(r, w/2, h/2);
             g.drawImage(actor.getMaterial().getNormals(), 0, 0, (int)w, (int)h, null);
@@ -52,7 +56,7 @@ public class SceneRenderer {
 
     }
 
-    private class DirectionalLightToRender {
+    private static class DirectionalLightToRender {
         private final DirectionalLight directionalLight;
         double intensityAtFlatNormal;
 
@@ -61,41 +65,54 @@ public class SceneRenderer {
             this.intensityAtFlatNormal = Vector3D.dot(directionalLight.getDirection(), new Vector3D(0, 0, -1));
         }
 
-        public DirectionalLight getDirectionalLight() {
+        DirectionalLight getDirectionalLight() {
             return directionalLight;
         }
 
-        public double getIntensityAtFlatNormal() {
+        double getIntensityAtFlatNormal() {
             return intensityAtFlatNormal;
         }
     }
 
-    int width, height, canvasWidth, canvasHeight;
-    double renderScale;
+    private static int width = 0, height = 0, canvasWidth = 0, canvasHeight = 0;
+    private static double renderScale = 1;
+    private static Vector2D mousePosition = new Vector2D(0,0);
 
-    BufferedImage colorBuffer;
-    BufferedImage normalsBuffer;
-    BufferedImage finalBuffer;
+    private static BufferedImage colorBuffer;
+    private static BufferedImage normalsBuffer;
+    private static BufferedImage finalBuffer;
 
-    public SceneRenderer() {
-        canvasWidth = 0;
-        canvasHeight = 0;
-        width = 0;
-        height = 0;
-        renderScale = 1;
+    private static Scene activeScene = new Scene(), nextScene = null;
+
+    public static void tick(double frameTime) {
+        if (nextScene != null) {
+            activeScene = nextScene;
+            nextScene = null;
+            activeScene.start();
+        }
+        activeScene.setMousePosition(mousePosition);
+        activeScene.tick(frameTime);
     }
 
-    public void render(Graphics g, Scene scene) {
+    public static Scene getActiveScene() {
+        return activeScene;
+    }
 
-        Camera camera = scene.getCamera();
+    public static void setActiveScene(Scene scene) {
+        nextScene = scene;
+    }
+
+    public static void render(Graphics g) {
+
+        Camera camera = activeScene.getCamera();
 
         ArrayList<ActorToDraw> actorsToDraw = new ArrayList<>();
-        for (Actor actor : scene.getActors()) {
+        for (Actor actor : activeScene.getActors()) {
             actorsToDraw.add( new ActorToDraw(actor) );
         }
 
-        Thread colorThread = drawColorBuffer(camera, scene, actorsToDraw);
-        Thread normalThread = drawNormalBufferImage(camera, scene, actorsToDraw);
+        Thread colorThread = drawColorBuffer(camera, activeScene, actorsToDraw);
+        Thread normalThread = drawNormalBufferImage(camera, activeScene, actorsToDraw);
         try {
             normalThread.join();
             colorThread.join();
@@ -104,12 +121,12 @@ public class SceneRenderer {
             System.exit(1);
         }
 
-        drawFinalBuffer(scene);
+        drawFinalBuffer(activeScene);
 
         g.drawImage(finalBuffer, 0, 0, canvasWidth, canvasHeight, null);
     }
 
-    private Thread drawColorBuffer(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
+    private static Thread drawColorBuffer(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             double unit = camera.getZoom()*height/100.0;
             Graphics2D g = (Graphics2D) colorBuffer.getGraphics();
@@ -131,7 +148,7 @@ public class SceneRenderer {
         return thread;
     }
 
-    private Thread drawNormalBufferImage(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
+    private static Thread drawNormalBufferImage(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             double unit = camera.getZoom()*height/100.0;
             Graphics2D g = (Graphics2D) normalsBuffer.getGraphics();
@@ -153,7 +170,7 @@ public class SceneRenderer {
         return thread;
     }
 
-    private void drawFinalBuffer(Scene scene) {
+    private static void drawFinalBuffer(Scene scene) {
         int nbThreads = Runtime.getRuntime().availableProcessors();
         Vector<Thread> threads = new Vector<>();
         int length = width*height/nbThreads;
@@ -250,26 +267,30 @@ public class SceneRenderer {
 
     }
 
-    public void setResolution(int canvasWidth, int canvasHeight) {
-        if (this.canvasWidth == canvasWidth && this.canvasHeight == canvasHeight)
+    public static void setResolution(int canvasWidth, int canvasHeight) {
+        if (SceneManager.canvasWidth == canvasWidth && SceneManager.canvasHeight == canvasHeight)
             return;
 
-        this.canvasWidth = canvasWidth;
-        this.canvasHeight = canvasHeight;
+        SceneManager.canvasWidth = canvasWidth;
+        SceneManager.canvasHeight = canvasHeight;
         recreateBuffers();
     }
 
-    public void setRenderScale(double renderScale) {
-        this.renderScale = renderScale;
+    public static void setRenderScale(double renderScale) {
+        SceneManager.renderScale = renderScale;
         if (canvasWidth != 0 && canvasHeight != 0) // Emepeche la création des buffers si la fenetre n'a pas été initialisée
             recreateBuffers();
     }
 
-    private void recreateBuffers() {
-        this.width = (int)(canvasWidth * renderScale);
-        this.height = (int)(canvasHeight * renderScale);
+    private static void recreateBuffers() {
+        SceneManager.width = (int)(canvasWidth * renderScale);
+        SceneManager.height = (int)(canvasHeight * renderScale);
         colorBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         normalsBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         finalBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    }
+
+    public static void setMousePosition(Vector2D mousePosition) {
+        SceneManager.mousePosition = mousePosition;
     }
 }

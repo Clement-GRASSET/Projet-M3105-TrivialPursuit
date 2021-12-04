@@ -1,11 +1,12 @@
 package iut.projets.trivialpursuit.game.scenes;
 
-import iut.projets.trivialpursuit.engine.Engine;
 import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.engine.UIManager;
 import iut.projets.trivialpursuit.engine.audio.Sound;
-import iut.projets.trivialpursuit.engine.game.Animation;
-import iut.projets.trivialpursuit.engine.game.Keyframe;
-import iut.projets.trivialpursuit.engine.graphics.*;
+import iut.projets.trivialpursuit.engine.basetypes.Animation;
+import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
+import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
+import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
@@ -41,7 +42,7 @@ public class GameScene extends Scene {
         scores = new HashMap<>();
 
         gameUI = new GameUI(players, scores);
-        Engine.getUserInterface().addElement(gameUI);
+        UIManager.addElement(gameUI);
 
         setBackgroundColor(new Color(20,20,20));
 
@@ -100,7 +101,7 @@ public class GameScene extends Scene {
         });
 
         moveCameraTo(pawns.get(player).getPosition(), 3, 0.8, null);
-        Engine.getUserInterface().addElement(newTurnAnnouncement);
+        UIManager.addElement(newTurnAnnouncement);
     }
 
     private void beginTurn() {
@@ -148,22 +149,22 @@ public class GameScene extends Scene {
                                         newTurn();
                                     }
                                 });
-                                Engine.getUserInterface().addElement(questionUI);
+                                UIManager.addElement(questionUI);
 
                             });
                         }
 
                     });
-                    Engine.getUserInterface().addElement(caseAnnouncement);
+                    UIManager.addElement(caseAnnouncement);
 
                 });
-                Engine.getUserInterface().addElement(caseSelectionUI);
+                UIManager.addElement(caseSelectionUI);
 
             });
 
         });
 
-        Engine.getUserInterface().addElement(randomNumberUI);
+        UIManager.addElement(randomNumberUI);
     }
 
     private void moveCameraTo(Vector2D position, double zoom, double speed, Runnable then) {

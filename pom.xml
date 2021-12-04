@@ -54,7 +54,7 @@
           <configuration>
             <archive>
               <manifest>
-                <mainClass>iut.projets.trivialpursuit.TrivialPursuit</mainClass>
+                <mainClass>iut.projets.trivialpursuit.Main</mainClass>
               </manifest>
             </archive>
           </configuration>

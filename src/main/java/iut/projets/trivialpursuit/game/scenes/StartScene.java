@@ -1,17 +1,14 @@
 package iut.projets.trivialpursuit.game.scenes;
 
-import iut.projets.trivialpursuit.engine.Engine;
-import iut.projets.trivialpursuit.engine.graphics.Scene;
-import iut.projets.trivialpursuit.engine.userinterface.UIElement;
+import iut.projets.trivialpursuit.engine.SceneManager;
+import iut.projets.trivialpursuit.engine.UIManager;
+import iut.projets.trivialpursuit.engine.core.Scene;
+import iut.projets.trivialpursuit.engine.core.UIElement;
 import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.game.ui.FPSCounter;
-import iut.projets.trivialpursuit.game.ui.LoadingIcon;
 import iut.projets.trivialpursuit.game.ui.SplashScreen;
 
-import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class StartScene extends Scene {
 
@@ -58,10 +55,10 @@ public class StartScene extends Scene {
 
         FPSCounter fpsCounter = new FPSCounter();
         fpsCounter.setRenderOrder(100);
-        Engine.getUserInterface().addElement(fpsCounter);
+        UIManager.addElement(fpsCounter);
 
         splashScreen = new SplashScreen();
-        Engine.getUserInterface().addElement(splashScreen);
+        UIManager.addElement(splashScreen);
 
         String [] images = {
                 "/textures/game_board/game_board.png",
@@ -103,8 +100,8 @@ public class StartScene extends Scene {
         if (loadThread.isLoadComplete() && !sceneTransitionStarted && timeElapsed > 1) {
             System.out.println("Starting game...");
             sceneTransitionStarted = true;
-            Engine.getUserInterface().removeElement(splashScreen);
-            Engine.setActiveScene(new MainMenuScene());
+            UIManager.removeElement(splashScreen);
+            SceneManager.setActiveScene(new MainMenuScene());
         }
     }
 }

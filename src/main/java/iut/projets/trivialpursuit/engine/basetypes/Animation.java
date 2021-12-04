@@ -1,4 +1,6 @@
-package iut.projets.trivialpursuit.engine.game;
+package iut.projets.trivialpursuit.engine.basetypes;
+
+import iut.projets.trivialpursuit.engine.core.Task;
 
 public class Animation extends Task {
 

@@ -1,10 +1,10 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.Engine;
-import iut.projets.trivialpursuit.engine.game.Animation;
-import iut.projets.trivialpursuit.engine.game.Keyframe;
+import iut.projets.trivialpursuit.engine.UIManager;
+import iut.projets.trivialpursuit.engine.basetypes.Animation;
+import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.userinterface.*;
+import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.game.Player;
 
 public class NewTurnAnnouncement extends UIScreenContainer {
@@ -40,7 +40,7 @@ public class NewTurnAnnouncement extends UIScreenContainer {
             text.setPosition(new Vector2D(animation.getValue(), 0));
         });
         animation.onFinish(() -> {
-            Engine.getUserInterface().removeElement(this);
+            UIManager.removeElement(this);
             onDestroy.run();
         });
         animation.start(this);

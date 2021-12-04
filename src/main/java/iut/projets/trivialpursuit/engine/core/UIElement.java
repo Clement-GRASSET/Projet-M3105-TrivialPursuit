@@ -1,6 +1,5 @@
-package iut.projets.trivialpursuit.engine.userinterface;
+package iut.projets.trivialpursuit.engine.core;
 
-import iut.projets.trivialpursuit.engine.game.GameObject;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
@@ -9,7 +8,7 @@ public abstract class UIElement extends GameObject {
 
     private static double unitSize = 100;
     private int containerX, containerY, containerWidth, containerHeight;
-    private static int mouseX, mouseY;
+    private static Vector2D mousePosition;
     private static boolean mousePressed;
     private Anchor anchor;
     private Vector2D position, size;
@@ -72,20 +71,12 @@ public abstract class UIElement extends GameObject {
         this.containerWidth = containerWidth;
     }
 
-    public static void setMouseX(int mouseX) {
-        UIElement.mouseX = mouseX;
+    public static Vector2D getMousePosition() {
+        return mousePosition;
     }
 
-    public static void setMouseY(int mouseY) {
-        UIElement.mouseY = mouseY;
-    }
-
-    public static int getMouseX() {
-        return mouseX;
-    }
-
-    public static int getMouseY() {
-        return mouseY;
+    public static void setMousePosition(Vector2D mousePosition) {
+        UIElement.mousePosition = mousePosition;
     }
 
     public static void setMousePressed(boolean mousePressed) {

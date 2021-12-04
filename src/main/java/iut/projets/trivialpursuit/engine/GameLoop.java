@@ -1,7 +1,5 @@
 package iut.projets.trivialpursuit.engine;
 
-import iut.projets.trivialpursuit.engine.graphics.SceneRenderer;
-import iut.projets.trivialpursuit.engine.userinterface.UserInterface;
 import iut.projets.trivialpursuit.engine.window.RenderCanvas;
 
 import java.awt.*;
@@ -9,8 +7,6 @@ import java.awt.image.BufferStrategy;
 
 public class GameLoop extends Thread {
 
-    private final SceneRenderer sceneRenderer;
-    private final UserInterface userInterface;
     private final RenderCanvas canvas;
     private final Game game;
     private long minFrameLength;
@@ -19,9 +15,7 @@ public class GameLoop extends Thread {
     private boolean debug;
 
     GameLoop(Game game) {
-        sceneRenderer = Engine.getSceneRenderer();
-        userInterface = Engine.getUserInterface();
-        canvas = Engine.getGameWindow().getCanvas();
+        canvas = Game.getWindow().getCanvas();
         this.game = game;
         minFrameLength = 0;
         debug = false;
@@ -50,23 +44,21 @@ public class GameLoop extends Thread {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        Engine.tick(frameTime);
-
         long t0 = System.nanoTime();
 
-        Engine.getActiveScene().tick(frameTime);
+        SceneManager.tick(frameTime);
         long t1 = System.nanoTime();
 
-        userInterface.setScreenSize(canvas.getWidth(), canvas.getHeight());
-        userInterface.tick(frameTime);
+        UIManager.setScreenSize(canvas.getWidth(), canvas.getHeight());
+        UIManager.tick(frameTime);
         long t2 = System.nanoTime();
 
-        sceneRenderer.setResolution(canvas.getWidth(), canvas.getHeight());
-        sceneRenderer.render(g, Engine.getActiveScene());
+        SceneManager.setResolution(canvas.getWidth(), canvas.getHeight());
+        SceneManager.render(g);
 
         long t3 = System.nanoTime();
 
-        userInterface.render(g);
+        UIManager.render(g);
         long t4 = System.nanoTime();
 
         sceneTick = (t1-t0)*0.000001;

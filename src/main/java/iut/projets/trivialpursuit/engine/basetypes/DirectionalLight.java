@@ -1,5 +1,6 @@
-package iut.projets.trivialpursuit.engine.graphics;
+package iut.projets.trivialpursuit.engine.basetypes;
 
+import iut.projets.trivialpursuit.engine.core.Light;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
 
 public class DirectionalLight extends Light {
