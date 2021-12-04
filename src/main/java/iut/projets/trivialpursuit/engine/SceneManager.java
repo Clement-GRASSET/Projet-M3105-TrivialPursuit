@@ -264,12 +264,12 @@ public class SceneManager {
                         int screenPositionY = light.y;
                         double distance = Math.sqrt((x-screenPositionX)*(x-screenPositionX) + (y-screenPositionY)*(y-screenPositionY))/light.radius;
                         if (distance < 1) {
-                            double lightValue = 1;
+                            double lightValue = 0;
 
                             Vector3D direction = Vector3D.normalize( new Vector3D(
-                                    screenPositionX-x, screenPositionY-y, height/100.0
+                                    screenPositionX-x, screenPositionY-y, light.pointLight.getHeight()*height/100.0
                             ));
-                            lightValue = Math.max(Vector3D.dot(pixel_angle, direction), 0) * (1-distance);
+                            lightValue = Math.max(Vector3D.dot(pixel_angle, direction), 0) * Math.pow(1-distance, 2);
 
                             Vector3D intensity = light.pointLight.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
                             // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel

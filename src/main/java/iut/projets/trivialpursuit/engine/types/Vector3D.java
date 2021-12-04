@@ -1,5 +1,7 @@
 package iut.projets.trivialpursuit.engine.types;
 
+import java.awt.*;
+
 public class Vector3D {
 
     private double x, y, z;
@@ -8,6 +10,12 @@ public class Vector3D {
         this.x = x;
         this.y = y;
         this.z = z;
+    }
+
+    public Vector3D(Color color) {
+        this.x = color.getRed()/255.0;
+        this.y = color.getGreen()/255.0;
+        this.z = color.getBlue()/255.0;
     }
 
     public double getX() {

@@ -7,6 +7,7 @@ import iut.projets.trivialpursuit.engine.basetypes.Animation;
 import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
 import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
 import iut.projets.trivialpursuit.engine.basetypes.PointLight;
+import iut.projets.trivialpursuit.engine.core.Light;
 import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.GameInfo;
@@ -25,8 +26,9 @@ import java.util.Map;
 
 public class GameScene extends Scene {
 
-    DirectionalLight light;
-    PointLight mouseLight;
+    private final DirectionalLight light;
+    private final PointLight questionLight;
+    private final PointLight mouseLight;
     double compteur;
     private final Sound music, music_thinking;
     private Sound activeMusic;
@@ -36,12 +38,21 @@ public class GameScene extends Scene {
     private final GameBoard gameBoard;
     private final GameUI gameUI;
     private int playerIndex;
+    private final Vector3D lightDefaultIntensity, lightQuestionIntensity;
 
     public GameScene(GameInfo gameInfo) {
         this.players = gameInfo.getPlayers();
         playerIndex = 0;
         pawns = new HashMap<>();
         scores = new HashMap<>();
+
+        lightDefaultIntensity = new Vector3D(1.5, 1.5, 1.5);
+        lightQuestionIntensity = new Vector3D(0.2, 0.2, 0.2);
+
+        light = new DirectionalLight();
+        light.setIntensity(lightDefaultIntensity);
+        questionLight = new PointLight();
+        mouseLight = new PointLight();
 
         gameUI = new GameUI(players, scores);
         UIManager.addElement(gameUI);
@@ -58,15 +69,18 @@ public class GameScene extends Scene {
     public void start() {
         compteur = 0;
 
-        light = new DirectionalLight();
         addLight(light);
         light.setDirection(new Vector3D(1,1,-1));
-        light.setIntensity(1.5);
 
-        mouseLight = new PointLight();
+        addLight(questionLight);
+        questionLight.setIntensity(new Vector3D(0,0,0));
+        questionLight.setHeight(8);
+
         addLight(mouseLight);
         mouseLight.setPosition(new Vector2D(0,0));
-        mouseLight.setIntensity(new Vector3D(1,5,20));
+        mouseLight.setIntensity(new Vector3D(0,0,0));
+        mouseLight.setRadius(4);
+        mouseLight.setHeight(2);
 
         music.setLoop(true, 2.18181818);
         music_thinking.setLoop(true, 2.18181818);
@@ -102,6 +116,7 @@ public class GameScene extends Scene {
 
     private void newTurn() {
         Player player = players.get(playerIndex);
+        setLightIntensity(mouseLight, Vector3D.multiply(new Vector3D(player.getPawnColor().getRGB()), 5), 0.5);
 
         NewTurnAnnouncement newTurnAnnouncement = new NewTurnAnnouncement(player);
         newTurnAnnouncement.onDestroy(() -> {
@@ -141,6 +156,10 @@ public class GameScene extends Scene {
                             playerIndex = Math.floorMod(playerIndex + 1, players.size());
                             newTurn();
                         } else {
+
+                            setLightIntensity(light, lightQuestionIntensity, 0.5);
+                            setLightIntensity(questionLight, Vector3D.multiply(new Vector3D(c.getColor().getRGB()), 10), 0.5);
+                            questionLight.setPosition(c.getPosition());
                             moveCameraTo(c.getPosition(), 3, 0.5, () -> {
 
                                 switchMusic(music, music_thinking);
@@ -148,6 +167,8 @@ public class GameScene extends Scene {
                                 QuestionUI questionUI = new QuestionUI(QuestionsManager.getRandomQuestion("Y", "Intermédiaire"));
                                 questionUI.onDestroy(() -> {
                                     switchMusic(music_thinking, music);
+                                    setLightIntensity(light, lightDefaultIntensity, 0.5);
+                                    setLightIntensity(questionLight, new Vector3D(0,0,0), 0.5);
                                     if (questionUI.getSuccess()) {
                                         scores.get(player).put(c.getColor(), true);
                                         gameUI.updateScores();
@@ -192,6 +213,22 @@ public class GameScene extends Scene {
         });
         if (then != null)
             animation.onFinish(then);
+        animation.start(this);
+    }
+
+    private void setLightIntensity(Light light, Vector3D intensity, double animationDuration) {
+        Vector3D baseIntensity = light.getIntensity();
+        Animation animation = new Animation(new Keyframe[] {
+                new Keyframe(0, 0),
+                new Keyframe(1, animationDuration),
+        });
+        animation.onUpdate(() -> {
+            light.setIntensity(new Vector3D(
+                    interpolate(baseIntensity.getX(), intensity.getX(), animation.getValue()),
+                    interpolate(baseIntensity.getY(), intensity.getY(), animation.getValue()),
+                    interpolate(baseIntensity.getZ(), intensity.getZ(), animation.getValue())
+            ));
+        });
         animation.start(this);
     }
 

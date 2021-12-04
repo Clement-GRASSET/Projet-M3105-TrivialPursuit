@@ -7,10 +7,12 @@ public class PointLight extends Light {
 
     Vector2D position;
     double radius;
+    double height;
 
     public PointLight() {
         position = new Vector2D(0,0);
         radius = 10;
+        height = 1;
     }
 
     public Vector2D getPosition() {
@@ -19,6 +21,14 @@ public class PointLight extends Light {
 
     public void setPosition(Vector2D position) {
         this.position = position;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = Math.max(height, 0);
     }
 
     public double getRadius() {
