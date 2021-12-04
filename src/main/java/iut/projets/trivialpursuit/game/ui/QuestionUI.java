@@ -8,8 +8,8 @@ import iut.projets.trivialpursuit.game.questions.Question;
 public class QuestionUI extends UIScreenContainer {
 
     private Runnable onDestroy;
-    private boolean success, time_is_out;
-    private double beginTime;
+    private boolean success, time_is_out, answered;
+    private final double beginTime;
     private final UIScreenContainer questionContainer;
     UIText timeCount;
 
@@ -17,6 +17,8 @@ public class QuestionUI extends UIScreenContainer {
         onDestroy = () -> {};
         success = false;
         time_is_out = false;
+        answered = false;
+
         questionContainer = new UIScreenContainer();
 
         timeCount = new UIText();
@@ -46,6 +48,7 @@ public class QuestionUI extends UIScreenContainer {
 
             int questionIndex = i;
             answerBtn.onClick(() -> {
+                answered = true;
                 if (question.getRight() == questionIndex) {
                     success = true;
                     end("Bonne réponse !");
@@ -64,7 +67,7 @@ public class QuestionUI extends UIScreenContainer {
 
     @Override
     public void update(double frameTime) {
-        if (!time_is_out) {
+        if (!time_is_out && !answered) {
             double time = System.nanoTime()/1000000000.0 - beginTime;
             int remaining = (int) Math.ceil(30 - time);
             timeCount.setText(String.valueOf(remaining));
