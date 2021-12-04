@@ -3,3 +3,4 @@ target/
 *.iml
 questions.xml
 settings.txt
+profiles.xml

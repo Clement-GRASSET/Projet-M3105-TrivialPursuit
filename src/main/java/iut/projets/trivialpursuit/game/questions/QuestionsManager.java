@@ -86,6 +86,8 @@ public class QuestionsManager {
         createCategory("Science");
         createCategory("Y");
         createCategory("Nature");
+        createCategory("Arts");
+        createCategory("Sports");
 
         createDifficulty("Histoire", "Débutant");
         createDifficulty("Histoire", "Intermédiaire");
@@ -103,8 +105,19 @@ public class QuestionsManager {
         createDifficulty("Nature", "Intermédiaire");
         createDifficulty("Nature", "Expert");
 
-        createQuestion("Y", "Intermédiaire", "Que doit-on faire afin d'être en bonne santé ?", "Aller chez le médecin", "Aller dans un désert sans provisions", "Ne pas se suicider", "Boire beaucoup d'eau", 1);
+        createDifficulty("Arts", "Débutant");
+        createDifficulty("Arts", "Intermédiaire");
+        createDifficulty("Arts", "Expert");
+
+        createDifficulty("Sports", "Débutant");
+        createDifficulty("Sports", "Intermédiaire");
+        createDifficulty("Sports", "Expert");
+
         createQuestion("Y", "Débutant", "Quel est la bonne méthode pour être le plus efficace possible ?", "Avoir une approche scientifique", "Être rigoureux", "Avoir du talent", "Laisser tomber", 0);
+        createQuestion("Y", "Intermédiaire", "Que doit-on faire afin d'être en bonne santé ?", "Aller chez le médecin", "Aller dans un désert sans provisions", "Ne pas se suicider", "Boire beaucoup d'eau", 1);
+        createQuestion("Y", "Expert", "Quel est la meilleure qualification lors d'un entretien professionnel ?", "Être qualifié", "Être allemand", "Être riche", "Avoir un background", 3);
+
+        createQuestion("Arts", "Débutant", "Qu'est-ce qui indique qu'un produit a une grande qualité ?", "Il coûte cher de fou", "Il est recommandé par Olivier Mine", "Sardoche a tapé dessus", "Il a reçu un prix", 2);
     }
 
 
@@ -155,41 +168,46 @@ public class QuestionsManager {
             e.printStackTrace();
         }
 
-            NodeList catlist = getRoot().getElementsByTagName("Category");
+        NodeList catlist = getRoot().getElementsByTagName("Category");
 
-            for (int i = 0; i < catlist.getLength(); i++) {
-                Element catnode = (Element) catlist.item(i);
-                String catname = catnode.getAttribute("name");
-                question_list.put(catname, new HashMap<>());
+        for (int i = 0; i < catlist.getLength(); i++) {
+            Element catnode = (Element) catlist.item(i);
+            String catname = catnode.getAttribute("name");
+            question_list.put(catname, new HashMap<>());
 
-                NodeList difflist = catnode.getElementsByTagName("Difficulty");
+            NodeList difflist = catnode.getElementsByTagName("Difficulty");
 
-                for (int j = 0; j < difflist.getLength(); j++) {
-                    Element diffnode = (Element) difflist.item(j);
-                    String diffname = diffnode.getAttribute("name");
-                    NodeList qlist = diffnode.getElementsByTagName("Question");
+            for (int j = 0; j < difflist.getLength(); j++) {
+                Element diffnode = (Element) difflist.item(j);
+                String diffname = diffnode.getAttribute("name");
+                NodeList qlist = diffnode.getElementsByTagName("Question");
 
-                    question_list.get(catname).put(diffname, new ArrayList<>());
+                question_list.get(catname).put(diffname, new ArrayList<>());
 
-                    for (int k = 0; k < qlist.getLength(); k++) {
-                        Element qnode = (Element) qlist.item(k);
-                        Question question = new Question();
+                for (int k = 0; k < qlist.getLength(); k++) {
+                    Element qnode = (Element) qlist.item(k);
+                    Question question = new Question();
 
-                        question.question = qnode.getAttribute("name");
+                    question.question = qnode.getAttribute("name");
 
-                        question.answer = new String[] {qnode.getChildNodes().item(1).getTextContent(),
-                                                        qnode.getChildNodes().item(3).getTextContent(),
-                                                        qnode.getChildNodes().item(5).getTextContent(),
-                                                        qnode.getChildNodes().item(7).getTextContent()};
+                    /*System.out.println(qnode.getChildNodes().item(0).getTextContent() + " "
+                            + qnode.getChildNodes().item(1).getTextContent() + " "
+                            + qnode.getChildNodes().item(2).getTextContent() + " "
+                            + qnode.getChildNodes().item(3).getTextContent());*/
 
-                        question.right = Integer.parseInt( qnode.getAttribute("right") );
+                    question.answer = new String[] {qnode.getChildNodes().item(0).getTextContent(),
+                                                    qnode.getChildNodes().item(1).getTextContent(),
+                                                    qnode.getChildNodes().item(2).getTextContent(),
+                                                    qnode.getChildNodes().item(3).getTextContent()};
 
-                        //showQuestion(question);
+                    question.right = Integer.parseInt( qnode.getAttribute("right") );
 
-                        question_list.get(catname).get(diffname).add(question);
-                    }
+                    showQuestion(question);
+
+                    question_list.get(catname).get(diffname).add(question);
                 }
             }
+        }
 
         //showQuestion(question_list.get("Y").get("Débutant").get(0));
     }

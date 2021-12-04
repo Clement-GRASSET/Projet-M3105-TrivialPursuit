@@ -3,6 +3,7 @@ package iut.projets.trivialpursuit;
 import iut.projets.trivialpursuit.engine.Game;
 import iut.projets.trivialpursuit.engine.SceneManager;
 import iut.projets.trivialpursuit.engine.Settings;
+import iut.projets.trivialpursuit.game.ProfilesManager;
 import iut.projets.trivialpursuit.game.questions.QuestionsManager;
 import iut.projets.trivialpursuit.game.scenes.StartScene;
 
@@ -12,6 +13,10 @@ public class Main {
         //test questions XML
         QuestionsManager.load();
         QuestionsManager.reset();
+
+        //test profiles XML
+        ProfilesManager.load();
+        ProfilesManager.reset();
 
         Game trivialPursuit = new Game("Trivial Pursuit") {
             @Override
