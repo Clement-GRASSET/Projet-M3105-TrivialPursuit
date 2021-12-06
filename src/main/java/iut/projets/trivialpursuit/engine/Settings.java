@@ -36,10 +36,16 @@ public class Settings {
 
             try {
                 boolean ShowDebug = Boolean.parseBoolean(getValue("ShowDebug", String.valueOf(false)));
-                System.out.println("ShowDebug: " + ShowDebug);
                 setShowDebug(ShowDebug);
             } catch (Exception e) {
                 setShowDebug(false);
+            }
+
+            try {
+                boolean FullScreen = Boolean.parseBoolean(getValue("FullScreen", String.valueOf(false)));
+                setFullScreen(FullScreen);
+            } catch (Exception e) {
+                setFullScreen(false);
             }
 
             save();
@@ -78,9 +84,13 @@ public class Settings {
     }
 
     public static void setShowDebug(boolean showDebug) {
-        System.out.println("ShowDebug: " + showDebug);
         properties.put("ShowDebug", String.valueOf(showDebug));
         Game.getGameLoop().setDebug(showDebug);
+    }
+
+    public static void setFullScreen(boolean fullScreen) {
+        properties.put("ShowDebug", String.valueOf(fullScreen));
+        Game.getWindow().setFullScreen(fullScreen);
     }
 
 }

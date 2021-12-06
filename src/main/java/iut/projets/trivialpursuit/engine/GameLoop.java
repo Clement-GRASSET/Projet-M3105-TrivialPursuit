@@ -83,7 +83,7 @@ public class GameLoop extends Thread {
 
     private void drawDebug(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(0, 150, 230, 170);
+        g.fillRect(0, 150, 230, 150);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.PLAIN, 16));
         g.drawString("FPS: " + String.format("%,.0f", 1/frameTime), 10, 180);
@@ -92,7 +92,6 @@ public class GameLoop extends Thread {
         g.drawString("UI tick: " + String.format("%,.3f",UITick) + " ms", 10, 240);
         g.drawString("Scene render : " + String.format("%,.3f",sceneRender) + " ms", 10, 260);
         g.drawString("UI render: " + String.format("%,.3f",UIRender) + " ms", 10, 280);
-        g.drawString("Lost: " + String.format("%,.3f",(frameTime*1000)-total) + " ms", 10, 300);
     }
 
     public void setDebug(boolean debug) {
