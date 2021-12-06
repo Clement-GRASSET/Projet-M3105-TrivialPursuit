@@ -89,7 +89,7 @@ public class Settings {
     }
 
     public static void setFullScreen(boolean fullScreen) {
-        properties.put("ShowDebug", String.valueOf(fullScreen));
+        properties.put("FullScreen", String.valueOf(fullScreen));
         Game.getWindow().setFullScreen(fullScreen);
     }
 

@@ -213,19 +213,6 @@ public class SceneManager {
 
                     boolean isPixelFlat = normals.getRed()==127 && normals.getGreen()==127 && normals.getBlue()==255;
 
-                    // Création d'un vecteur de longueur 1 représentant la direction du pixel
-                    Vector3D pixel_angle;
-                    if (isPixelFlat) {
-                        pixel_angle = new Vector3D(0,0,1);
-                    } else {
-                        pixel_angle = new Vector3D(
-                                (normals.getRed()/255.0 - 0.5) * 2,
-                                (normals.getGreen()/255.0 - 0.5) * -2,
-                                (normals.getBlue()/255.0 - 0.5) * 2
-                        );
-                    }
-
-
                     // Eclairage du pixel
                     Vector3D lightColor = new Vector3D(0,0,0);
 
@@ -235,8 +222,9 @@ public class SceneManager {
 
                         double lightValue = 0;
 
-                        if (isPixelFlat)
+                        if (isPixelFlat) {
                             lightValue = light.intensityAtFlatNormal;  // Si le pixel est "plat", on utilise la valeur déja calculée
+                        }
                         else {
                             // Direction inversée de la lumière
                             Vector3D direction = new Vector3D(
@@ -246,7 +234,11 @@ public class SceneManager {
                             );
 
                             // Quantité de lumière sur le pixel en fonction des angles (Produit scalaire de pixel_angle et direction)
-                            lightValue = Math.max(Vector3D.dot(pixel_angle, direction), 0);
+                            lightValue = Math.max(Vector3D.dot(new Vector3D(
+                                    (normals.getRed()/255.0 - 0.5) * 2,
+                                    (normals.getGreen()/255.0 - 0.5) * -2,
+                                    (normals.getBlue()/255.0 - 0.5) * 2
+                            ), direction), 0);
                         }
 
                         Vector3D intensity = light.directionalLight.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
@@ -269,7 +261,11 @@ public class SceneManager {
                             Vector3D direction = Vector3D.normalize( new Vector3D(
                                     screenPositionX-x, screenPositionY-y, light.pointLight.getHeight()*height/100.0
                             ));
-                            lightValue = Math.max(Vector3D.dot(pixel_angle, direction), 0) * Math.pow(1-distance, 2);
+                            lightValue = Math.max(Vector3D.dot(new Vector3D(
+                                    (normals.getRed()/255.0 - 0.5) * 2,
+                                    (normals.getGreen()/255.0 - 0.5) * -2,
+                                    (normals.getBlue()/255.0 - 0.5) * 2
+                            ), direction), 0) * Math.pow(1-distance, 2);
 
                             Vector3D intensity = light.pointLight.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
                             // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
