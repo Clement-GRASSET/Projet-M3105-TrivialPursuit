@@ -88,6 +88,7 @@ public class Pawn extends Actor {
     }
 
     public void addSlice(TrivialPursuitColor color) {
+        if (slices.containsKey(color)) return;
         Slice slice = (Slice) getScene().addActor(Slice.class);
         slice.setColor(color);
         slice.setScale(getScale());

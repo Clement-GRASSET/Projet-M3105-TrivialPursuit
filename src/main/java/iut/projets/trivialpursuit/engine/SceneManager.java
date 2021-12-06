@@ -186,16 +186,18 @@ public class SceneManager {
         int [] finalBufferPixels = ( (DataBufferInt) finalBuffer.getRaster().getDataBuffer() ).getData();
 
         // Préparation des lumières
-        List<DirectionalLightToRender> directionalLights = new ArrayList<>();
-        for (DirectionalLight directionalLight : scene.getDirectionalLights()) {
-            directionalLights.add(new DirectionalLightToRender(directionalLight));
+        int nbDirectionalLights = scene.getDirectionalLights().size();
+        DirectionalLightToRender [] directionalLights = new DirectionalLightToRender[nbDirectionalLights];
+        for (int i = 0; i < nbDirectionalLights; i++) {
+            directionalLights[i] = new DirectionalLightToRender(scene.getDirectionalLights().get(i));
         }
-        int nbDirectionalLights = directionalLights.size();
-        List<PointLightToRender> pointLights = new ArrayList<>();
-        for (PointLight pointLight : scene.getPointLights()) {
-            pointLights.add(new PointLightToRender(pointLight));
+
+        int nbPointLights = scene.getPointLights().size();
+        PointLightToRender [] pointLights = new PointLightToRender[nbPointLights];
+        for (int i = 0; i < nbPointLights; i++) {
+            pointLights[i] = new PointLightToRender(scene.getPointLights().get(i));
         }
-        int nbPointLights = pointLights.size();
+
 
         // Création de threads (1 par CPU) qui vont traiter chacuns une partie de l'image
         for (int i = 0; i < nbThreads; i++) {
@@ -218,7 +220,7 @@ public class SceneManager {
 
                     for (int k = 0; k < nbDirectionalLights; k++) {
 
-                        DirectionalLightToRender light = directionalLights.get(k);
+                        DirectionalLightToRender light = directionalLights[k];
 
                         double lightValue = 0;
 
@@ -251,7 +253,7 @@ public class SceneManager {
                     }
 
                     for (int k = 0; k < nbPointLights; k++) {
-                        PointLightToRender light = pointLights.get(k);
+                        PointLightToRender light = pointLights[k];
                         int screenPositionX = light.x;
                         int screenPositionY = light.y;
                         double distance = Math.sqrt((x-screenPositionX)*(x-screenPositionX) + (y-screenPositionY)*(y-screenPositionY))/light.radius;
