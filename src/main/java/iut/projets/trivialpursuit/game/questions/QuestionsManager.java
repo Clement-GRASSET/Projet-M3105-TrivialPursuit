@@ -16,7 +16,7 @@ import java.io.File;
 import java.util.*;
 
 public class QuestionsManager {
-
+    private static boolean fexists = false;
     static Map<String, Map<String, List<Question>>> question_list;
 
     private static Document questions_doc;
@@ -115,11 +115,25 @@ public class QuestionsManager {
         createDifficulty("Sports", "Intermédiaire");
         createDifficulty("Sports", "Expert");
 
-        createQuestion("Y", "Débutant", "Quel est la bonne méthode pour être le plus efficace possible ?", "Avoir une approche scientifique", "Être rigoureux", "Avoir du talent", "Laisser tomber", 0);
+        createQuestion("Y", "Débutant", "Quelle est la bonne méthode pour être le plus efficace possible ?", "Avoir une approche scientifique", "Être rigoureux", "Avoir du talent", "Laisser tomber", 0);
         createQuestion("Y", "Intermédiaire", "Que doit-on faire afin d'être en bonne santé ?", "Aller chez le médecin", "Aller dans un désert sans provisions", "Ne pas se suicider", "Boire beaucoup d'eau", 1);
-        createQuestion("Y", "Expert", "Quel est la meilleure qualification lors d'un entretien professionnel ?", "Être qualifié", "Être allemand", "Être riche", "Avoir un background", 3);
+        createQuestion("Y", "Expert", "Quelle est la meilleure qualification lors d'un entretien professionnel ?", "Être qualifié", "Être allemand", "Être riche", "Avoir un background", 3);
 
         createQuestion("Arts", "Débutant", "Qu'est-ce qui indique qu'un produit a une grande qualité ?", "Il coûte cher de fou", "Il est recommandé par Olivier Mine", "Sardoche a tapé dessus", "Il a reçu un prix", 2);
+        createQuestion("Arts", "Intermédiaire", "Quel est le symbole de la beauté ?", "Dora", "Fabio Lanzoni", "Le nombril d'Adibou", "La beauté", 3);
+        createQuestion("Arts", "Expert", "Quelle viande coûte le plus ?", "Le boeuf", "Le porc", "Le poulet", "La viande d'oiseau", 3);
+
+        createQuestion("Science", "Débutant", "Quel est le pays ayant le plus de souffrance ?", "Allemagne", "Russie", "Espagne", "Groenland", 2);
+        createQuestion("Science", "Intermédiaire", "cos(π)(-exp(iπ))+ln(1) = ?", "0", "π", "√2/2", "1", 0);
+        createQuestion("Science", "Expert", "Si lorsqu'une fille a deux ans, sa soeur en a la moitié soit un an, quel âge a la petite soeur quand la grande en a cent ?", "50", "99", "75", "98", 1);
+
+        createQuestion("Histoire", "Débutant", "Où se trouve l'Australie ?", "En (-33.868857, 151.206079)", "Entre l'Afrique et l'Amérique du Sud", "À l'envers", "En Allemagne", 2);
+        createQuestion("Histoire", "Intermédiaire", "Quelles sont les coordonnées de l'Allemagne ?", "(35.861660, 104.195397)", "(-85, 65)", "(35, -98)", "(51.165691, 10.451526)", 3);
+        createQuestion("Histoire", "Expert", "Qu'est-ce qui intéresse le plus le France ?", "Le nombre de bureaux cassés par Sardoche", "La communication en entreprise", "Le salaire des allemands", "Si le top 15 est possible", 0);
+
+        createQuestion("Nature", "Débutant", "Qui a le temps de fermentation le plus long ?", "Yaourt lait demi-écrémé", "L'humour", "Yaourt lait entier", "Emmental", 1);
+        createQuestion("Nature", "Intermédiaire", "Qu'est-ce que la tomate ?", "Un fruit", "Un légume", "Un maskass en boule", "Mario", 2);
+        createQuestion("Nature", "Expert", "Quel paiement est le plus utilisé ?", "Espèce", "Carte", "Nature", "Chèque", 2);
     }
 
 
@@ -155,6 +169,7 @@ public class QuestionsManager {
             if (file.exists()) {
                 questions_doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file);
                 System.out.println("Chargé");
+                fexists = true;
             } else {
                 questions_doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
 
@@ -165,6 +180,7 @@ public class QuestionsManager {
 
                 save();
                 System.out.println("Créé");
+                fexists = false;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -197,10 +213,21 @@ public class QuestionsManager {
                             + qnode.getChildNodes().item(2).getTextContent() + " "
                             + qnode.getChildNodes().item(3).getTextContent());*/
 
-                    question.answer = new String[] {qnode.getChildNodes().item(0).getTextContent(),
-                                                    qnode.getChildNodes().item(1).getTextContent(),
-                                                    qnode.getChildNodes().item(2).getTextContent(),
-                                                    qnode.getChildNodes().item(3).getTextContent()};
+                    if (!fexists)
+                    {
+                        //System.out.println("! fexists " + fexists);
+                        question.answer = new String[]{ qnode.getChildNodes().item(0).getTextContent(),
+                                                        qnode.getChildNodes().item(1).getTextContent(),
+                                                        qnode.getChildNodes().item(2).getTextContent(),
+                                                        qnode.getChildNodes().item(3).getTextContent()};
+                    }
+                    else {
+                        //System.out.println("fexists " + fexists);
+                        question.answer = new String[]{ qnode.getChildNodes().item(1).getTextContent(),
+                                                        qnode.getChildNodes().item(3).getTextContent(),
+                                                        qnode.getChildNodes().item(5).getTextContent(),
+                                                        qnode.getChildNodes().item(7).getTextContent()};
+                    }
 
                     question.right = Integer.parseInt( qnode.getAttribute("right") );
 
