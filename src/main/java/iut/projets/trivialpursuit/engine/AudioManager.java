@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.engine.audio;
+package iut.projets.trivialpursuit.engine;
 
 import iut.projets.trivialpursuit.game.scenes.MainMenuScene;
 

@@ -15,8 +15,10 @@ public class GameLoadingScreen extends UIScreenContainer {
     private final UIImage background, logo, loadingSpinner;
     private Runnable onConstructAnimationFinished;
 
-    GameLoadingScreen() {
+    public GameLoadingScreen() {
         onConstructAnimationFinished = () -> {};
+
+        setRenderOrder(10);
 
         background = new UIImage();
         background.setImageUniform(Color.BLACK);

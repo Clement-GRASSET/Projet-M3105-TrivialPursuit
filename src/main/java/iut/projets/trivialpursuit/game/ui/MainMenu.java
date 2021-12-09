@@ -2,7 +2,7 @@ package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.SceneManager;
 import iut.projets.trivialpursuit.engine.UIManager;
-import iut.projets.trivialpursuit.engine.audio.Sound;
+import iut.projets.trivialpursuit.engine.Sound;
 import iut.projets.trivialpursuit.engine.basetypes.Delay;
 import iut.projets.trivialpursuit.engine.core.UIContainer;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
@@ -120,7 +120,6 @@ public class MainMenu extends UIScreenContainer {
             startButton.onClick( () -> {
                 menuMusic.stop();
                 GameLoadingScreen gameLoadingScreen = new GameLoadingScreen();
-                gameLoadingScreen.setRenderOrder(10);
                 gameLoadingScreen.onConstructAnimationFinished(() -> {
                     Delay delay = new Delay(2);
                     delay.onFinish(() -> {
@@ -154,7 +153,7 @@ public class MainMenu extends UIScreenContainer {
 
         music_bpm = 132.0;
 
-        menuMusic = new Sound(Resources.getInputStream("/sounds/musics/main_menu.wav"));
+        menuMusic = Resources.getSound("/sounds/musics/main_menu.wav");
         menuMusic.setLoop(true, (60.0/music_bpm)*44);
         menuMusic.setVolume(0.5f);
         menuMusic.play();

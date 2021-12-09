@@ -12,7 +12,6 @@ import java.util.Map;
 public class Resources {
 
     private static final Map<String, BufferedImage> images = new HashMap<>();
-    private static final Map<String, InputStream> inputStreams = new HashMap<>();
     private static final Map<String, Font> fonts = new HashMap<>();
 
     public static Image getImage(String name) {
@@ -22,20 +21,6 @@ public class Resources {
             try {
                 loadImage(name);
                 return images.get(name);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
-    }
-
-    public static InputStream getInputStream(String name) {
-        if (inputStreams.containsKey(name)) {
-            return inputStreams.get(name);
-        } else {
-            try {
-                loadInputStream(name);
-                return inputStreams.get(name);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -62,9 +47,15 @@ public class Resources {
         images.put( name, ImageIO.read( getResource(name) ) );
     }
 
-    public static void loadInputStream(String name) throws IOException {
-        System.out.println("Loading " + name + "...");
-        inputStreams.put( name, getResourceAsStream(name) );
+    public static Sound getSound(String name) {
+        try {
+            InputStream bufferedIS = getResourceAsStream(name);
+            return new Sound(bufferedIS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return null;
     }
 
     public static void loadFont(String name) throws IOException, FontFormatException {

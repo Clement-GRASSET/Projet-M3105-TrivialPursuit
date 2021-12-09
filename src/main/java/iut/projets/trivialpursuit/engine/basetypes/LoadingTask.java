@@ -4,8 +4,6 @@ import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.core.GameObject;
 import iut.projets.trivialpursuit.engine.core.Task;
 
-import java.io.IOException;
-
 public class LoadingTask extends Task {
 
     private final Thread loadThread;
@@ -13,23 +11,24 @@ public class LoadingTask extends Task {
     private int done;
     private final int total;
 
-    public LoadingTask(String [] images, String [] inputStreams) {
+    public LoadingTask(String [] images, String [] fonts) {
         super();
         isLoaded = false;
         done = 0;
-        total = images.length + inputStreams.length;
+        total = images.length + fonts.length;
         loadThread = new Thread(() -> {
             try {
                 for (String image : images) {
                     Resources.loadImage(image);
                     done++;
                 }
-                for (String inputStream : inputStreams) {
-                    Resources.loadInputStream(inputStream);
+                for (String font : fonts) {
+                    Resources.loadFont(font);
                     done++;
                 }
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
+                System.exit(1);
             }
             isLoaded = true;
         });

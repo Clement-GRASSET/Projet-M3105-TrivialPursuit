@@ -60,13 +60,10 @@ public class StartScene extends Scene {
                 "/images/case_button_hover.png",
                 "/images/case_button_press.png",
         };
-        String [] inputStreams = {
-                "/sounds/musics/main_menu.wav",
-                "/sounds/musics/origamiKingBB.wav",
-                "/sounds/musics/origamiKingBBT.wav"
+        String [] fonts = {
         };
 
-        LoadingTask loadingTask = new LoadingTask(images, inputStreams);
+        LoadingTask loadingTask = new LoadingTask(images, fonts);
         loadingTask.onUpdate(() -> {
             splashScreen.setProgress(loadingTask.getProgress());
         });

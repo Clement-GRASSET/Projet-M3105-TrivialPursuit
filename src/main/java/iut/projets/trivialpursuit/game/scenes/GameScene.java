@@ -1,8 +1,9 @@
 package iut.projets.trivialpursuit.game.scenes;
 
 import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.engine.SceneManager;
 import iut.projets.trivialpursuit.engine.UIManager;
-import iut.projets.trivialpursuit.engine.audio.Sound;
+import iut.projets.trivialpursuit.engine.Sound;
 import iut.projets.trivialpursuit.engine.basetypes.Animation;
 import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
 import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
@@ -63,8 +64,8 @@ public class GameScene extends Scene {
 
         this.gameBoard = (GameBoard) addActor(GameBoard.class);
 
-        music = new Sound(Resources.getInputStream("/sounds/musics/origamiKingBB.wav"));
-        music_thinking = new Sound(Resources.getInputStream("/sounds/musics/origamiKingBBT.wav"));
+        music = Resources.getSound("/sounds/musics/origamiKingBB.wav");
+        music_thinking = Resources.getSound("/sounds/musics/origamiKingBBT.wav");
     }
 
     @Override
@@ -156,8 +157,34 @@ public class GameScene extends Scene {
                         if (c.getType() == Case.CaseType.ROLL_AGAIN) {
                             beginTurn();
                         } else if (c.getType() == Case.CaseType.MULTI) {
-                            playerIndex = Math.floorMod(playerIndex + 1, players.size());
-                            newTurn();
+                            Map<TrivialPursuitColor, Boolean> playerScore = scores.get(player);
+                            if (
+                                    playerScore.get(TrivialPursuitColor.BLUE) &&
+                                    playerScore.get(TrivialPursuitColor.GREEN) &&
+                                    playerScore.get(TrivialPursuitColor.ORANGE) &&
+                                    playerScore.get(TrivialPursuitColor.PINK) &&
+                                    playerScore.get(TrivialPursuitColor.PURPLE) &&
+                                    playerScore.get(TrivialPursuitColor.YELLOW)
+                            ) {
+                                Profile.Category questionCategory = player.getProfile().getCategory(TrivialPursuitColor.BLUE);
+                                Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
+                                QuestionUI questionUI = new QuestionUI(question);
+                                questionUI.onDestroy(() -> {
+                                    switchMusic(music_thinking, music);
+                                    setLightIntensity(light, lightDefaultIntensity, 0.5);
+                                    setLightIntensity(questionLight, new Vector3D(0, 0, 0), 0.5);
+                                    if (questionUI.getSuccess()) {
+                                        end(player);
+                                    } else {
+                                        playerIndex = Math.floorMod(playerIndex + 1, players.size());
+                                        newTurn();
+                                    }
+                                });
+                                UIManager.addElement(questionUI);
+                            } else {
+                                playerIndex = Math.floorMod(playerIndex + 1, players.size());
+                                newTurn();
+                            }
                         } else {
 
                             setLightIntensity(light, lightQuestionIntensity, 0.5);
@@ -200,6 +227,23 @@ public class GameScene extends Scene {
         });
 
         UIManager.addElement(randomNumberUI);
+    }
+
+    private void end(Player player) {
+        music.stop();
+        music_thinking.stop();
+        ResultsUI resultsUI = new ResultsUI(player);
+        resultsUI.onBackToMenuClicked(() -> {
+            GameLoadingScreen loadingScreen = new GameLoadingScreen();
+            loadingScreen.onConstructAnimationFinished(() -> {
+                UIManager.removeElement(resultsUI);
+                UIManager.removeElement(gameUI);
+                SceneManager.setActiveScene(new MainMenuScene());
+                loadingScreen.remove();
+            });
+            UIManager.addElement(loadingScreen);
+        });
+        UIManager.addElement(resultsUI);
     }
 
     private void moveCameraTo(Vector2D position, double zoom, double speed, Runnable then) {
