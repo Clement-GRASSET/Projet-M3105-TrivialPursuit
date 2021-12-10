@@ -317,6 +317,10 @@ public class SceneManager {
         recreateBuffers();
     }
 
+    public static double getRenderScale() {
+        return renderScale;
+    }
+
     public static void setRenderScale(double renderScale) {
         SceneManager.renderScale = renderScale;
         if (canvasWidth != 0 && canvasHeight != 0) // Emepeche la création des buffers si la fenetre n'a pas été initialisée

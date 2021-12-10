@@ -18,6 +18,10 @@ public class UITextButton extends UIButton {
         addElement(textElement);
     }
 
+    public UIText getTextElement() {
+        return textElement;
+    }
+
     public void setText(String text) {
         textElement.setText(text);
     }

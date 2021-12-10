@@ -73,9 +73,17 @@ public class Settings {
         }
     }
 
+    public static int getMaxFPS() {
+        return Game.getGameLoop().getMaxFPS();
+    }
+
     public static void setMaxFPS(int fps) {
         properties.put("MaxFPS", String.valueOf(fps));
         Game.getGameLoop().setMaxFPS(fps);
+    }
+
+    public static double getRenderScale() {
+        return SceneManager.getRenderScale();
     }
 
     public static void setRenderScale(double scale) {
@@ -86,6 +94,10 @@ public class Settings {
     public static void setShowDebug(boolean showDebug) {
         properties.put("ShowDebug", String.valueOf(showDebug));
         Game.getGameLoop().setDebug(showDebug);
+    }
+
+    public static boolean getFullScreen() {
+        return Game.getWindow().isFullScreen();
     }
 
     public static void setFullScreen(boolean fullScreen) {

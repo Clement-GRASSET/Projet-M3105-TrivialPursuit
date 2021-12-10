@@ -72,6 +72,11 @@ public class GameLoop extends Thread {
 
         g.dispose();
         bufferStrategy.show();
+
+    }
+
+    public int getMaxFPS() {
+        return (minFrameLength == 0) ? 0 : (int) (1000000000.0/minFrameLength);
     }
 
     public void setMaxFPS(int fps) {

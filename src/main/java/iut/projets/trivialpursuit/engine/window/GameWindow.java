@@ -28,6 +28,10 @@ public class GameWindow extends JFrame {
         return canvas;
     }
 
+    public boolean isFullScreen() {
+        return isFullScreen;
+    }
+
     public void setFullScreen(boolean fullScreen) {
         if (isFullScreen == fullScreen) return;
         dispose();
@@ -42,6 +46,7 @@ public class GameWindow extends JFrame {
         setLocationRelativeTo(null);
         setUndecorated(fullScreen);
         setVisible(true);
+        canvas.createBufferStrategy(2);
         isFullScreen = fullScreen;
     }
 }

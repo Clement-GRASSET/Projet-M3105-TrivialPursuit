@@ -76,20 +76,6 @@ public class MainMenu extends UIScreenContainer {
         }
     }
 
-    private class OptionsMenu extends UIScreenContainer {
-        OptionsMenu() {
-            UITextButton backButton = new UITextButton("Retour");
-            backButton.setAnchor(Anchor.BOTTOM_LEFT);
-            backButton.setAlignment(new Vector2D(1, -1));
-            backButton.setPosition(new Vector2D(5, -3));
-            backButton.setSize(new Vector2D(17, 7));
-            backButton.onClick( () -> {
-                setActiveMenu(titleScreen);
-            });
-            addElement(backButton);
-        }
-    }
-
     private class ProfileSelectionScreen extends UIScreenContainer {
         ProfileSelectionScreen() {
             UITextButton backButton = new UITextButton("Retour");
@@ -137,7 +123,8 @@ public class MainMenu extends UIScreenContainer {
     }
 
     private final MainMenu mainMenu = this; // reference au menu
-    private final UIContainer titleScreen, optionsMenu, profileSelectionScreen;
+    private final UIContainer titleScreen, profileSelectionScreen;
+    private final Options optionsMenu;
     private UIImage logo;
     private UIContainer activeMenu;
     private final Sound menuMusic;
@@ -166,7 +153,10 @@ public class MainMenu extends UIScreenContainer {
         addElement(background);
 
         titleScreen = new TitleScreen();
-        optionsMenu = new OptionsMenu();
+        optionsMenu = new Options();
+        optionsMenu.onBackClicked(() -> {
+            setActiveMenu(titleScreen);
+        });
         profileSelectionScreen = new ProfileSelectionScreen();
 
         setActiveMenu(titleScreen);
