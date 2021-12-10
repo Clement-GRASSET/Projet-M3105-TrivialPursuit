@@ -1,6 +1,7 @@
 package iut.projets.trivialpursuit.engine;
 
 import javax.sound.sampled.*;
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 
 public class Sound {
@@ -9,9 +10,10 @@ public class Sound {
     float volume;
     double soundLength;
 
-    Sound(InputStream bufferedIS) {
+    Sound(InputStream inputStream) {
         volume = 1;
         try {
+            InputStream bufferedIS = new BufferedInputStream(inputStream);
             AudioInputStream ais = AudioSystem.getAudioInputStream(bufferedIS);
             AudioFormat base_format = ais.getFormat();
             AudioFormat decoded_format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,

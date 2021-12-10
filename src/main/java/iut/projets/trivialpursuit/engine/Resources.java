@@ -49,8 +49,7 @@ public class Resources {
 
     public static Sound getSound(String name) {
         try {
-            InputStream bufferedIS = getResourceAsStream(name);
-            return new Sound(bufferedIS);
+            return new Sound(getResourceAsStream(name));
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
