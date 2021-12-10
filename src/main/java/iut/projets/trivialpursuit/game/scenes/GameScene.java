@@ -11,10 +11,7 @@ import iut.projets.trivialpursuit.engine.basetypes.PointLight;
 import iut.projets.trivialpursuit.engine.core.Light;
 import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.*;
-import iut.projets.trivialpursuit.game.GameInfo;
-import iut.projets.trivialpursuit.game.Player;
-import iut.projets.trivialpursuit.game.Profile;
-import iut.projets.trivialpursuit.game.TrivialPursuitColor;
+import iut.projets.trivialpursuit.game.*;
 import iut.projets.trivialpursuit.game.actors.Case;
 import iut.projets.trivialpursuit.game.actors.Pawn;
 import iut.projets.trivialpursuit.game.actors.GameBoard;
@@ -34,10 +31,9 @@ public class GameScene extends Scene {
     private final PointLight mouseLight;
     double compteur;
     private final Sound music, music_thinking;
-    private Sound activeMusic;
     private final List<Player> players;
     private final Map<Player, Pawn> pawns;
-    private final Map<Player, Map<TrivialPursuitColor, Boolean>> scores;
+    private final Map<Player, PlayerScores> scores;
     private final GameBoard gameBoard;
     private final GameUI gameUI;
     private int playerIndex;
@@ -92,8 +88,6 @@ public class GameScene extends Scene {
         music.play();
         music_thinking.play();
 
-        activeMusic = music;
-
         for (int i = 0; i < players.size(); i++) {
             Pawn pawn = (Pawn) addActor(Pawn.class);
             double rotation = Rotation.deg( 180 - i * 360.0/players.size() ).getRad();
@@ -103,14 +97,7 @@ public class GameScene extends Scene {
             pawn.setRenderOrder(i);
             pawns.put(players.get(i), pawn);
 
-            Map<TrivialPursuitColor, Boolean> playerScore = new HashMap<>();
-            playerScore.put(TrivialPursuitColor.BLUE, false);
-            playerScore.put(TrivialPursuitColor.GREEN, false);
-            playerScore.put(TrivialPursuitColor.ORANGE, false);
-            playerScore.put(TrivialPursuitColor.PINK, false);
-            playerScore.put(TrivialPursuitColor.PURPLE, false);
-            playerScore.put(TrivialPursuitColor.YELLOW, false);
-            scores.put(players.get(i), playerScore);
+            scores.put(players.get(i), new PlayerScores());
         }
 
         playIntroAnimation(() -> {
@@ -157,16 +144,10 @@ public class GameScene extends Scene {
                         if (c.getType() == Case.CaseType.ROLL_AGAIN) {
                             beginTurn();
                         } else if (c.getType() == Case.CaseType.MULTI) {
-                            Map<TrivialPursuitColor, Boolean> playerScore = scores.get(player);
-                            if (
-                                    playerScore.get(TrivialPursuitColor.BLUE) &&
-                                    playerScore.get(TrivialPursuitColor.GREEN) &&
-                                    playerScore.get(TrivialPursuitColor.ORANGE) &&
-                                    playerScore.get(TrivialPursuitColor.PINK) &&
-                                    playerScore.get(TrivialPursuitColor.PURPLE) &&
-                                    playerScore.get(TrivialPursuitColor.YELLOW)
-                            ) {
-                                Profile.Category questionCategory = player.getProfile().getCategory(TrivialPursuitColor.BLUE);
+                            if (scores.get(player).isComplete()) {
+                                TrivialPursuitColor questionColor = scores.get(player).getMostFailedColor();
+
+                                Profile.Category questionCategory = player.getProfile().getCategory(questionColor);
                                 Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
                                 QuestionUI questionUI = new QuestionUI(question);
                                 questionUI.onDestroy(() -> {
@@ -176,6 +157,7 @@ public class GameScene extends Scene {
                                     if (questionUI.getSuccess()) {
                                         end(player);
                                     } else {
+                                        scores.get(player).addAttempt(questionColor, false);
                                         playerIndex = Math.floorMod(playerIndex + 1, players.size());
                                         newTurn();
                                     }
@@ -202,11 +184,12 @@ public class GameScene extends Scene {
                                     setLightIntensity(light, lightDefaultIntensity, 0.5);
                                     setLightIntensity(questionLight, new Vector3D(0,0,0), 0.5);
                                     if (questionUI.getSuccess()) {
-                                        scores.get(player).put(c.getColor(), true);
+                                        scores.get(player).addAttempt(c.getColor(), true);
                                         pawns.get(player).addSlice(c.getColor());
                                         gameUI.updateScores();
                                         beginTurn();
                                     } else {
+                                        scores.get(player).addAttempt(c.getColor(), false);
                                         playerIndex = Math.floorMod(playerIndex + 1, players.size());
                                         newTurn();
                                     }

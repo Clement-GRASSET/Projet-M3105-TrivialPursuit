@@ -7,6 +7,7 @@ import iut.projets.trivialpursuit.engine.basetypes.UIImage;
 import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
 import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.game.Player;
+import iut.projets.trivialpursuit.game.PlayerScores;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
 import java.util.HashMap;
@@ -91,10 +92,10 @@ public class GameUI extends UIScreenContainer {
     }
 
     private final List<Player> players;
-    private final Map<Player, Map<TrivialPursuitColor, Boolean>> scores;
+    private final Map<Player, PlayerScores> scores;
     private final Map<Player, PlayerStatsUI> playerStatsUI;
 
-    public GameUI(List<Player> players, Map<Player, Map<TrivialPursuitColor, Boolean>> scores) {
+    public GameUI(List<Player> players, Map<Player, PlayerScores> scores) {
         this.players = players;
         this.scores = scores;
         playerStatsUI = new HashMap<>();
@@ -108,10 +109,10 @@ public class GameUI extends UIScreenContainer {
     }
 
     public void updateScores() {
-        scores.forEach((player, colorMap) -> {
-            colorMap.forEach((color, value) -> {
-                if (value) playerStatsUI.get(player).addSlice(color);
-            });
+        scores.forEach((player, scores) -> {
+            for (TrivialPursuitColor color : scores.getAllSuccess()) {
+                playerStatsUI.get(player).addSlice(color);
+            }
         });
     }
 
