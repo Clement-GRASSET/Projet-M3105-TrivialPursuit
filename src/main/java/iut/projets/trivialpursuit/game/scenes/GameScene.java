@@ -12,9 +12,7 @@ import iut.projets.trivialpursuit.engine.core.Light;
 import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.*;
-import iut.projets.trivialpursuit.game.actors.Case;
-import iut.projets.trivialpursuit.game.actors.Pawn;
-import iut.projets.trivialpursuit.game.actors.GameBoard;
+import iut.projets.trivialpursuit.game.actors.*;
 import iut.projets.trivialpursuit.game.questions.Question;
 import iut.projets.trivialpursuit.game.questions.QuestionsManager;
 import iut.projets.trivialpursuit.game.ui.*;
@@ -27,7 +25,6 @@ import java.util.Map;
 public class GameScene extends Scene {
 
     private final DirectionalLight light;
-    private final PointLight questionLight;
     private final PointLight mouseLight;
     double compteur;
     private final Sound music, music_thinking;
@@ -50,7 +47,6 @@ public class GameScene extends Scene {
 
         light = new DirectionalLight();
         light.setIntensity(lightDefaultIntensity);
-        questionLight = new PointLight();
         mouseLight = new PointLight();
 
         gameUI = new GameUI(players, scores);
@@ -70,10 +66,6 @@ public class GameScene extends Scene {
 
         addLight(light);
         light.setDirection(new Vector3D(1,1,-1));
-
-        addLight(questionLight);
-        questionLight.setIntensity(new Vector3D(0,0,0));
-        questionLight.setHeight(8);
 
         addLight(mouseLight);
         mouseLight.setPosition(new Vector2D(0,0));
@@ -145,24 +137,33 @@ public class GameScene extends Scene {
                             beginTurn();
                         } else if (c.getType() == Case.CaseType.MULTI) {
                             if (scores.get(player).isComplete()) {
+                                setLightIntensity(light, lightQuestionIntensity, 0.5);
+                                switchMusic(music, music_thinking);
+
                                 TrivialPursuitColor questionColor = scores.get(player).getMostFailedColor();
 
-                                Profile.Category questionCategory = player.getProfile().getCategory(questionColor);
-                                Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
-                                QuestionUI questionUI = new QuestionUI(question);
-                                questionUI.onDestroy(() -> {
-                                    switchMusic(music_thinking, music);
-                                    setLightIntensity(light, lightDefaultIntensity, 0.5);
-                                    setLightIntensity(questionLight, new Vector3D(0, 0, 0), 0.5);
-                                    if (questionUI.getSuccess()) {
-                                        end(player);
-                                    } else {
-                                        scores.get(player).addAttempt(questionColor, false);
-                                        playerIndex = Math.floorMod(playerIndex + 1, players.size());
-                                        newTurn();
-                                    }
+                                CaseLightMulti caseLight = (CaseLightMulti) addActor(CaseLightMulti.class);
+                                caseLight.show();
+
+                                moveCameraTo(c.getPosition(), 3, 0.5, () -> {
+                                    Profile.Category questionCategory = player.getProfile().getCategory(questionColor);
+                                    Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
+                                    QuestionUI questionUI = new QuestionUI(question);
+                                    questionUI.onDestroy(() -> {
+                                        setLightIntensity(light, lightDefaultIntensity, 0.5);
+                                        caseLight.remove();
+                                        switchMusic(music_thinking, music);
+                                        setLightIntensity(light, lightDefaultIntensity, 0.5);
+                                        if (questionUI.getSuccess()) {
+                                            end(player);
+                                        } else {
+                                            scores.get(player).addAttempt(questionColor, false);
+                                            playerIndex = Math.floorMod(playerIndex + 1, players.size());
+                                            newTurn();
+                                        }
+                                    });
+                                    UIManager.addElement(questionUI);
                                 });
-                                UIManager.addElement(questionUI);
                             } else {
                                 playerIndex = Math.floorMod(playerIndex + 1, players.size());
                                 newTurn();
@@ -170,8 +171,10 @@ public class GameScene extends Scene {
                         } else {
 
                             setLightIntensity(light, lightQuestionIntensity, 0.5);
-                            setLightIntensity(questionLight, Vector3D.add(Vector3D.multiply(new Vector3D(c.getColor().getRGB()), 6), new Vector3D(0.2,0.2,0.2)), 0.5);
-                            questionLight.setPosition(c.getPosition());
+                            CaseLightSingle caseLight = (CaseLightSingle) addActor(CaseLightSingle.class);
+                            caseLight.setPosition(c.getPosition());
+                            caseLight.setColor(c.getColor());
+                            caseLight.show();
                             moveCameraTo(c.getPosition(), 3, 0.5, () -> {
 
                                 switchMusic(music, music_thinking);
@@ -182,7 +185,7 @@ public class GameScene extends Scene {
                                 questionUI.onDestroy(() -> {
                                     switchMusic(music_thinking, music);
                                     setLightIntensity(light, lightDefaultIntensity, 0.5);
-                                    setLightIntensity(questionLight, new Vector3D(0,0,0), 0.5);
+                                    caseLight.remove();
                                     if (questionUI.getSuccess()) {
                                         scores.get(player).addAttempt(c.getColor(), true);
                                         pawns.get(player).addSlice(c.getColor());

@@ -9,6 +9,7 @@ public abstract class Actor extends GameObject {
     private Vector2D scale;
     private Rotation rotation;
     private int renderOrder;
+    private boolean allowRender;
 
     private Material material;
 
@@ -20,6 +21,7 @@ public abstract class Actor extends GameObject {
         this.rotation = Rotation.rad(0);
         this.renderOrder = 0;
         setMaterial( new Material() );
+        allowRender = true;
     }
 
     public Vector2D getPosition() {
@@ -68,5 +70,13 @@ public abstract class Actor extends GameObject {
 
     public void setRenderOrder(int renderOrder) {
         this.renderOrder = renderOrder;
+    }
+
+    public boolean getAllowRender() {
+        return allowRender;
+    }
+
+    public void setAllowRender(boolean allowRender) {
+        this.allowRender = allowRender;
     }
 }

@@ -113,7 +113,8 @@ public class SceneManager {
 
         ArrayList<ActorToDraw> actorsToDraw = new ArrayList<>();
         for (Actor actor : activeScene.getActors()) {
-            actorsToDraw.add( new ActorToDraw(actor) );
+            if (actor.getAllowRender())
+                actorsToDraw.add( new ActorToDraw(actor) );
         }
 
         Thread colorThread = drawColorBuffer(camera, activeScene, actorsToDraw);
