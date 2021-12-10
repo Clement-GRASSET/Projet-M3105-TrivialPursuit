@@ -104,7 +104,6 @@ public class QuestionUI extends UIScreenContainer {
             UItext.setFontSize(animation.getValue());
         });
         animation.onFinish(() -> {
-            UIManager.removeElement(this);
             onDestroy.run();
         });
         animation.start(this);

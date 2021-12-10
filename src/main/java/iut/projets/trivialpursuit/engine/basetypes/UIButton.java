@@ -47,6 +47,8 @@ public class UIButton extends UIBoxContainer {
     }
 
     private boolean isHovered() {
+        if (!isFocusable() || !isParentFocusable())
+            return false;
         double mouseX = getMousePosition().getX();
         double mouseY = getMousePosition().getY();
         double unit = getUnitSizeOnScreen();
@@ -84,6 +86,7 @@ public class UIButton extends UIBoxContainer {
         int x = getPositionXOnScreen();
         int y = getPositionYOnScreen();
 
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (getOpacity()*getParentOpacity())));
         g.translate(x, y);
         g.drawImage(image, 0, 0, width, height, null);
         g.translate(-x, -y);

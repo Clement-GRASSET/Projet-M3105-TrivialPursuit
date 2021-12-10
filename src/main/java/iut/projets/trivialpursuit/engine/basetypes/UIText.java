@@ -90,6 +90,7 @@ public class UIText extends UIElement {
         x += textAlignPercent.getX() * (width - fontMetrics.stringWidth(text));
         y += textAlignPercent.getY() * (height - fontMetrics.getHeight()) + fontMetrics.getAscent();
 
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (getOpacity()*getParentOpacity())));
         g.translate(x, y);
         g.setFont(renderFont);
         g.setColor(color);

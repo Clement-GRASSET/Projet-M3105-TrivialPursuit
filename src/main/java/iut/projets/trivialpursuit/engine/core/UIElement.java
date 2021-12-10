@@ -14,6 +14,8 @@ public abstract class UIElement extends GameObject {
     private Vector2D position, size;
     private Vector2D alignment;
     private int renderOrder;
+    private boolean isFocusable, isParentFocusable;
+    private double opacity, parentOpacity;
 
     public enum Anchor {
         TOP_LEFT,
@@ -33,6 +35,10 @@ public abstract class UIElement extends GameObject {
         size = new Vector2D(0, 0);
         alignment = new Vector2D(0, 0);
         renderOrder = 0;
+        isFocusable = true;
+        isParentFocusable = true;
+        opacity = 1;
+        parentOpacity = 1;
     }
 
     public static void setUnitSize(int unitSize) {
@@ -207,5 +213,37 @@ public abstract class UIElement extends GameObject {
 
     public final void setRenderOrder(int renderOrder) {
         this.renderOrder = renderOrder;
+    }
+
+    public final boolean isFocusable() {
+        return isFocusable;
+    }
+
+    protected final boolean isParentFocusable() {
+        return isParentFocusable;
+    }
+
+    public final void setFocusable(boolean focusable) {
+        isFocusable = focusable;
+    }
+
+    final void setParentFocusable(boolean parentFocusable) {
+        isParentFocusable = parentFocusable;
+    }
+
+    public double getOpacity() {
+        return opacity;
+    }
+
+    protected double getParentOpacity() {
+        return parentOpacity;
+    }
+
+    public void setOpacity(double opacity) {
+        this.opacity = Math.max(Math.min(opacity, 1), 0);
+    }
+
+    protected void setParentOpacity(double parentOpacity) {
+        this.parentOpacity = parentOpacity;
     }
 }

@@ -43,7 +43,6 @@ public class CaseAnnouncement extends UIScreenContainer {
             textElement.setFontSize(animation.getValue());
         });
         animation.onFinish(() -> {
-            UIManager.removeElement(this);
             onDestroy.run();
         });
         animation.start(this);

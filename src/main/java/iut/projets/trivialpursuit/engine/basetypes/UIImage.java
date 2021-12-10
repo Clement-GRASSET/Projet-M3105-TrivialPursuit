@@ -31,6 +31,7 @@ public class UIImage extends UIElement {
 
         int y = getPositionYOnScreen();
 
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float) (getOpacity()*getParentOpacity())));
         g.translate(x, y);
         g.rotate(angle, width/2.0, height/2.0);
         g.drawImage(image, 0, 0, width, height, null);

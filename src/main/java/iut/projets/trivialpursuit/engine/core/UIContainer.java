@@ -44,6 +44,8 @@ public abstract class UIContainer extends UIElement {
         elementsToAdd.clear();
 
         for (UIElement element : elements) {
+            element.setParentFocusable(isFocusable() && isParentFocusable());
+            element.setParentOpacity(getOpacity() * getParentOpacity());
             setElementContainer(element);
             element.tick(frameTime);
         }

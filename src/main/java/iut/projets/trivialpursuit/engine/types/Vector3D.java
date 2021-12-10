@@ -36,9 +36,9 @@ public class Vector3D {
 
     public static Vector3D add(Vector3D vector1, Vector3D vector2) {
         return new Vector3D(
-                vector1.x += vector2.x,
-                vector1.y += vector2.y,
-                vector1.z += vector2.z
+                vector1.x + vector2.x,
+                vector1.y + vector2.y,
+                vector1.z + vector2.z
         );
     }
 

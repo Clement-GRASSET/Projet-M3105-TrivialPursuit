@@ -41,7 +41,6 @@ public class CaseSelectionUI extends UIScreenContainer {
 
             button.onClick(() -> {
                 selected = c;
-                UIManager.removeElement(this);
                 onDestroy.run();
             });
 
