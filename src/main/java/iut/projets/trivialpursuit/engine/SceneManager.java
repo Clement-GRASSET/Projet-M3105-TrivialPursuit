@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
+/**
+ * Gère la scène à l'écran
+ */
 public class SceneManager {
 
     private static class ActorToDraw {
@@ -98,6 +101,10 @@ public class SceneManager {
 
     private static Scene activeScene = new Scene(), nextScene = null;
 
+    /**
+     * Met à jour la scène
+     * @param frameTime La durée de la dernière image
+     */
     public static void tick(double frameTime) {
         if (nextScene != null) {
             activeScene = nextScene;
@@ -108,14 +115,26 @@ public class SceneManager {
         activeScene.tick(frameTime);
     }
 
+    /**
+     * Renvoie la scène à l'écran
+     * @return La scène à l'écran
+     */
     public static Scene getActiveScene() {
         return activeScene;
     }
 
+    /**
+     * Définit la scène à afficher à l'écran
+     * @param scene La scène à afficher
+     */
     public static void setActiveScene(Scene scene) {
         nextScene = scene;
     }
 
+    /**
+     * Affiche la scène à l'écran
+     * @param g Contexte graphique dans lequel dessiner la scène.
+     */
     public static void render(Graphics g) {
 
         Camera camera = activeScene.getCamera();
@@ -141,6 +160,12 @@ public class SceneManager {
         g.drawImage(finalBuffer, 0, 0, canvasWidth, canvasHeight, null);
     }
 
+    /**
+     * Rend le buffer de couleur de la scène dans un nouveau thread.
+     * @param camera La caméra à partir de laquelle on regarde la scène.
+     * @param actorsToDraw Les acteurs à dessiner.
+     * @return Le thread dans lequel le rendu est en cours.
+     */
     private static Thread drawColorBuffer(Camera camera, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             double unit = camera.getZoom()*height/100.0;
@@ -163,6 +188,12 @@ public class SceneManager {
         return thread;
     }
 
+    /**
+     * Rend le buffer de normales de la scène dans un nouveau thread.
+     * @param camera La caméra à partir de laquelle on regarde la scène.
+     * @param actorsToDraw Les acteurs à dessiner.
+     * @return Le thread dans lequel le rendu est en cours.
+     */
     private static Thread drawNormalBufferImage(Camera camera, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             double unit = camera.getZoom()*height/100.0;
@@ -185,6 +216,9 @@ public class SceneManager {
         return thread;
     }
 
+    /**
+     * Rend le buffer final éclairé.
+     */
     private static void drawFinalBuffer() {
         int nbThreads = Runtime.getRuntime().availableProcessors();
         Vector<Thread> threads = new Vector<>();
@@ -208,7 +242,7 @@ public class SceneManager {
             pointLights[i] = new PointLightToRender(activeScene.getPointLights().get(i));
         }
 
-        // Création de threads (1 par CPU) qui vont traiter chacuns une partie de l'image
+        // Création de threads (1 par CPU) qui vont traiter chacun une partie de l'image
         for (int i = 0; i < nbThreads; i++) {
             int start = i * length;                                 // Début de la zone de l'image à traiter
             int end = (i+1 == length) ? length-1 : (i+1)*length;    // Fin de la zone de l'image à traiter
@@ -224,7 +258,7 @@ public class SceneManager {
 
                     boolean isPixelFlat = normals.getRed()==127 && normals.getGreen()==127 && normals.getBlue()==255;
 
-                    // Eclairage du pixel
+                    // Éclairage du pixel
                     double light_r = 0, light_g = 0, light_b = 0;
 
                     int k = 0;
@@ -273,7 +307,7 @@ public class SceneManager {
                                     screenPositionX-x, screenPositionY-y, light.lightHeight*height/100.0
                             ))), 0) * Math.pow(1-distance, 2);
 
-                            Vector3D intensity = light.intensity;  // Inensité (en %) de la lumière (x=r, y=g, z=b)
+                            Vector3D intensity = light.intensity;  // Intensité (en %) de la lumière (x=r, y=g, z=b)
                             // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
                             light_r += lightValue * intensity.getX();
                             light_g += lightValue * intensity.getY();
@@ -288,7 +322,7 @@ public class SceneManager {
                     g = (int) (color.getGreen() * light_g);
                     b = (int) (color.getBlue() * light_b);
 
-                    // Ecriture du pixel dans le buffer
+                    // Écriture du pixel dans le buffer
                     finalBufferPixels[j] = new Color(
                             Math.min(255, Math.max(0, r)),
                             Math.min(255, Math.max(0, g)),
@@ -309,6 +343,11 @@ public class SceneManager {
 
     }
 
+    /**
+     * Met à jour les informations de résolution de l'écran
+     * @param canvasWidth Largeur de l'écran
+     * @param canvasHeight Hauteur de l'écran
+     */
     public static void setResolution(int canvasWidth, int canvasHeight) {
         if (SceneManager.canvasWidth == canvasWidth && SceneManager.canvasHeight == canvasHeight)
             return;
@@ -318,16 +357,27 @@ public class SceneManager {
         recreateBuffers();
     }
 
+    /**
+     * Renvoie l'échelle de rendu de la scène (1 = 100%).
+     * @return L'échelle de rendu de la scène
+     */
     public static double getRenderScale() {
         return renderScale;
     }
 
+    /**
+     * Définit l'échelle de rendu de la scène
+     * @param renderScale La nouvelle échelle de rendu de la scène
+     */
     public static void setRenderScale(double renderScale) {
-        SceneManager.renderScale = renderScale;
-        if (canvasWidth != 0 && canvasHeight != 0) // Emepeche la création des buffers si la fenetre n'a pas été initialisée
+        SceneManager.renderScale = Math.max(renderScale, 0.001);
+        if (canvasWidth != 0 && canvasHeight != 0) // Empêche la création des buffers si la fenêtre n'a pas été initialisée
             recreateBuffers();
     }
 
+    /**
+     * Recrée les buffers à la bonne résolution
+     */
     private static void recreateBuffers() {
         SceneManager.width = (int)(canvasWidth * renderScale);
         SceneManager.height = (int)(canvasHeight * renderScale);
@@ -336,6 +386,10 @@ public class SceneManager {
         finalBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
+    /**
+     * Met à jour les informations de position de la souris à l'écran
+     * @param mousePosition La position de la souris
+     */
     public static void setMousePosition(Vector2D mousePosition) {
         SceneManager.mousePosition = mousePosition;
     }

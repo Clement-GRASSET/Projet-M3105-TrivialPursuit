@@ -5,12 +5,18 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Un UIBoxContainer qui reçoit les clics de la souris.
+ */
 public class UIButton extends UIBoxContainer {
 
     private Image image, defaultImage, hoverImage, pressedImage;
     private boolean hovered, pressed;
     private Runnable onClick;
 
+    /**
+     * Construit un bouton
+     */
     public UIButton() {
         super();
 
@@ -24,6 +30,11 @@ public class UIButton extends UIBoxContainer {
         onClick = () -> {};
     }
 
+    /**
+     * Crée une image de dimensions 1x1.
+     * @param color Couleur de l'image.
+     * @return Image créée.
+     */
     protected BufferedImage makeColoredImage(Color color) {
         int w = 1;
         int h = 1;
@@ -34,18 +45,34 @@ public class UIButton extends UIBoxContainer {
         return image;
     }
 
+    /**
+     * Définit le fond affiché par défaut.
+     * @param image Fond affiché par défaut.
+     */
     public void setDefaultImage(Image image) {
         this.defaultImage = image;
     }
 
+    /**
+     * Définit le fond affiché lors du survol de la souris.
+     * @param image Fond affiché lors du survol de la souris.
+     */
     public void setHoverImage(Image image) {
         this.hoverImage = image;
     }
 
+    /**
+     * Définit le fond affiché lors du clic de la souris.
+     * @param image Fond affiché lors du clic de la souris.
+     */
     public void setPressedImage(Image image) {
         this.pressedImage = image;
     }
 
+    /**
+     * Renvoie vrai si la souris survole le bouton.
+     * @return Vrai si la souris survole le bouton.
+     */
     private boolean isHovered() {
         if (!isFocusable() || !isParentFocusable())
             return false;
@@ -54,8 +81,8 @@ public class UIButton extends UIBoxContainer {
         double unit = getUnitSizeOnScreen();
         double w = (getSize().getX()*unit);
         double h = (getSize().getY()*unit);
-        double x = ( getPosition().getX()*unit + (getAlignmentX()-1)/2 * w + getAnchorX() );
-        double y = ( getPosition().getY()*unit + (getAlignmentY()-1)/2 * h + getAnchorY() );
+        double x = ( getPosition().getX()*unit + (getAlignment().getX()-1)/2 * w + getAnchorX() );
+        double y = ( getPosition().getY()*unit + (getAlignment().getY()-1)/2 * h + getAnchorY() );
         return (mouseX > x && mouseX < x+w && mouseY > y && mouseY < y+h);
     }
 
@@ -94,6 +121,10 @@ public class UIButton extends UIBoxContainer {
         super.draw(g);
     }
 
+    /**
+     * Définit la fonction à exécuter lorsqu'on clique sur le bouton.
+     * @param onClick Fonction à exécuter.
+     */
     public void onClick(Runnable onClick) {
         this.onClick = onClick;
     }

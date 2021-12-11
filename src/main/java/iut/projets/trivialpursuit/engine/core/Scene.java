@@ -69,10 +69,19 @@ public class Scene extends GameObject {
         });
     }
 
+    /**
+     * Renvoie la liste des acteurs présents dans la scène.
+     * @return La liste des acteurs présents dans la scène.
+     */
     public Vector<Actor> getActors() {
         return actors;
     }
 
+    /**
+     * Construit un acteur dans la scène.
+     * @param ActorClass La classe de l'acteur à construire.
+     * @return L'acteur construit.
+     */
     public Actor addActor(Class<? extends Actor> ActorClass) {
         Actor actor;
         try {
@@ -88,62 +97,122 @@ public class Scene extends GameObject {
         return actor;
     }
 
+    /**
+     * Retire un acteur de la scène.
+     * @param actor L'acteur à retirer de la scène.
+     */
     public void removeActor(Actor actor) {
         actorsToRemove.addElement(actor);
     }
 
+    /**
+     * Renvoie la liste des lumières directionnelles dans la scène.
+     * @return La liste des lumières directionnelles dans la scène.
+     */
     public ArrayList<DirectionalLight> getDirectionalLights() {
         return directionalLights;
     }
 
+    /**
+     * Renvoie la liste des lumières locales dans la scène.
+     * @return La liste des lumières locales dans la scène.
+     */
     public ArrayList<PointLight> getPointLights() {
         return pointLights;
     }
 
+    /**
+     * Ajoute une lumière dans la scène.
+     * @param light Lumière directionnelle à ajouter.
+     */
     public void addLight(DirectionalLight light) {
         directionalLights.add(light);
     }
 
+    /**
+     * Ajoute une lumière dans la scène.
+     * @param light Lumière locale à ajouter.
+     */
     public void addLight(PointLight light) {
         pointLights.add(light);
     }
 
+    /**
+     * Retire une lumière de la scène.
+     * @param light Lumière directionnelle à retirer.
+     */
     public void removeLight(DirectionalLight light) {
         directionalLights.remove(light);
     }
 
+    /**
+     * Retire une lumière de la scène.
+     * @param light Lumière directionnelle à retirer.
+     */
     public void removeLight(PointLight light) {
         pointLights.remove(light);
     }
 
+    /**
+     * Renvoie la couleur de fond de la scène.
+     * @return La couleur de fond de la scène.
+     */
     public Color getBackgroundColor() {
         return backgroundColor;
     }
 
+    /**
+     * Définit la couleur de fond de la scène.
+     * @param backgroundColor La couleur de fond de la scène.
+     */
     public void setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
     }
 
+    /**
+     * Renvoie la caméra utilisée par la scène.
+     * @return La caméra utilisée par la scène.
+     */
     public Camera getCamera() {
         return camera;
     }
 
+    /**
+     * Définit la caméra utilisée par la scène.
+     * @param camera La caméra utilisée par la scène.
+     */
     public void setCamera(Camera camera) {
         this.camera = camera;
     }
 
+    /**
+     * Met à jour la position de la souris.
+     * @param mousePosition La position de la souris.
+     */
     public void setMousePosition(Vector2D mousePosition) {
         this.mousePosition = mousePosition;
     }
 
+    /**
+     * Renvoie la position de la souris.
+     * @return La position de la souris.
+     */
     public Vector2D getMousePosition() {
         return mousePosition;
     }
 
+    /**
+     * Met à jour la position de la souris dans la scène.
+     */
     private void updateMousePositionInScene() {
         this.mousePositionInScene = screenToSceneCoordinates(mousePosition);
     }
 
+    /**
+     * Convertit des coordonnées à l'écran en coordonnées dans la scène.
+     * @param coordinates Les coordonnées à l'écran.
+     * @return Les coordonnées dans la scène.
+     */
     public Vector2D screenToSceneCoordinates(Vector2D coordinates) {
         double zoom = camera.getZoom();
         double unit = Game.getWindow().getCanvas().getHeight()/100.0;
@@ -154,6 +223,11 @@ public class Scene extends GameObject {
         return Vector2D.add( Vector2D.rotate(new Vector2D(x, y), camera.getRotation()), camera.getPosition() );
     }
 
+    /**
+     * Convertit des coordonnées dans la scène en coordonnées à l'écran.
+     * @param coordinates Les coordonnées dans la scène.
+     * @return Les coordonnées à l'écran.
+     */
     public Vector2D sceneToScreenCoordinates(Vector2D coordinates) {
         double zoom = camera.getZoom();
         double unit = Game.getWindow().getCanvas().getHeight()/100.0;
@@ -165,6 +239,10 @@ public class Scene extends GameObject {
         return new Vector2D(x, y);
     }
 
+    /**
+     * Renvoie la position de la souris dans la scène.
+     * @return La position de la souris dans la scène.
+     */
     public Vector2D getMousePositionInScene() {
         return mousePositionInScene;
     }

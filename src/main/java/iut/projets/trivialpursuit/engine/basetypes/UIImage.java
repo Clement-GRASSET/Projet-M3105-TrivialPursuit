@@ -7,11 +7,17 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Élément d'image de l'interface utilisateur.
+ */
 public class UIImage extends UIElement {
 
     private Image image;
     private Rotation rotation;
 
+    /**
+     * Construit une UIImage.
+     */
     public UIImage() {
         super();
         image = new BufferedImage(1,1, BufferedImage.TYPE_INT_RGB);
@@ -39,10 +45,18 @@ public class UIImage extends UIElement {
         g.translate(-x, -y);
     }
 
+    /**
+     * Définit l'image à afficher.
+     * @param image Image à afficher.
+     */
     public final void setImage(Image image) {
         this.image = image;
     }
 
+    /**
+     * Définit une couleur unie à afficher.
+     * @param color Couleur.
+     */
     public void setImageUniform(Color color) {
         BufferedImage image = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
         Graphics g = image.getGraphics();
@@ -52,15 +66,28 @@ public class UIImage extends UIElement {
         this.image = image;
     }
 
+    /**
+     * Définit la taille de l'image sur la hauteur.
+     * La largeur est calculée à partir du ratio de l'image.
+     * @param size Taille sur la hauteur.
+     */
     public final void setSize(double size) {
         double ratio = (double)image.getWidth(null) / image.getHeight(null);
         setSize(new Vector2D(size*ratio, size));
     }
 
+    /**
+     * Revoie la rotation de l'image.
+     * @return La rotation de l'image.
+     */
     public Rotation getRotation() {
         return rotation;
     }
 
+    /**
+     * Définit la rotation de l'image.
+     * @param rotation Rotation de l'image.
+     */
     public void setRotation(Rotation rotation) {
         this.rotation = rotation;
     }

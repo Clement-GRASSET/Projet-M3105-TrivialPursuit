@@ -1,15 +1,19 @@
 package iut.projets.trivialpursuit.engine.core;
 
-import iut.projets.trivialpursuit.engine.core.UIElement;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Un élément de l'interface utilisateur qui peut contenir d'autres éléments.
+ */
 public abstract class UIContainer extends UIElement {
     List<UIElement> elements, elementsToAdd, elementsToRemove;
 
+    /**
+     * Construit un conteneur.
+     */
     public UIContainer() {
         super();
         elements = new ArrayList<>();
@@ -17,14 +21,27 @@ public abstract class UIContainer extends UIElement {
         elementsToRemove = new ArrayList<>();
     }
 
+    /**
+     * Retire un élément au conteneur.
+     * @param element Element à retirer.
+     */
     public void removeElement(UIElement element) {
         elementsToRemove.add(element);
     }
 
+    /**
+     * Ajoute un élément au conteneur.
+     * @param element Element à ajouter.
+     */
     public void addElement(UIElement element) {
         elementsToAdd.add(element);
     }
 
+    /**
+     * Met à jour les bords d'écran d'un élément en fonction du conteneur dans lequel il se trouve.
+     * Utile pour déplacer en bloc tous les éléments en même temps que le conteneur.
+     * @param element L'élément à mettre à jour.
+     */
     protected abstract void setElementContainer(UIElement element);
 
     @Override
