@@ -1,13 +1,10 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.SceneManager;
-import iut.projets.trivialpursuit.engine.UIManager;
-import iut.projets.trivialpursuit.engine.Sound;
+import iut.projets.trivialpursuit.engine.*;
 import iut.projets.trivialpursuit.engine.basetypes.Delay;
 import iut.projets.trivialpursuit.engine.core.UIContainer;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.basetypes.*;
-import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
 import iut.projets.trivialpursuit.game.Profile;
@@ -101,7 +98,7 @@ public class MainMenu extends UIScreenContainer {
                 setActiveMenu(titleScreen);
             });
             addElement(backButton);
-
+            /*
             PlayerInfo playerInfo1, playerInfo2, playerInfo3;
             playerInfo1 = new PlayerInfo();
             playerInfo1.setPosition(new Vector2D(-30, 0));
@@ -111,7 +108,17 @@ public class MainMenu extends UIScreenContainer {
             addElement(playerInfo1);
             addElement(playerInfo2);
             addElement(playerInfo3);
+            */
+            UITextButton profile_button = new UITextButton("Paramètres profiles");
+            profile_button.setAnchor(Anchor.BOTTOM_CENTER);
+            profile_button.setAlignment(new Vector2D(0, -1));
+            profile_button.setPosition(new Vector2D(0, -3));
+            profile_button.setSize(new Vector2D(35, 7));
+            profile_button.onClick( () -> {
+                ProfileMenu pmenu = new ProfileMenu(Game.getWindow(), 640, 360, Game.getWindow().getX(), Game.getWindow().getY(), gameInfo);
+            });
 
+            addElement(profile_button);
             UITextButton startButton = new UITextButton("Démarrer");
             startButton.setAnchor(Anchor.BOTTOM_RIGHT);
             startButton.setAlignment(new Vector2D(-1, -1));
@@ -250,7 +257,7 @@ public class MainMenu extends UIScreenContainer {
         profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
         player = new Player(profile, TrivialPursuitColor.PURPLE);
         gameInfo.addPlayer(player);
-
+        /*
         profile = new Profile();
         profile.setName("Joueur 6");
         profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
@@ -260,7 +267,7 @@ public class MainMenu extends UIScreenContainer {
         profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
         profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
         player = new Player(profile, TrivialPursuitColor.ORANGE);
-        gameInfo.addPlayer(player);
+        gameInfo.addPlayer(player);*/
     }
 
 }
