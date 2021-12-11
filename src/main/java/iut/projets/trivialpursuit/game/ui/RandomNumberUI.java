@@ -35,7 +35,6 @@ public class RandomNumberUI extends UIScreenContainer {
             text.setFontSize(animation.getValue());
         });
         animation.onFinish(() -> {
-            UIManager.removeElement(this);
             onDestroy.run();
         });
         animation.start(this);

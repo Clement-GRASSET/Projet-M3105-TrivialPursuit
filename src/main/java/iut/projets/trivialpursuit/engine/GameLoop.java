@@ -5,6 +5,10 @@ import iut.projets.trivialpursuit.engine.window.RenderCanvas;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
+/**
+ * Classe qui contient la boucle infinie du jeu.
+ * Fonctionne sur un nouveau thread.
+ */
 public class GameLoop extends Thread {
 
     private final RenderCanvas canvas;
@@ -14,6 +18,10 @@ public class GameLoop extends Thread {
     private double sceneTick, UITick, sceneRender, UIRender, total;
     private boolean debug;
 
+    /**
+     * Construit un GameLoop
+     * @param game Le jeu à boucler
+     */
     GameLoop(Game game) {
         canvas = Game.getWindow().getCanvas();
         this.game = game;
@@ -38,6 +46,11 @@ public class GameLoop extends Thread {
         }
     }
 
+    /**
+     * Gère toutes les opérations à faire en une pendant une image :
+     * Actualisation de la scène et de l'interface utilisateur
+     * Rendu de la scène et de l'interface utilisateur
+     */
     private void update() {
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
         Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
@@ -72,8 +85,19 @@ public class GameLoop extends Thread {
 
         g.dispose();
         bufferStrategy.show();
+
     }
 
+    /**
+     * @return Le nombre maximum d'images par seconde du jeu. 0 si infini.
+     */
+    public int getMaxFPS() {
+        return (minFrameLength == 0) ? 0 : (int) (1000000000.0/minFrameLength);
+    }
+
+    /**
+     * @param fps Définit le nombre maximum d'images par seconde du jeu, supérieur à 0. 0 si infini.
+     */
     public void setMaxFPS(int fps) {
         if (fps > 0)
             minFrameLength = (long) 1000000000.0/fps;
@@ -81,6 +105,10 @@ public class GameLoop extends Thread {
             minFrameLength = 0;
     }
 
+    /**
+     * Affiche le temps d'exécution de l'actualisation et du rendu de la scène et de l'interface utilisateur.
+     * @param g Contexte graphique où dessiner.
+     */
     private void drawDebug(Graphics g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 150, 230, 150);
@@ -94,6 +122,9 @@ public class GameLoop extends Thread {
         g.drawString("UI render: " + String.format("%,.3f",UIRender) + " ms", 10, 280);
     }
 
+    /**
+     * @param debug Active ou non l'affichage des temps d'exécution.
+     */
     public void setDebug(boolean debug) {
         this.debug = debug;
     }

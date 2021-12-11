@@ -40,7 +40,6 @@ public class NewTurnAnnouncement extends UIScreenContainer {
             text.setPosition(new Vector2D(animation.getValue(), 0));
         });
         animation.onFinish(() -> {
-            UIManager.removeElement(this);
             onDestroy.run();
         });
         animation.start(this);

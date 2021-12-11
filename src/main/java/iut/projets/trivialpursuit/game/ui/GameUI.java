@@ -1,14 +1,14 @@
 package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.engine.SceneManager;
+import iut.projets.trivialpursuit.engine.UIManager;
+import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
-import iut.projets.trivialpursuit.engine.basetypes.UIBoxContainer;
-import iut.projets.trivialpursuit.engine.basetypes.UIImage;
-import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
-import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.game.Player;
 import iut.projets.trivialpursuit.game.PlayerScores;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
+import iut.projets.trivialpursuit.game.scenes.MainMenuScene;
 
 import java.util.HashMap;
 import java.util.List;

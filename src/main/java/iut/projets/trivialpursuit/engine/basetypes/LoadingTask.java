@@ -4,6 +4,9 @@ import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.core.GameObject;
 import iut.projets.trivialpursuit.engine.core.Task;
 
+/**
+ * Tâche qui met en mémoire des ressources.
+ */
 public class LoadingTask extends Task {
 
     private final Thread loadThread;
@@ -11,6 +14,11 @@ public class LoadingTask extends Task {
     private int done;
     private final int total;
 
+    /**
+     * Construit une tâche qui met en mémoire des ressources.
+     * @param images Images à mettre en mémoire.
+     * @param fonts Polices d'écriture à mettre en mémoire.
+     */
     public LoadingTask(String [] images, String [] fonts) {
         super();
         isLoaded = false;
@@ -49,6 +57,10 @@ public class LoadingTask extends Task {
         }
     }
 
+    /**
+     * Renvoie la procession de la mise en mémoire (en %).
+     * @return La procession de la mise en mémoire (en %).
+     */
     public double getProgress() {
         return (double)done / total;
     }

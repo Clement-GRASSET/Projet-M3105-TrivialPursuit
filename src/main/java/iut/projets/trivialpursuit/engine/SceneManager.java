@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Vector;
 
+/**
+ * Gère la scène à l'écran
+ */
 public class SceneManager {
 
     private static class ActorToDraw {
@@ -58,24 +61,33 @@ public class SceneManager {
     }
 
     private static class DirectionalLightToRender {
-        final DirectionalLight directionalLight;
-        final double intensityAtFlatNormal;
+        final Vector3D intensityAtFlatNormal;
+        final Vector3D direction, intensity;
 
         DirectionalLightToRender(DirectionalLight directionalLight) {
-            this.directionalLight = directionalLight;
-            this.intensityAtFlatNormal = Vector3D.dot(directionalLight.getDirection(), new Vector3D(0, 0, -1));
+            this.direction = directionalLight.getDirection();
+            this.intensity = directionalLight.getIntensity();
+
+            double value = Vector3D.dot(directionalLight.getDirection(), new Vector3D(0, 0, -1));
+            this.intensityAtFlatNormal = new Vector3D(
+                    value * intensity.getX(),
+                    value * intensity.getY(),
+                    value * intensity.getZ()
+            );
         }
     }
 
     private static class PointLightToRender {
-        final PointLight pointLight;
+        final Vector3D intensity;
         final int x, y, radius;
+        final double lightHeight;
         PointLightToRender(PointLight pointLight) {
-            this.pointLight = pointLight;
             Vector2D screenPosition = activeScene.sceneToScreenCoordinates(pointLight.getPosition());
             x = (int) (screenPosition.getX() * (double) width/canvasWidth);
             y = (int) (screenPosition.getY() * (double) height/canvasHeight);
             radius = (int)(pointLight.getRadius() * height/100 * activeScene.getCamera().getZoom());
+            intensity = pointLight.getIntensity();
+            lightHeight = pointLight.getHeight();
         }
     }
 
@@ -89,6 +101,10 @@ public class SceneManager {
 
     private static Scene activeScene = new Scene(), nextScene = null;
 
+    /**
+     * Met à jour la scène
+     * @param frameTime La durée de la dernière image
+     */
     public static void tick(double frameTime) {
         if (nextScene != null) {
             activeScene = nextScene;
@@ -99,25 +115,38 @@ public class SceneManager {
         activeScene.tick(frameTime);
     }
 
+    /**
+     * Renvoie la scène à l'écran
+     * @return La scène à l'écran
+     */
     public static Scene getActiveScene() {
         return activeScene;
     }
 
+    /**
+     * Définit la scène à afficher à l'écran
+     * @param scene La scène à afficher
+     */
     public static void setActiveScene(Scene scene) {
         nextScene = scene;
     }
 
+    /**
+     * Affiche la scène à l'écran
+     * @param g Contexte graphique dans lequel dessiner la scène.
+     */
     public static void render(Graphics g) {
 
         Camera camera = activeScene.getCamera();
 
         ArrayList<ActorToDraw> actorsToDraw = new ArrayList<>();
         for (Actor actor : activeScene.getActors()) {
-            actorsToDraw.add( new ActorToDraw(actor) );
+            if (actor.getAllowRender())
+                actorsToDraw.add( new ActorToDraw(actor) );
         }
 
-        Thread colorThread = drawColorBuffer(camera, activeScene, actorsToDraw);
-        Thread normalThread = drawNormalBufferImage(camera, activeScene, actorsToDraw);
+        Thread colorThread = drawColorBuffer(camera, actorsToDraw);
+        Thread normalThread = drawNormalBufferImage(camera, actorsToDraw);
         try {
             normalThread.join();
             colorThread.join();
@@ -126,17 +155,23 @@ public class SceneManager {
             System.exit(1);
         }
 
-        drawFinalBuffer(activeScene);
+        drawFinalBuffer();
 
         g.drawImage(finalBuffer, 0, 0, canvasWidth, canvasHeight, null);
     }
 
-    private static Thread drawColorBuffer(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
+    /**
+     * Rend le buffer de couleur de la scène dans un nouveau thread.
+     * @param camera La caméra à partir de laquelle on regarde la scène.
+     * @param actorsToDraw Les acteurs à dessiner.
+     * @return Le thread dans lequel le rendu est en cours.
+     */
+    private static Thread drawColorBuffer(Camera camera, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             double unit = camera.getZoom()*height/100.0;
             Graphics2D g = (Graphics2D) colorBuffer.getGraphics();
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g.setColor(scene.getBackgroundColor());
+            g.setColor(activeScene.getBackgroundColor());
             g.fillRect(0, 0, width, height);
             g.translate(width/2.0, height/2.0);
             g.rotate(-camera.getRotation().getRad());
@@ -153,7 +188,13 @@ public class SceneManager {
         return thread;
     }
 
-    private static Thread drawNormalBufferImage(Camera camera, Scene scene, ArrayList<ActorToDraw> actorsToDraw) {
+    /**
+     * Rend le buffer de normales de la scène dans un nouveau thread.
+     * @param camera La caméra à partir de laquelle on regarde la scène.
+     * @param actorsToDraw Les acteurs à dessiner.
+     * @return Le thread dans lequel le rendu est en cours.
+     */
+    private static Thread drawNormalBufferImage(Camera camera, ArrayList<ActorToDraw> actorsToDraw) {
         Thread thread = new Thread(() -> {
             double unit = camera.getZoom()*height/100.0;
             Graphics2D g = (Graphics2D) normalsBuffer.getGraphics();
@@ -175,7 +216,10 @@ public class SceneManager {
         return thread;
     }
 
-    private static void drawFinalBuffer(Scene scene) {
+    /**
+     * Rend le buffer final éclairé.
+     */
+    private static void drawFinalBuffer() {
         int nbThreads = Runtime.getRuntime().availableProcessors();
         Vector<Thread> threads = new Vector<>();
         int length = width*height/nbThreads;
@@ -186,20 +230,19 @@ public class SceneManager {
         int [] finalBufferPixels = ( (DataBufferInt) finalBuffer.getRaster().getDataBuffer() ).getData();
 
         // Préparation des lumières
-        int nbDirectionalLights = scene.getDirectionalLights().size();
+        int nbDirectionalLights = activeScene.getDirectionalLights().size();
         DirectionalLightToRender [] directionalLights = new DirectionalLightToRender[nbDirectionalLights];
         for (int i = 0; i < nbDirectionalLights; i++) {
-            directionalLights[i] = new DirectionalLightToRender(scene.getDirectionalLights().get(i));
+            directionalLights[i] = new DirectionalLightToRender(activeScene.getDirectionalLights().get(i));
         }
 
-        int nbPointLights = scene.getPointLights().size();
+        int nbPointLights = activeScene.getPointLights().size();
         PointLightToRender [] pointLights = new PointLightToRender[nbPointLights];
         for (int i = 0; i < nbPointLights; i++) {
-            pointLights[i] = new PointLightToRender(scene.getPointLights().get(i));
+            pointLights[i] = new PointLightToRender(activeScene.getPointLights().get(i));
         }
 
-
-        // Création de threads (1 par CPU) qui vont traiter chacuns une partie de l'image
+        // Création de threads (1 par CPU) qui vont traiter chacun une partie de l'image
         for (int i = 0; i < nbThreads; i++) {
             int start = i * length;                                 // Début de la zone de l'image à traiter
             int end = (i+1 == length) ? length-1 : (i+1)*length;    // Fin de la zone de l'image à traiter
@@ -215,78 +258,71 @@ public class SceneManager {
 
                     boolean isPixelFlat = normals.getRed()==127 && normals.getGreen()==127 && normals.getBlue()==255;
 
-                    // Eclairage du pixel
-                    Vector3D lightColor = new Vector3D(0,0,0);
+                    // Éclairage du pixel
+                    double light_r = 0, light_g = 0, light_b = 0;
 
-                    for (int k = 0; k < nbDirectionalLights; k++) {
+                    int k = 0;
+                    while (k < nbDirectionalLights) {
 
                         DirectionalLightToRender light = directionalLights[k];
 
-                        double lightValue = 0;
-
                         if (isPixelFlat) {
-                            lightValue = light.intensityAtFlatNormal;  // Si le pixel est "plat", on utilise la valeur déja calculée
+                            light_r += light.intensityAtFlatNormal.getX();
+                            light_g += light.intensityAtFlatNormal.getY();
+                            light_b += light.intensityAtFlatNormal.getZ();
                         }
                         else {
-                            // Direction inversée de la lumière
-                            Vector3D direction = new Vector3D(
-                                    light.directionalLight.getDirection().getX()*-1,
-                                    light.directionalLight.getDirection().getY()*-1,
-                                    light.directionalLight.getDirection().getZ()*-1
-                            );
-
                             // Quantité de lumière sur le pixel en fonction des angles (Produit scalaire de pixel_angle et direction)
-                            lightValue = Math.max(Vector3D.dot(new Vector3D(
+                            double lightValue = Math.max(Vector3D.dot(new Vector3D(
                                     (normals.getRed()/255.0 - 0.5) * 2,
                                     (normals.getGreen()/255.0 - 0.5) * -2,
                                     (normals.getBlue()/255.0 - 0.5) * 2
-                            ), direction), 0);
-                        }
+                            ), new Vector3D(
+                                    light.direction.getX()*-1,
+                                    light.direction.getY()*-1,
+                                    light.direction.getZ()*-1
+                            )), 0);
 
-                        Vector3D intensity = light.directionalLight.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
-                        // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
-                        lightColor = Vector3D.add(lightColor, new Vector3D(
-                                lightValue * intensity.getX(),
-                                lightValue * intensity.getY(),
-                                lightValue * intensity.getZ()
-                        ));
+                            // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
+                            Vector3D intensity = light.intensity;
+                            light_r += lightValue * intensity.getX();
+                            light_g += lightValue * intensity.getY();
+                            light_b += lightValue * intensity.getZ();
+                        }
+                        k++;
                     }
 
-                    for (int k = 0; k < nbPointLights; k++) {
+                    k = 0;
+                    while (k < nbPointLights) {
                         PointLightToRender light = pointLights[k];
                         int screenPositionX = light.x;
                         int screenPositionY = light.y;
                         double distance = Math.sqrt((x-screenPositionX)*(x-screenPositionX) + (y-screenPositionY)*(y-screenPositionY))/light.radius;
                         if (distance < 1) {
-                            double lightValue = 0;
-
-                            Vector3D direction = Vector3D.normalize( new Vector3D(
-                                    screenPositionX-x, screenPositionY-y, light.pointLight.getHeight()*height/100.0
-                            ));
-                            lightValue = Math.max(Vector3D.dot(new Vector3D(
+                            double lightValue = Math.max(Vector3D.dot(new Vector3D(
                                     (normals.getRed()/255.0 - 0.5) * 2,
                                     (normals.getGreen()/255.0 - 0.5) * -2,
                                     (normals.getBlue()/255.0 - 0.5) * 2
-                            ), direction), 0) * Math.pow(1-distance, 2);
+                            ), Vector3D.normalize( new Vector3D(
+                                    screenPositionX-x, screenPositionY-y, light.lightHeight*height/100.0
+                            ))), 0) * Math.pow(1-distance, 2);
 
-                            Vector3D intensity = light.pointLight.getIntensity();  // Inensité (en %) de la lumière (x=r, y=g, z=b)
+                            Vector3D intensity = light.intensity;  // Intensité (en %) de la lumière (x=r, y=g, z=b)
                             // Ajout de la lumière calculée (lightValue multiplié par la couleur de la lumière) au total de l'éclairage du pixel
-                            Vector3D.add(lightColor, new Vector3D(
-                                    lightValue * intensity.getX(),
-                                    lightValue * intensity.getY(),
-                                    lightValue * intensity.getZ()
-                            ));
+                            light_r += lightValue * intensity.getX();
+                            light_g += lightValue * intensity.getY();
+                            light_b += lightValue * intensity.getZ();
                         }
-
+                        k++;
                     }
 
                     // Multiplication de la couleur par l'éclairage
                     int r, g, b;
-                    r = (int) (color.getRed() * lightColor.getX());
-                    g = (int) (color.getGreen() * lightColor.getY());
-                    b = (int) (color.getBlue() * lightColor.getZ());
+                    r = (int) (color.getRed() * light_r);
+                    g = (int) (color.getGreen() * light_g);
+                    b = (int) (color.getBlue() * light_b);
 
-                    // Ecriture du pixel dans le buffer
+                    // Écriture du pixel dans le buffer
                     finalBufferPixels[j] = new Color(
                             Math.min(255, Math.max(0, r)),
                             Math.min(255, Math.max(0, g)),
@@ -307,6 +343,11 @@ public class SceneManager {
 
     }
 
+    /**
+     * Met à jour les informations de résolution de l'écran
+     * @param canvasWidth Largeur de l'écran
+     * @param canvasHeight Hauteur de l'écran
+     */
     public static void setResolution(int canvasWidth, int canvasHeight) {
         if (SceneManager.canvasWidth == canvasWidth && SceneManager.canvasHeight == canvasHeight)
             return;
@@ -316,12 +357,27 @@ public class SceneManager {
         recreateBuffers();
     }
 
+    /**
+     * Renvoie l'échelle de rendu de la scène (1 = 100%).
+     * @return L'échelle de rendu de la scène
+     */
+    public static double getRenderScale() {
+        return renderScale;
+    }
+
+    /**
+     * Définit l'échelle de rendu de la scène
+     * @param renderScale La nouvelle échelle de rendu de la scène
+     */
     public static void setRenderScale(double renderScale) {
-        SceneManager.renderScale = renderScale;
-        if (canvasWidth != 0 && canvasHeight != 0) // Emepeche la création des buffers si la fenetre n'a pas été initialisée
+        SceneManager.renderScale = Math.max(renderScale, 0.001);
+        if (canvasWidth != 0 && canvasHeight != 0) // Empêche la création des buffers si la fenêtre n'a pas été initialisée
             recreateBuffers();
     }
 
+    /**
+     * Recrée les buffers à la bonne résolution
+     */
     private static void recreateBuffers() {
         SceneManager.width = (int)(canvasWidth * renderScale);
         SceneManager.height = (int)(canvasHeight * renderScale);
@@ -330,6 +386,10 @@ public class SceneManager {
         finalBuffer = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     }
 
+    /**
+     * Met à jour les informations de position de la souris à l'écran
+     * @param mousePosition La position de la souris
+     */
     public static void setMousePosition(Vector2D mousePosition) {
         SceneManager.mousePosition = mousePosition;
     }

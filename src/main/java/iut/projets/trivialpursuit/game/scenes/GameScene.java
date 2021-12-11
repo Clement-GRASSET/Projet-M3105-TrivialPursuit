@@ -4,17 +4,13 @@ import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.SceneManager;
 import iut.projets.trivialpursuit.engine.UIManager;
 import iut.projets.trivialpursuit.engine.Sound;
-import iut.projets.trivialpursuit.engine.basetypes.Animation;
-import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
-import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
-import iut.projets.trivialpursuit.engine.basetypes.PointLight;
+import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.engine.core.Light;
 import iut.projets.trivialpursuit.engine.core.Scene;
+import iut.projets.trivialpursuit.engine.core.UIElement;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.*;
-import iut.projets.trivialpursuit.game.actors.Case;
-import iut.projets.trivialpursuit.game.actors.Pawn;
-import iut.projets.trivialpursuit.game.actors.GameBoard;
+import iut.projets.trivialpursuit.game.actors.*;
 import iut.projets.trivialpursuit.game.questions.Question;
 import iut.projets.trivialpursuit.game.questions.QuestionsManager;
 import iut.projets.trivialpursuit.game.ui.*;
@@ -27,7 +23,6 @@ import java.util.Map;
 public class GameScene extends Scene {
 
     private final DirectionalLight light;
-    private final PointLight questionLight;
     private final PointLight mouseLight;
     double compteur;
     private final Sound music, music_thinking;
@@ -50,7 +45,6 @@ public class GameScene extends Scene {
 
         light = new DirectionalLight();
         light.setIntensity(lightDefaultIntensity);
-        questionLight = new PointLight();
         mouseLight = new PointLight();
 
         gameUI = new GameUI(players, scores);
@@ -70,10 +64,6 @@ public class GameScene extends Scene {
 
         addLight(light);
         light.setDirection(new Vector3D(1,1,-1));
-
-        addLight(questionLight);
-        questionLight.setIntensity(new Vector3D(0,0,0));
-        questionLight.setHeight(8);
 
         addLight(mouseLight);
         mouseLight.setPosition(new Vector2D(0,0));
@@ -100,6 +90,26 @@ public class GameScene extends Scene {
             scores.put(players.get(i), new PlayerScores());
         }
 
+        UITextButton pauseButton = new UITextButton("Pause");
+        pauseButton.setAnchor(UIElement.Anchor.TOP_RIGHT);
+        pauseButton.setAlignment(new Vector2D(-1, 1));
+        gameUI.addElement(pauseButton);
+        pauseButton.onClick(() -> {
+            Pause pauseUI = new Pause();
+            gameUI.setFocusable(false);
+            UIManager.addElement(pauseUI);
+            pauseUI.onResume(() -> {
+                UIManager.removeElement(pauseUI);
+                gameUI.setFocusable(true);
+            });
+            pauseUI.onQuit(() -> {
+                backToMenu(() -> {
+                    UIManager.removeElement(gameUI);
+                    UIManager.removeElement(pauseUI);
+                });
+            });
+        });
+
         playIntroAnimation(() -> {
             newTurn();
         });
@@ -111,11 +121,12 @@ public class GameScene extends Scene {
 
         NewTurnAnnouncement newTurnAnnouncement = new NewTurnAnnouncement(player);
         newTurnAnnouncement.onDestroy(() -> {
+            gameUI.removeElement(newTurnAnnouncement);
             beginTurn();
         });
 
         moveCameraTo(pawns.get(player).getPosition(), 3, 0.8, null);
-        UIManager.addElement(newTurnAnnouncement);
+        gameUI.addElement(newTurnAnnouncement);
     }
 
     private void beginTurn() {
@@ -124,6 +135,7 @@ public class GameScene extends Scene {
         RandomNumberUI randomNumberUI = new RandomNumberUI();
 
         randomNumberUI.onDestroy(() -> {
+            gameUI.removeElement(randomNumberUI);
 
             moveCameraTo(new Vector2D(0,0), 1, 0.3, () -> {
 
@@ -132,6 +144,7 @@ public class GameScene extends Scene {
                 caseSelectionUI.addButtons(cases);
 
                 caseSelectionUI.onDestroy(() -> {
+                    gameUI.removeElement(caseSelectionUI);
 
                     Case c = caseSelectionUI.getSelected();
                     pawns.get(player).setCurrentCase(c);
@@ -140,29 +153,40 @@ public class GameScene extends Scene {
                     CaseAnnouncement caseAnnouncement = new CaseAnnouncement(c, player.getProfile());
 
                     caseAnnouncement.onDestroy(() ->  {
+                        gameUI.removeElement(caseAnnouncement);
 
                         if (c.getType() == Case.CaseType.ROLL_AGAIN) {
                             beginTurn();
                         } else if (c.getType() == Case.CaseType.MULTI) {
                             if (scores.get(player).isComplete()) {
+                                setLightIntensity(light, lightQuestionIntensity, 0.5);
+                                switchMusic(music, music_thinking);
+
                                 TrivialPursuitColor questionColor = scores.get(player).getMostFailedColor();
 
-                                Profile.Category questionCategory = player.getProfile().getCategory(questionColor);
-                                Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
-                                QuestionUI questionUI = new QuestionUI(question);
-                                questionUI.onDestroy(() -> {
-                                    switchMusic(music_thinking, music);
-                                    setLightIntensity(light, lightDefaultIntensity, 0.5);
-                                    setLightIntensity(questionLight, new Vector3D(0, 0, 0), 0.5);
-                                    if (questionUI.getSuccess()) {
-                                        end(player);
-                                    } else {
-                                        scores.get(player).addAttempt(questionColor, false);
-                                        playerIndex = Math.floorMod(playerIndex + 1, players.size());
-                                        newTurn();
-                                    }
+                                CaseLightMulti caseLight = (CaseLightMulti) addActor(CaseLightMulti.class);
+                                caseLight.show();
+
+                                moveCameraTo(c.getPosition(), 3, 0.5, () -> {
+                                    Profile.Category questionCategory = player.getProfile().getCategory(questionColor);
+                                    Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
+                                    QuestionUI questionUI = new QuestionUI(question);
+                                    questionUI.onDestroy(() -> {
+                                        gameUI.removeElement(questionUI);
+                                        setLightIntensity(light, lightDefaultIntensity, 0.5);
+                                        caseLight.remove();
+                                        switchMusic(music_thinking, music);
+                                        setLightIntensity(light, lightDefaultIntensity, 0.5);
+                                        if (questionUI.getSuccess()) {
+                                            end(player);
+                                        } else {
+                                            scores.get(player).addAttempt(questionColor, false);
+                                            playerIndex = Math.floorMod(playerIndex + 1, players.size());
+                                            newTurn();
+                                        }
+                                    });
+                                    gameUI.addElement(questionUI);
                                 });
-                                UIManager.addElement(questionUI);
                             } else {
                                 playerIndex = Math.floorMod(playerIndex + 1, players.size());
                                 newTurn();
@@ -170,8 +194,10 @@ public class GameScene extends Scene {
                         } else {
 
                             setLightIntensity(light, lightQuestionIntensity, 0.5);
-                            setLightIntensity(questionLight, Vector3D.add(Vector3D.multiply(new Vector3D(c.getColor().getRGB()), 6), new Vector3D(0.2,0.2,0.2)), 0.5);
-                            questionLight.setPosition(c.getPosition());
+                            CaseLightSingle caseLight = (CaseLightSingle) addActor(CaseLightSingle.class);
+                            caseLight.setPosition(c.getPosition());
+                            caseLight.setColor(c.getColor());
+                            caseLight.show();
                             moveCameraTo(c.getPosition(), 3, 0.5, () -> {
 
                                 switchMusic(music, music_thinking);
@@ -180,9 +206,10 @@ public class GameScene extends Scene {
                                 Question question = QuestionsManager.getRandomQuestion(questionCategory.getCategoryName(), questionCategory.getDifficulty());
                                 QuestionUI questionUI = new QuestionUI(question);
                                 questionUI.onDestroy(() -> {
+                                    gameUI.removeElement(questionUI);
                                     switchMusic(music_thinking, music);
                                     setLightIntensity(light, lightDefaultIntensity, 0.5);
-                                    setLightIntensity(questionLight, new Vector3D(0,0,0), 0.5);
+                                    caseLight.remove();
                                     if (questionUI.getSuccess()) {
                                         scores.get(player).addAttempt(c.getColor(), true);
                                         pawns.get(player).addSlice(c.getColor());
@@ -194,39 +221,46 @@ public class GameScene extends Scene {
                                         newTurn();
                                     }
                                 });
-                                UIManager.addElement(questionUI);
+                                gameUI.addElement(questionUI);
 
                             });
                         }
 
                     });
-                    UIManager.addElement(caseAnnouncement);
+                    gameUI.addElement(caseAnnouncement);
 
                 });
-                UIManager.addElement(caseSelectionUI);
+                gameUI.addElement(caseSelectionUI);
 
             });
 
         });
 
-        UIManager.addElement(randomNumberUI);
+        gameUI.addElement(randomNumberUI);
     }
 
     private void end(Player player) {
-        music.stop();
-        music_thinking.stop();
         ResultsUI resultsUI = new ResultsUI(player);
         resultsUI.onBackToMenuClicked(() -> {
-            GameLoadingScreen loadingScreen = new GameLoadingScreen();
-            loadingScreen.onConstructAnimationFinished(() -> {
+            backToMenu(() -> {
                 UIManager.removeElement(resultsUI);
                 UIManager.removeElement(gameUI);
-                SceneManager.setActiveScene(new MainMenuScene());
-                loadingScreen.remove();
             });
-            UIManager.addElement(loadingScreen);
         });
         UIManager.addElement(resultsUI);
+    }
+
+    private void backToMenu(Runnable onLoadingShow) {
+        music.stop();
+        music_thinking.stop();
+        GameLoadingScreen loadingScreen = new GameLoadingScreen();
+        loadingScreen.onConstructAnimationFinished(() -> {
+            if (onLoadingShow != null)
+                onLoadingShow.run();
+            SceneManager.setActiveScene(new MainMenuScene());
+            loadingScreen.remove();
+        });
+        UIManager.addElement(loadingScreen);
     }
 
     private void moveCameraTo(Vector2D position, double zoom, double speed, Runnable then) {
