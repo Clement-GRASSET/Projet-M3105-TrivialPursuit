@@ -54,8 +54,8 @@ public class GameScene extends Scene {
 
         this.gameBoard = (GameBoard) addActor(GameBoard.class);
 
-        music = Resources.getSound("/sounds/musics/origamiKingBB.wav");
-        music_thinking = Resources.getSound("/sounds/musics/origamiKingBBT.wav");
+        music = Resources.getSound("/sounds/musics/game.wav");
+        music_thinking = Resources.getSound("/sounds/musics/game_thinking.wav");
     }
 
     @Override
