@@ -1,12 +1,11 @@
 package iut.projets.trivialpursuit.game.ui;
 
+import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.Settings;
 import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.awt.*;
 import java.util.function.Function;
 
 public class Options extends UIScreenContainer {
@@ -16,7 +15,7 @@ public class Options extends UIScreenContainer {
         private final Runnable decrease, increase;
         private String textValue;
 
-        Selector(String name, Function<String, String> update, Runnable decrease, Runnable increase) {
+        Selector(String name, Function<String, String> update, Runnable decrease, Runnable increase, Color fontColor) {
             this.update = update;
             this.decrease = decrease;
             this.increase = increase;
@@ -35,6 +34,8 @@ public class Options extends UIScreenContainer {
             text.setAlignment(new Vector2D(1, 0));
             text.setTextAlign(Anchor.CENTER_LEFT);
             text.setText(name);
+            text.setColor(fontColor);
+            text.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
             addElement(text);
 
             UIText value = new UIText();
@@ -44,6 +45,8 @@ public class Options extends UIScreenContainer {
             value.setAlignment(new Vector2D(-1, 0));
             value.setTextAlign(Anchor.CENTER_CENTER);
             value.setText("Valeur");
+            value.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
+            value.setColor(fontColor);
             addElement(value);
 
             UITextButton left = new UITextButton("<");
@@ -82,7 +85,7 @@ public class Options extends UIScreenContainer {
 
     private Runnable onBackClicked;
 
-    public Options() {
+    public Options(Color fontColor) {
         onBackClicked = () -> {};
 
         UITextButton backButton = new UITextButton("Retour");
@@ -90,6 +93,7 @@ public class Options extends UIScreenContainer {
         backButton.setAlignment(new Vector2D(1, -1));
         backButton.setPosition(new Vector2D(5, -3));
         backButton.setSize(new Vector2D(17, 7));
+        backButton.setPressSound("/sounds/ui/back.wav");
         backButton.onClick( () -> {
             onBackClicked.run();
         });
@@ -117,21 +121,21 @@ public class Options extends UIScreenContainer {
                 }
             }
             Settings.setMaxFPS(0);
-        });
+        }, fontColor);
         renderScale = new Selector("Echelle de rendu", (value) -> {
             return String.format("%.0f" ,Settings.getRenderScale()*100) + "%";
         }, () -> {
             Settings.setRenderScale(Math.max(Settings.getRenderScale()-0.1, 0.1));
         }, () -> {
             Settings.setRenderScale(Math.min(Settings.getRenderScale()+0.1, 2));
-        });
+        }, fontColor);
         fullScreen = new Selector("Plein écran", (value) -> {
             return (Settings.getFullScreen()) ? "Activé" : "Désactivé";
         }, () -> {
             Settings.setFullScreen(false);
         }, () -> {
             Settings.setFullScreen(true);
-        });
+        }, fontColor);
 
         fps.setPosition(new Vector2D(0, -15));
         renderScale.setPosition(new Vector2D(0, 0));

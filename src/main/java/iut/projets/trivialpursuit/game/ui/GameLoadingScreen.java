@@ -54,8 +54,8 @@ public class GameLoadingScreen extends UIScreenContainer {
 
     private void playConstructAnimation(Runnable then) {
         Animation logoAnimation = new Animation(new Keyframe[] {
-                new Keyframe(200, 0),
-                new Keyframe(50, 0.2)
+                new Keyframe(50, 0),
+                new Keyframe(20, 0.2)
         });
         logoAnimation.onUpdate(() -> {
             logo.setSize(logoAnimation.getValue());

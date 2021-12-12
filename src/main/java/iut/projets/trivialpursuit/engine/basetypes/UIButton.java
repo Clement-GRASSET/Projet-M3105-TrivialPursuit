@@ -1,5 +1,6 @@
 package iut.projets.trivialpursuit.engine.basetypes;
 
+import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
@@ -12,6 +13,7 @@ public class UIButton extends UIBoxContainer {
 
     private Image image, defaultImage, hoverImage, pressedImage;
     private boolean hovered, pressed;
+    private String hoverSoundPath, pressSoundPath;
     private Runnable onClick;
 
     /**
@@ -28,6 +30,8 @@ public class UIButton extends UIBoxContainer {
         setPressedImage( makeColoredImage(new Color(255, 220, 50)) );
         this.image = defaultImage;
         onClick = () -> {};
+        hoverSoundPath = null;
+        pressSoundPath = null;
     }
 
     /**
@@ -91,7 +95,14 @@ public class UIButton extends UIBoxContainer {
         super.tick(frameTime);
 
         if (pressed && !getMousePressed() && isHovered()) {
+            if (pressSoundPath != null)
+                Resources.getSound(pressSoundPath).play();
             onClick.run();
+        }
+
+        if (!hovered && isHovered()) {
+            if (hoverSoundPath != null)
+                Resources.getSound(hoverSoundPath).play();
         }
 
         hovered = isHovered();
@@ -127,5 +138,21 @@ public class UIButton extends UIBoxContainer {
      */
     public void onClick(Runnable onClick) {
         this.onClick = onClick;
+    }
+
+    /**
+     * Définit le chemin du son à jouer lors du survol de la souris.
+     * @param path Chemin du son.
+     */
+    public void setHoverSound(String path) {
+        hoverSoundPath = path;
+    }
+
+    /**
+     * Définit le chemin du son à jouer lors du survol de la souris.
+     * @param path Chemin du son.
+     */
+    public void setPressSound(String path) {
+        pressSoundPath = path;
     }
 }

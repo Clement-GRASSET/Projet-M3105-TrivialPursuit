@@ -11,33 +11,24 @@ import iut.projets.trivialpursuit.game.Profile;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import iut.projets.trivialpursuit.game.scenes.GameScene;
 
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainMenu extends UIScreenContainer {
-
-    private class PlayerInfo extends UIBoxContainer {
-        PlayerInfo() {
-            super();
-            setAnchor(Anchor.CENTER_CENTER);
-
-            UIImage image = new UIImage();
-            setSize(new Vector2D(25,40));
-            image.setSize(getSize());
-            image.setAnchor(Anchor.TOP_LEFT);
-            image.setAlignment(new Vector2D(1,1));
-            addElement(image);
-
-            UITextButton button = new UITextButton("Test");
-            button.setSize(new Vector2D(20, 8));
-            addElement(button);
-        }
-    }
 
     private class TitleScreen extends UIScreenContainer {
         TitleScreen() {
             UITextButton playButton = new UITextButton("Jouer");
             playButton.setRenderOrder(1);
             playButton.setAnchor(Anchor.CENTER_CENTER);
-            playButton.setPosition(new Vector2D(0, 15));
-            playButton.setSize(new Vector2D(30, 8));
+            playButton.setPosition(new Vector2D(-40, 25));
+            playButton.setSize(new Vector2D(30, 30));
+            playButton.setDefaultImage(Resources.getImage("/images/play_button.png"));
+            playButton.setHoverImage(Resources.getImage("/images/play_button_hover.png"));
+            playButton.setPressedImage(Resources.getImage("/images/play_button_press.png"));
+            playButton.getTextElement().setFont(Resources.getFont("/fonts/theboldfont.ttf"));
+            playButton.getTextElement().setFontSize(5);
             playButton.onClick( () -> {
                 setActiveMenu(profileSelectionScreen);
             } );
@@ -47,7 +38,12 @@ public class MainMenu extends UIScreenContainer {
             optionButton.setRenderOrder(1);
             optionButton.setAnchor(Anchor.CENTER_CENTER);
             optionButton.setPosition(new Vector2D(0, 25));
-            optionButton.setSize(new Vector2D(30, 8));
+            optionButton.setSize(new Vector2D(30, 30));
+            optionButton.setDefaultImage(Resources.getImage("/images/options_button.png"));
+            optionButton.setHoverImage(Resources.getImage("/images/options_button_hover.png"));
+            optionButton.setPressedImage(Resources.getImage("/images/options_button_press.png"));
+            optionButton.getTextElement().setFont(Resources.getFont("/fonts/theboldfont.ttf"));
+            optionButton.getTextElement().setFontSize(5);
             optionButton.onClick( () -> {
                 setActiveMenu(optionsMenu);
             });
@@ -56,8 +52,14 @@ public class MainMenu extends UIScreenContainer {
             UITextButton quitButton = new UITextButton("Quitter");
             quitButton.setRenderOrder(1);
             quitButton.setAnchor(Anchor.CENTER_CENTER);
-            quitButton.setPosition(new Vector2D(0, 35));
-            quitButton.setSize(new Vector2D(30, 8));
+            quitButton.setPosition(new Vector2D(40, 25));
+            quitButton.setSize(new Vector2D(30, 30));
+            quitButton.setDefaultImage(Resources.getImage("/images/quit_button.png"));
+            quitButton.setHoverImage(Resources.getImage("/images/quit_button_hover.png"));
+            quitButton.setPressedImage(Resources.getImage("/images/quit_button_press.png"));
+            quitButton.getTextElement().setFont(Resources.getFont("/fonts/theboldfont.ttf"));
+            quitButton.getTextElement().setFontSize(5);
+            quitButton.setPressSound("/sounds/ui/back.wav");
             quitButton.onClick( () ->  {
                 menuMusic.stop();
                 System.exit(0);
@@ -74,34 +76,42 @@ public class MainMenu extends UIScreenContainer {
     }
 
     private class ProfileSelectionScreen extends UIScreenContainer {
+        final List<PlayerInfo> playerInfos;
         ProfileSelectionScreen() {
+            playerInfos = new ArrayList<>();
+
+            UIText text = new UIText();
+            text.setPosition(new Vector2D(0, -35));
+            text.setAlignment(new Vector2D(0,0));
+            text.setAnchor(Anchor.CENTER_CENTER);
+            text.setTextAlign(Anchor.CENTER_CENTER);
+            text.setText("Choix des profils");
+            text.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
+            text.setFontSize(8);
+            text.setColor(Color.BLACK);
+            addElement(text);
+
             UITextButton backButton = new UITextButton("Retour");
             backButton.setAnchor(Anchor.BOTTOM_LEFT);
             backButton.setAlignment(new Vector2D(1, -1));
             backButton.setPosition(new Vector2D(5, -3));
             backButton.setSize(new Vector2D(17, 7));
+            backButton.setPressSound("/sounds/ui/back.wav");
             backButton.onClick( () -> {
                 setActiveMenu(titleScreen);
             });
             addElement(backButton);
-            /*
-            PlayerInfo playerInfo1, playerInfo2, playerInfo3;
-            playerInfo1 = new PlayerInfo();
-            playerInfo1.setPosition(new Vector2D(-30, 0));
-            playerInfo2 = new PlayerInfo();
-            playerInfo3 = new PlayerInfo();
-            playerInfo3.setPosition(new Vector2D(30, 0));
-            addElement(playerInfo1);
-            addElement(playerInfo2);
-            addElement(playerInfo3);
-            */
-            UITextButton profile_button = new UITextButton("Paramètres profiles");
+
+            updatePlayers();
+
+            UITextButton profile_button = new UITextButton("Modifier les profils");
             profile_button.setAnchor(Anchor.BOTTOM_CENTER);
             profile_button.setAlignment(new Vector2D(0, -1));
             profile_button.setPosition(new Vector2D(0, -3));
             profile_button.setSize(new Vector2D(35, 7));
             profile_button.onClick( () -> {
                 ProfileMenu pmenu = new ProfileMenu(Game.getWindow(), 640, 360, Game.getWindow().getX(), Game.getWindow().getY(), gameInfo);
+                updatePlayers();
             });
 
             addElement(profile_button);
@@ -111,8 +121,15 @@ public class MainMenu extends UIScreenContainer {
             startButton.setPosition(new Vector2D(-5, -3));
             startButton.setSize(new Vector2D(17, 7));
             startButton.onClick( () -> {
-                menuMusic.stop();
+                Resources.getSound("/sounds/ui/game_start.wav").play();
                 GameLoadingScreen gameLoadingScreen = new GameLoadingScreen();
+                Animation animation = new Animation(new Keyframe[] {
+                        new Keyframe(menuMusic.getVolume(),0),
+                        new Keyframe(0,1.5)
+                });
+                animation.onUpdate(() -> { menuMusic.setVolume((float)animation.getValue()); });
+                animation.onFinish(() -> { menuMusic.stop(); });
+                animation.start(gameLoadingScreen);
                 gameLoadingScreen.onConstructAnimationFinished(() -> {
                     Delay delay = new Delay(2);
                     delay.onFinish(() -> {
@@ -126,6 +143,22 @@ public class MainMenu extends UIScreenContainer {
                 UIManager.removeElement(mainMenu);
             });
             addElement(startButton);
+        }
+
+        void updatePlayers() {
+            for (PlayerInfo playerInfo : playerInfos) {
+                removeElement(playerInfo);
+            }
+            playerInfos.clear();
+            int nbPlayers = gameInfo.getPlayers().size();
+            double spacing = 29;
+            for (int i = 0; i < nbPlayers; i++) {
+                Player player = gameInfo.getPlayers().get(i);
+                PlayerInfo playerInfo = new PlayerInfo(player);
+                playerInfos.add(playerInfo);
+                playerInfo.setPosition(new Vector2D(i*spacing - (nbPlayers-1)*spacing/2, 3));
+                addElement(playerInfo);
+            }
         }
     }
 
@@ -160,7 +193,7 @@ public class MainMenu extends UIScreenContainer {
         addElement(background);
 
         titleScreen = new TitleScreen();
-        optionsMenu = new Options();
+        optionsMenu = new Options(Color.BLACK);
         optionsMenu.onBackClicked(() -> {
             setActiveMenu(titleScreen);
         });
@@ -176,7 +209,7 @@ public class MainMenu extends UIScreenContainer {
         double period = 60.0/music_bpm;
         double time_offset = 0;
         double scale = ( Math.cos( (time+time_offset) * 2 * Math.PI/period ) + 1 )/2;
-        logo.setSize( Math.pow(scale, 10)*2 + 50);
+        logo.setSize( Math.pow(scale, 10)*0.8 + 20);
     }
 
     private void setActiveMenu(UIContainer menu) {

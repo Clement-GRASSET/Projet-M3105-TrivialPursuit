@@ -1,8 +1,6 @@
 package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.Resources;
-import iut.projets.trivialpursuit.engine.UIManager;
-import iut.projets.trivialpursuit.engine.basetypes.UITextButton;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.basetypes.UIButton;
 import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;

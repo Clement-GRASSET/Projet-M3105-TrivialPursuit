@@ -2,7 +2,6 @@ package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.basetypes.UIImage;
 import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
-import iut.projets.trivialpursuit.engine.basetypes.UITextButton;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
@@ -32,6 +31,7 @@ public class Pause extends UIScreenContainer {
         playButton.setAnchor(Anchor.CENTER_CENTER);
         playButton.setPosition(new Vector2D(0, -12));
         playButton.setSize(new Vector2D(30, 8));
+        playButton.setPressSound("/sounds/ui/back.wav");
         playButton.onClick( () -> {
             onResume.run();
         } );
@@ -43,7 +43,7 @@ public class Pause extends UIScreenContainer {
         optionButton.setPosition(new Vector2D(0, 0));
         optionButton.setSize(new Vector2D(30, 8));
         optionButton.onClick( () -> {
-            Options options = new Options();
+            Options options = new Options(Color.WHITE);
             options.onBackClicked(() -> {
                 removeElement(options);
                 addElement(main);
@@ -58,6 +58,7 @@ public class Pause extends UIScreenContainer {
         quitButton.setAnchor(Anchor.CENTER_CENTER);
         quitButton.setPosition(new Vector2D(0, 12));
         quitButton.setSize(new Vector2D(30, 8));
+        quitButton.setPressSound("/sounds/ui/back.wav");
         quitButton.onClick( () ->  {
             onQuit.run();
         });

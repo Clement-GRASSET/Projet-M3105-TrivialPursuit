@@ -1,5 +1,8 @@
-package iut.projets.trivialpursuit.engine.basetypes;
+package iut.projets.trivialpursuit.game.ui;
 
+import iut.projets.trivialpursuit.engine.Resources;
+import iut.projets.trivialpursuit.engine.basetypes.UIButton;
+import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 /**
@@ -20,9 +23,12 @@ public class UITextButton extends UIButton {
         textElement.setAnchor(Anchor.CENTER_CENTER);
         textElement.setAlignment(new Vector2D(0, 0));
         textElement.setTextAlign(Anchor.CENTER_CENTER);
-        textElement.setFontSize(3);
+        textElement.setFontSize(2.5);
+        textElement.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
         setText(text);
         addElement(textElement);
+        setHoverSound("/sounds/ui/hover.wav");
+        setPressSound("/sounds/ui/click.wav");
     }
 
     /**

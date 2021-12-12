@@ -43,12 +43,33 @@ public class StartScene extends Scene {
                 "/textures/slices/slice_yellow_normals.png",
                 "/images/main-menu-background.png",
                 "/images/trivial-pursuit-logo.png",
+                "/images/play_button.png",
+                "/images/play_button_hover.png",
+                "/images/play_button_press.png",
+                "/images/options_button.png",
+                "/images/options_button_hover.png",
+                "/images/options_button_press.png",
+                "/images/quit_button.png",
+                "/images/quit_button_hover.png",
+                "/images/quit_button_press.png",
                 "/images/player_info_blue.png",
                 "/images/player_info_green.png",
                 "/images/player_info_orange.png",
                 "/images/player_info_pink.png",
                 "/images/player_info_purple.png",
                 "/images/player_info_yellow.png",
+                "/images/menu_player_info_blue.png",
+                "/images/menu_player_info_green.png",
+                "/images/menu_player_info_orange.png",
+                "/images/menu_player_info_pink.png",
+                "/images/menu_player_info_purple.png",
+                "/images/menu_player_info_yellow.png",
+                "/images/slice_icon_blue.png",
+                "/images/slice_icon_green.png",
+                "/images/slice_icon_orange.png",
+                "/images/slice_icon_pink.png",
+                "/images/slice_icon_purple.png",
+                "/images/slice_icon_yellow.png",
                 "/images/pawn.png",
                 "/images/slice_blue.png",
                 "/images/slice_green.png",
@@ -61,6 +82,7 @@ public class StartScene extends Scene {
                 "/images/case_button_press.png",
         };
         String [] fonts = {
+                "/fonts/theboldfont.ttf"
         };
 
         LoadingTask loadingTask = new LoadingTask(images, fonts);
