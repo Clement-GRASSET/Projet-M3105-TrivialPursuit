@@ -53,7 +53,14 @@ public class GameLoop extends Thread {
      */
     private void update() {
         BufferStrategy bufferStrategy = canvas.getBufferStrategy();
-        Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
+        Graphics2D g;
+        while (true) {
+            try {
+                g = (Graphics2D) bufferStrategy.getDrawGraphics();
+                break;
+            } catch (Exception ignored) {}
+        }
+
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
 

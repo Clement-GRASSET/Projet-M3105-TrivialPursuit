@@ -87,6 +87,11 @@ public class QuestionUI extends UIScreenContainer {
     }
 
     private void end(String text) {
+        if (success)
+            Resources.getSound("/sounds/ui/button_answer_success.wav").play();
+        else
+            Resources.getSound("/sounds/ui/button_answer_fail.wav").play();
+
         removeElement(questionContainer);
 
         UIImage background = new UIImage();

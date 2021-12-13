@@ -37,6 +37,7 @@ public class CaseSelectionUI extends UIScreenContainer {
             button.setPosition(c.getPosition());
 
             button.onClick(() -> {
+                Resources.getSound("/sounds/ui/button_case.wav").play();
                 selected = c;
                 onDestroy.run();
             });

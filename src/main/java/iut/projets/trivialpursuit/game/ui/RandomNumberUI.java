@@ -53,6 +53,7 @@ public class RandomNumberUI extends UIScreenContainer {
             RandomButton button = new RandomButton((int) Math.floor(Math.random()*6)+1);
             randomButtons.add(button);
             button.onClick(() -> {
+                Resources.getSound("/sounds/ui/button_number.wav").play();
                 number = button.number;
                 for (RandomButton b : randomButtons) {
                     b.setFocusable(false);
