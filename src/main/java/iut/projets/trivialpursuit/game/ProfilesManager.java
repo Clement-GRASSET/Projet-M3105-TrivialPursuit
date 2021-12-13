@@ -144,14 +144,15 @@ public class ProfilesManager {
             NodeList collist = profnode.getElementsByTagName("Color");
             //System.out.println("Length : " + collist.getLength());
 
+            Profile profile = new Profile();
+            profile.setName(profname);
+            profiles_list.add(profile);
+
             for (int j = 0 ; j < collist.getLength() ; j++) {
                 Element colnode = (Element) collist.item(j);
-                Profile profile = new Profile();
 
-                profile.setName(profname);
                 profile.setCategory(TrivialPursuitColor.valueOf(colnode.getAttribute("color")), colnode.getAttribute("category"), colnode.getAttribute("difficulty"));
 
-                profiles_list.add(profile);
                 //System.out.println("Profile : " + profiles_list.get(j).getName());
             }
         }
@@ -210,5 +211,9 @@ public class ProfilesManager {
         createColor("Profile 3", "YELLOW", "Science", "Expert");
         createColor("Profile 3", "ORANGE", "Histoire", "Expert");
         createColor("Profile 3", "GREEN", "Nature", "Expert");
+    }
+
+    public static Profile getDefaultProfile() {
+        return profiles_list.get(0);
     }
 }

@@ -5,10 +5,7 @@ import iut.projets.trivialpursuit.engine.basetypes.Delay;
 import iut.projets.trivialpursuit.engine.core.UIContainer;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.basetypes.*;
-import iut.projets.trivialpursuit.game.GameInfo;
-import iut.projets.trivialpursuit.game.Player;
-import iut.projets.trivialpursuit.game.Profile;
-import iut.projets.trivialpursuit.game.TrivialPursuitColor;
+import iut.projets.trivialpursuit.game.*;
 import iut.projets.trivialpursuit.game.scenes.GameScene;
 
 import java.awt.*;
@@ -215,31 +212,14 @@ public class MainMenu extends UIScreenContainer {
 
     private void initializeGameInfo() {
         gameInfo = new GameInfo();
-        Profile profile;
         Player player;
 
         // Player 1
-        profile = new Profile();
-        profile.setName("Joueur 1");
-        profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
-        profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
-        player = new Player(profile, TrivialPursuitColor.PINK);
+        player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.BLUE);
         gameInfo.getPlayers().add(player);
 
         // Player 2
-        profile = new Profile();
-        profile.setName("Joueur 2");
-        profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
-        profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
-        player = new Player(profile, TrivialPursuitColor.YELLOW);
+        player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.PINK);
         gameInfo.getPlayers().add(player);
     }
 

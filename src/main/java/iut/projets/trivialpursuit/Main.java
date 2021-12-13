@@ -17,11 +17,11 @@ public class Main {
 
                 //test questions XML
                 QuestionsManager.load();
-                QuestionsManager.reset();
+                //QuestionsManager.reset();
 
                 //test profiles XML
                 ProfilesManager.load();
-                ProfilesManager.reset();
+                //ProfilesManager.reset();
 
                 SceneManager.setActiveScene(new StartScene());
             }
