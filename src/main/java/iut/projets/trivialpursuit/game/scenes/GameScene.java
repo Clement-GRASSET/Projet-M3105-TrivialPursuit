@@ -151,7 +151,19 @@ public class GameScene extends Scene {
                     pawns.get(player).setCurrentCase(c);
                     pawns.get(player).moveTo(c.getPosition());
 
-                    CaseAnnouncement caseAnnouncement = new CaseAnnouncement(c, player.getProfile());
+                    String text;
+                    Color color;
+                    if (c.getType() == Case.CaseType.MULTI) {
+                        text = (scores.get(player).isComplete()) ? "Finissez-en !" : "Rien à faire ici";
+                        color = Color.WHITE;
+                    } else if (c.getType() == Case.CaseType.ROLL_AGAIN) {
+                        text = "Rejouez !";
+                        color = Color.WHITE;
+                    } else {
+                        text = player.getProfile().getCategory(c.getColor()).getCategoryName();
+                        color = c.getColor().getRGB();
+                    }
+                    CaseAnnouncement caseAnnouncement = new CaseAnnouncement(text, color);
 
                     caseAnnouncement.onDestroy(() ->  {
                         gameUI.removeElement(caseAnnouncement);

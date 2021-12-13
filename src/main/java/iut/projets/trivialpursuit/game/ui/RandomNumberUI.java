@@ -22,6 +22,9 @@ public class RandomNumberUI extends UIScreenContainer {
             setAnchor(Anchor.CENTER_CENTER);
             setAlignment(new Vector2D(0,0));
             setSize(new Vector2D(25, 25));
+            setDefaultImage(Resources.getImage("/images/random_box.png"));
+            setHoverImage(Resources.getImage("/images/random_box_hover.png"));
+            setPressedImage(Resources.getImage("/images/random_box_active.png"));
             setHoverSound("/sounds/ui/hover.wav");
             setPressSound("/sounds/ui/click.wav");
         }
@@ -63,11 +66,7 @@ public class RandomNumberUI extends UIScreenContainer {
                     number_text.setTextAlign(Anchor.CENTER_CENTER);
                     number_text.setText(String.valueOf(b.number));
                     number_text.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
-                    if (button != b) {
-                        BufferedImage img = new BufferedImage(1,1,BufferedImage.TYPE_INT_RGB);
-                        img.setRGB(0,0,(new Color(50,50,50)).hashCode());
-                        b.setDefaultImage(img);
-                    }
+                    b.setDefaultImage(Resources.getImage((button == b) ? "/images/random_box_empty_chosen.png" : "/images/random_box_empty.png"));
                     b.addElement(number_text);
 
                     Animation animation = new Animation(new Keyframe[] {

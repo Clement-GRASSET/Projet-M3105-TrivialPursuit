@@ -27,6 +27,7 @@ public class QuestionUI extends UIScreenContainer {
         timeCount.setTextAlign(Anchor.TOP_CENTER);
         timeCount.setPosition(new Vector2D(0, 5));
         timeCount.setFontSize(10);
+        timeCount.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
         questionContainer.addElement(timeCount);
 
         UIText questionText = new UIText();
