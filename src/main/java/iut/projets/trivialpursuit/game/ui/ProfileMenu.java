@@ -1,25 +1,88 @@
 package iut.projets.trivialpursuit.game.ui;
 
 
+import iut.projets.trivialpursuit.engine.Game;
 import iut.projets.trivialpursuit.game.GameInfo;
 import iut.projets.trivialpursuit.game.Player;
 import iut.projets.trivialpursuit.game.Profile;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Vector;
 
-public class ProfileMenu extends JDialog  implements ActionListener  {
-    JComboBox collist, catlist, difflist;
+public class ProfileMenu extends JDialog {
+    JButton add_profile = new JButton();
+    JComboBox collist, plist;
+    Vector<ProfileZone> zoneslist;
     GameInfo player_selection = new GameInfo();
+    String [] colors = {TrivialPursuitColor.BLUE.toString(),
+                        TrivialPursuitColor.GREEN.toString(),
+                        TrivialPursuitColor.ORANGE.toString(),
+                        TrivialPursuitColor.PINK.toString(),
+                        TrivialPursuitColor.PURPLE.toString(),
+                        TrivialPursuitColor.YELLOW.toString()};
+
+    String [] profiles = {"Profile 1", "Profile 2", "Profile 3", "Profile 4", "Profile 5", "Profile 6"};
+
+
+
+    private class ProfileZone{
+        int x, y, xfont, yfont, xremovebutton, yremovebutton, width_removebutton, height_removebutton;
+        int xremovelogo, yremovelogo, width_removelogo, height_removelogo;
+        int xaddlogo_horizontal, yaddlogo_horizontal, width_addlogo_horizontal, height_addlogo_horizontal;
+        int xaddlogo_vertical, yaddlogo_vertical, width_addlogo_vertical, height_addlogo_vertical;
+
+
+        final int width = getWidth()/7, height = getHeight()/3;
+        final Color background_color = new Color(95, 95, 95);
+        final Color font_color = Color.WHITE;
+        final Color remove_color = new Color(229, 74, 74);
+        final Color add_color = new Color(74, 173, 74);
+        String name;
+
+        ProfileZone(String name, int x, int y) {
+            this.name = name;
+            this.x = x;
+            this.y = y;
+
+            this.xfont = x+getWidth()/32;
+            this.yfont = y+getHeight()/18;
+
+            this.xremovebutton = x+width-getWidth()/36;
+            this.yremovebutton = y;
+            this.width_removebutton = width/6;
+            this.height_removebutton = height/8;
+
+            this.xremovelogo = xremovebutton+width_removebutton/4;
+            this.yremovelogo = yremovebutton+height_removebutton/4;
+            this.width_removelogo = 3*width_removebutton/4;
+            this.height_removelogo = height_removebutton/3;
+        }
+
+        ProfileZone(int x, int y) {
+            this.x = x;
+            this.y = y;
+
+            this.xaddlogo_horizontal = x+width/6;
+            this.yaddlogo_horizontal = y+4*height/9;
+            this.width_addlogo_horizontal = 2*width/3;
+            this.height_addlogo_horizontal = height/9;
+
+            this.xaddlogo_vertical = x+(width-height_addlogo_horizontal)/2;
+            this.yaddlogo_vertical = y+(height-width_addlogo_horizontal)/2;
+            this.width_addlogo_vertical = height_addlogo_horizontal;
+            this.height_addlogo_vertical = width_addlogo_horizontal;
+        }
+    }
+
+
+
 
     private class MyComboBox<E> extends JComboBox<E> {
         public MyComboBox(E[] list) {
@@ -47,120 +110,215 @@ public class ProfileMenu extends JDialog  implements ActionListener  {
         }
     }
 
+    private class Panel extends JPanel implements ActionListener{
+        public void paint(Graphics g) {
+            super.paint(g);
+            setBackground(new Color(74, 74, 74));
+            setLayout(null);
+/*
+            //Sélection de couleur
+            for (int i = 0 ; i < player_selection.getPlayers().size() ; i++) {
+                collist = new MyComboBox(colors);
+                collist.setBounds(i*(getWidth()/7+getWidth()/49)+getWidth()/49+8, 3*getHeight()/8-getHeight()/6+35, getWidth()/9, getHeight()/15);
+                collist.setFont(new Font("Arial", Font.PLAIN, collist.getHeight() / 2));
+
+                collist.setFocusable(false);
+
+                collist.setBackground(new Color(85, 85, 85));
+                collist.setForeground(Color.WHITE);
+
+                add(collist);
+            }
+
+            //Sélection de profile
+            for (int i = 0 ; i < player_selection.getPlayers().size() ; i++) {
+                plist = new MyComboBox(profiles);
+                plist.setBounds(i*(getWidth()/7+getWidth()/49)+getWidth()/49+8, 3*getHeight()/8-getHeight()/6+75, getWidth()/9, getHeight()/15);
+                plist.setFont(new Font("Arial", Font.PLAIN, collist.getHeight() / 2));
+
+                plist.setFocusable(false);
+
+                plist.setBackground(new Color(85, 85, 85));
+                plist.setForeground(Color.WHITE);
+
+                add(plist);
+            }
+*/
+            //Boutton quitter "OK"
+            JButton quit_button = new JButton("OK");
+            quit_button.setActionCommand("action_quit");
+            quit_button.addActionListener(this);
+
+            quit_button.setSize(getWidth() / 6, getHeight() / 8);
+            quit_button.setLocation(getWidth() / 2 - quit_button.getSize().width / 2, 3 * getHeight() / 4 + quit_button.getSize().height / 2);
+            quit_button.setFont(new Font("Arial", Font.PLAIN, quit_button.getHeight() / 2));
+
+            quit_button.setFocusPainted(false);
+            quit_button.setBorderPainted(false);
+
+            quit_button.setBackground(new Color(255, 120, 0));
+            quit_button.setForeground(Color.WHITE);
+
+            quit_button.addMouseListener(new MouseAdapter() {
+                public void mouseEntered(MouseEvent e) {
+                    quit_button.setBackground(new Color(255, 160, 0));
+                }
+
+                public void mouseExited(MouseEvent e) {
+                    quit_button.setBackground(new Color(255, 120, 0));
+                }
+
+                public void mouseClicked(MouseEvent e) {
+                    quit_button.setBackground(new Color(255, 220, 50));
+                }
+            });
+
+            add(quit_button);
+
+
+            //Zone profiles
+            if (zoneslist.size() == 0)
+                for (int i = 0; i < player_selection.getPlayers().size(); i++) {
+                    //System.out.println("x" + (i + 1) + " : " + (320 - (((player_selection.getPlayers().size() * getWidth() / 7) / 2) + (((getWidth() / 49) * (player_selection.getPlayers().size() - 1)) / 2)) + (i+1) * 8 * getWidth() / 49));
+                    if (player_selection.getPlayers().size() == 6)
+                        zoneslist.add(new ProfileZone(("Joueur " + (i + 1)), 320 - (((player_selection.getPlayers().size() * getWidth() / 7) / 2) + (((getWidth() / 49) * (player_selection.getPlayers().size() - 1)) / 2)) + i * 8 * getWidth() / 49, 5 * getHeight() / 24));
+                    else
+                        zoneslist.add(new ProfileZone(("Joueur " + (i + 1)), 320 - ((((player_selection.getPlayers().size()+1) * getWidth() / 7) / 2) + (((getWidth() / 49) * (player_selection.getPlayers().size()+1)) / 2)) + i * 8 * getWidth() / 49, 5 * getHeight() / 24));
+                    }
+
+            for (int i = 0 ; i < player_selection.getPlayers().size() ; i++) {
+                g.setColor(zoneslist.get(i).background_color);
+                g.fillRect(zoneslist.get(i).x, zoneslist.get(i).y, zoneslist.get(i).width, zoneslist.get(i).height);
+                g.setColor(zoneslist.get(i).font_color);
+                g.drawString(zoneslist.get(i).name, zoneslist.get(i).xfont, zoneslist.get(i).yfont);
+                /*
+                collist = new MyComboBox(colors);
+                collist.setBounds(zoneslist.get(i).x+8, zoneslist.get(i).y+35, getWidth()/9, getHeight()/15);
+                collist.setFont(new Font("Arial", Font.PLAIN, collist.getHeight() / 2));
+
+                collist.setFocusable(false);
+
+                collist.setBackground(new Color(85, 85, 85));
+                collist.setForeground(Color.WHITE);
+
+                add(collist);
+                */
+
+                //Boutton suppression
+                if (player_selection.getPlayers().size() > 2)
+                {
+                    JButton remove_profile = new JButton();
+                    remove_profile.setBounds(zoneslist.get(i).xremovebutton, zoneslist.get(i).yremovebutton, zoneslist.get(i).width_removebutton, zoneslist.get(i).height_removebutton);
+
+                    remove_profile.setOpaque(false);
+                    remove_profile.setFocusPainted(false);
+                    remove_profile.setContentAreaFilled(false);
+                    remove_profile.setBorderPainted(false);
+
+                    remove_profile.setActionCommand("action_removep");
+                    remove_profile.addActionListener(this);
+
+                    add(remove_profile);
+
+                    g.setColor(zoneslist.get(i).remove_color);
+                    g.fillRect(zoneslist.get(i).xremovelogo, zoneslist.get(i).yremovelogo, zoneslist.get(i).width_removelogo, zoneslist.get(i).height_removelogo);
+                }
+            }
+
+            //Zone ajouter
+            if (player_selection.getPlayers().size() < 6) {
+                ProfileZone add_zone = new ProfileZone(320 - ((((player_selection.getPlayers().size()+1) * getWidth() / 7) / 2) + (((getWidth() / 49) * (player_selection.getPlayers().size())) / 2)) + (player_selection.getPlayers().size()) * 8 * getWidth() / 49, 5*getHeight()/24);
+
+                g.setColor(add_zone.background_color);
+                g.fillRect(add_zone.x, add_zone.y, add_zone.width, add_zone.height);
+
+                //Boutton ajouter
+                add_profile.setSize(add_zone.width, add_zone.height);
+                add_profile.setLocation(add_zone.x, add_zone.y);
+                //add_profile.setBounds(add_zone.x, add_zone.y, add_zone.width, add_zone.height);
+
+                add_profile.setOpaque(false);
+                add_profile.setContentAreaFilled(false);
+                add_profile.setBorderPainted(false);
+
+                add_profile.setActionCommand("action_addp");
+                add_profile.addActionListener(this);
+
+                add(add_profile);
+
+                g.setColor(add_zone.add_color);
+                g.fillRect(add_zone.xaddlogo_horizontal, add_zone.yaddlogo_horizontal ,add_zone.width_addlogo_horizontal, add_zone.height_addlogo_horizontal);
+                g.fillRect(add_zone.xaddlogo_vertical, add_zone.yaddlogo_vertical ,add_zone.width_addlogo_vertical, add_zone.height_addlogo_vertical);
+            }
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand().equals("action_addp") && player_selection.getPlayers().size() < 6) {
+                TrivialPursuitColor color = TrivialPursuitColor.PURPLE;
+                Profile profile = new Profile();
+                profile.setName("Joueur "+ (player_selection.getPlayers().size()+1));
+                profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
+                profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
+                profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
+                profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
+                profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
+                profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
+
+                for (int i = 0; i < player_selection.getPlayers().size(); i++) {
+                    for (TrivialPursuitColor tpc : TrivialPursuitColor.values()) {
+                        if (player_selection.getPlayers().get(i).getPawnColor() != color)
+                            break;
+                        else
+                            color = tpc;
+                    }
+                }
+                Player player = new Player(profile, color);
+
+                player_selection.addPlayer(player);
+
+                for (int i = 0 ; i < zoneslist.size() ; i++)
+                        zoneslist.remove(i);
+
+                zoneslist.setSize(0);
+
+                System.out.println("Ajouter");
+                repaint();
+            }
+
+            if(e.getActionCommand().equals("action_removep") && player_selection.getPlayers().size() > 2) {
+                player_selection.getPlayers().remove(player_selection.getPlayers().size()-1);
+
+                for (int i = 0 ; i < zoneslist.size() ; i++)
+                    zoneslist.remove(i);
+
+                zoneslist.setSize(0);
+
+                System.out.println("Supprimé");
+                repaint();
+            }
+
+            if (e.getActionCommand().equals("action_quit")) {
+                dispose();
+            }
+        }
+    }
+
 
 
     ProfileMenu(JFrame owner, int width, int height, int x, int y, GameInfo pselect) {
         super(owner, true);
-        this.player_selection = pselect;
+        zoneslist = new Vector<>();
 
         setSize(width, height);
-        setLocation(x+getWidth()/2, y+getHeight()/2);
+        setLocation(x+Game.getWindow().getWidth()/2-width/2, y+ Game.getWindow().getHeight()/2-height/2);
         setUndecorated(true);
-        getContentPane().setBackground(new Color(94, 94, 94));
-        setLayout(null);
-        
-        /*
-        String [] colors = {TrivialPursuitColor.BLUE.toString(),
-                            TrivialPursuitColor.GREEN.toString(),
-                            TrivialPursuitColor.ORANGE.toString(),
-                            TrivialPursuitColor.PINK.toString(),
-                            TrivialPursuitColor.PURPLE.toString(),
-                            TrivialPursuitColor.YELLOW.toString()};
 
-        collist = new MyComboBox(colors);
-        collist.setBounds(getWidth()/2-2*getWidth()/12-getWidth()/6, 3*getHeight()/8, getWidth()/6, getHeight()/11);
-        collist.setFont(new Font("Arial", Font.PLAIN, collist.getHeight()/2));
-
-        collist.setFocusable(false);
-
-        collist.setBackground(new Color(255, 120, 0));
-        collist.setForeground(Color.WHITE);
-
-        add(collist);
-
-
-        String [] categories = {"Histoire", "Science", "Y", "Nature", "Arts", "Sports"};
-
-        catlist = new MyComboBox(categories);
-        catlist.setBounds(getWidth()/2-getWidth()/12, 3*getHeight()/8, getWidth()/6, getHeight()/11);
-        catlist.setFont(new Font("Arial", Font.PLAIN, catlist.getHeight()/2));
-
-        catlist.setFocusable(false);
-
-        catlist.setBackground(new Color(255, 120, 0));
-        catlist.setForeground(Color.WHITE);
-
-        add(catlist);
-
-
-        String [] difficulties = {"Débutant", "Intermédiraire", "Expert"};
-
-        difflist = new MyComboBox(difficulties);
-        difflist.setBounds(getWidth()/2+2*getWidth()/12, 3*getHeight()/8, getWidth()/6, getHeight()/11);
-        difflist.setFont(new Font("Arial", Font.PLAIN, difflist.getHeight()/2));
-
-        difflist.setFocusable(false);
-
-        difflist.setBackground(new Color(255, 120, 0));
-        difflist.setForeground(Color.WHITE);
-
-        add(difflist);*/
-
-
-        JButton quit_button = new JButton("OK");
-        quit_button.setActionCommand("action_quit");
-        quit_button.addActionListener(this);
-
-        quit_button.setSize(getWidth()/6, getHeight()/8);
-        quit_button.setLocation(getWidth()/2-quit_button.getSize().width/2, 3*getHeight()/4+quit_button.getSize().height/2);
-        quit_button.setFont(new Font("Arial", Font.PLAIN, quit_button.getHeight()/2));
-
-        quit_button.setFocusPainted(false);
-        quit_button.setBorderPainted(false);
-
-        quit_button.setBackground(new Color(255, 120, 0));
-        quit_button.setForeground(Color.WHITE);
-
-        quit_button.addMouseListener(new MouseAdapter() {
-            public void mouseEntered(MouseEvent e) {
-                quit_button.setBackground(new Color(255, 160, 0));
-            }
-
-            public void mouseExited(MouseEvent e) {
-                quit_button.setBackground(new Color(255, 120, 0));
-            }
-
-            public void mouseClicked(MouseEvent e) {
-                quit_button.setBackground(new Color(255, 220, 50));
-            }
-        });
-
-        add(quit_button);
-
+        this.player_selection = pselect;
+        JPanel panel = new Panel();
+        setContentPane(panel);
 
         setResizable(false);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        setAlwaysOnTop(true);
         setVisible(true);
-    }
-
-    public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("action_quit")) {
-            /*for (int i = 0 ; i < 6 ; i++) {
-                Profile profile = new Profile();
-                profile.setCategory(
-                                    TrivialPursuitColor.valueOf(collist.getItemAt(collist.getSelectedIndex()).toString()),
-                                                                catlist.getItemAt(catlist.getSelectedIndex()).toString(),
-                                                                difflist.getItemAt(difflist.getSelectedIndex()).toString() );
-
-                    player_selection.addPlayer(
-                                                new Player(
-                                                            profile,
-                                                            TrivialPursuitColor.valueOf(collist.getItemAt(collist.getSelectedIndex()).toString()) ));
-            }*/
-
-            dispose();
-            System.out.println("Fermée");
-        }
     }
 }

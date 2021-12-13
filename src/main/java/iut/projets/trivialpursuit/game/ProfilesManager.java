@@ -15,6 +15,9 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.*;
 
+/**
+ * Gère la création de profiles
+ */
 
 public class ProfilesManager {
     private static Document profiles_doc;
@@ -23,10 +26,18 @@ public class ProfilesManager {
 
     static List<Profile> profiles_list;
 
+    /**
+     * @return Racine du XML
+     */
     private static Element getRoot() {
         return (Element) profiles_doc.getElementsByTagName("Root").item(0);
     }
 
+    /**
+     * Crée une balise Profile dans le XML
+     * @param name Nom du profile
+     * @return Profile créé
+     */
     public static Element createProfile(String name) {
         Element element = profiles_doc.createElement("Profile");
         getRoot().appendChild(element);
@@ -36,6 +47,14 @@ public class ProfilesManager {
         return element;
     }
 
+    /**
+     * Crée une balise Color dans le XML
+     * @param profname Nom du profile père de la couleur
+     * @param colname Couleur
+     * @param category Catégorie de la question à laquelle la couleur est affiliée
+     * @param difficulty Difficulté de la question à laquelle la couleur est affiliée
+     * @return Color créée
+     */
     public static Element createColor(String profname, String colname, String category, String difficulty) {
         try {
             Element element = profiles_doc.createElement("Color");
@@ -54,6 +73,9 @@ public class ProfilesManager {
         return null;
     }
 
+    /**
+     * Redéfinie le XML
+     */
     public static void reset() {
         profiles_doc.removeChild(getRoot());
 
@@ -64,6 +86,9 @@ public class ProfilesManager {
         save();
     }
 
+    /**
+     * Crée le fichier XML
+     */
     public static void save() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -78,6 +103,9 @@ public class ProfilesManager {
         }
     }
 
+    /**
+     * Charge le fichier XML s'il existe déjà sinon le crée
+     */
     public static void load() {
         file = new File(path);
         profiles_list = new ArrayList<>();
@@ -129,6 +157,12 @@ public class ProfilesManager {
         }
     }
 
+    /**
+     *
+     * @param name Nom du Profile
+     * @return Profile recherché
+     * @throws Exception
+     */
     private static Element getProfile(String name) throws Exception {
         profiles_doc.getDocumentElement().normalize();
 
@@ -149,6 +183,9 @@ public class ProfilesManager {
         throw new Exception("Profile " + name + " introuvable !");
     }
 
+    /**
+     * Crée le contenu du fichier XML
+     */
     public static void createProfiles() {
         createProfile("Profile 1");
         createColor("Profile 1", "PURPLE", "Y", "Débutant");

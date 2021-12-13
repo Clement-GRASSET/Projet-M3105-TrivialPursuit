@@ -15,6 +15,10 @@ import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.*;
 
+/**
+ * Gère la création de questions
+ */
+
 public class QuestionsManager {
     private static boolean fexists = false;
     static Map<String, Map<String, List<Question>>> question_list;
@@ -23,10 +27,18 @@ public class QuestionsManager {
     private static File file;
     private static String path = Game.getDirectory() + "/questions.xml";
 
+    /**
+     * @return Racine du XML
+     */
     private static Element getRoot() {
         return (Element) questions_doc.getElementsByTagName("Root").item(0);
     }
 
+    /**
+     * Crée une balise Category dans le XML
+     * @param name Nom de la catégorie
+     * @return Category créée
+     */
     public static Element createCategory(String name) {
         Element element = questions_doc.createElement("Category");
         getRoot().appendChild(element);
@@ -36,6 +48,12 @@ public class QuestionsManager {
         return element;
     }
 
+    /**
+     * Crée une balise Difficulty dans le XML
+     * @param catname Nom de la catégorie à laquelle sera affiliée la difficulté
+     * @param name Difficulté de la question
+     * @return Difficulty créée
+     */
     public static Element createDifficulty(String catname, String name) {
         try {
             Element element = questions_doc.createElement("Difficulty");
@@ -52,6 +70,18 @@ public class QuestionsManager {
         return null;
     }
 
+
+    /**
+     * Crée une balise Question représentant une question et ses réponses et la rajoute à la questions_list
+     * @param catname Catégorie de la question
+     * @param diffname Difficulté de la question
+     * @param content Question
+     * @param sanswer0 Première proposition de réponse
+     * @param sanswer1 Deuxième proposition de réponse
+     * @param sanswer2 Troisième proposition de réponse
+     * @param sanswer3 Quatrième proposition de réponse
+     * @param r_answer Indice de la bonne réponse
+     */
     public static void createQuestion(String catname, String diffname, String content, String sanswer0, String sanswer1, String sanswer2, String sanswer3, int r_answer) {
         try {
             Element element = questions_doc.createElement("Question");
@@ -83,6 +113,9 @@ public class QuestionsManager {
         }
     }
 
+    /**
+     * Crée le contenu du fichier XML
+     */
     public static void createQuestions() {
         createCategory("Histoire");
         createCategory("Science");
@@ -136,7 +169,9 @@ public class QuestionsManager {
         createQuestion("Nature", "Expert", "Quel paiement est le plus utilisé ?", "Espèce", "Carte", "Nature", "Chèque", 2);
     }
 
-
+    /**
+     * Redéfinie le XML
+     */
     public static void reset() {
         questions_doc.removeChild(getRoot());
 
@@ -147,6 +182,9 @@ public class QuestionsManager {
         save();
     }
 
+    /**
+     * Crée le fichier XML
+     */
     public static void save() {
         try {
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
@@ -161,6 +199,9 @@ public class QuestionsManager {
         }
     }
 
+    /**
+     * Charge le fichier XML s'il existe déjà sinon le crée
+     */
     public static void load() {
         file = new File(path);
         question_list = new HashMap<>();
@@ -242,6 +283,11 @@ public class QuestionsManager {
     }
 
 
+    /**
+     * @param name Nom de la catégorie
+     * @return Catégorie recherchée
+     * @throws Exception Catégorie introuvable dans le fichier
+     */
     private static Element getCategory(String name) throws Exception {
         questions_doc.getDocumentElement().normalize();
 
@@ -261,6 +307,12 @@ public class QuestionsManager {
         throw new Exception("Catégorie " + name + " introuvable !");
     }
 
+    /**
+     * @param name Difficulté de la question
+     * @param catname Catégorie à laquelle la difficulté est affiliée
+     * @return Difficulté recherchée
+     * @throws Exception  Catégorie à laquelle correspond la difficulté introuvable dans le fichier
+     */
     private static Element getDifficulty(String name, String catname) throws Exception {
         questions_doc.getDocumentElement().normalize();
 
@@ -280,6 +332,10 @@ public class QuestionsManager {
         throw new Exception("Catégorie " + name + " introuvable !");
     }
 
+    /**
+     * Affiche dans la console une question suivie des propositions de réponses et de l'indice de la bonne réponse
+     * @param question Question que l'on souhaite afficher
+     */
     private static void showQuestion(Question question)
     {
         System.out.println("Question : " + question.question + " - Réponses : "
@@ -287,6 +343,11 @@ public class QuestionsManager {
                 + " -  Bonne réponse : " + question.right);
     }
 
+    /**
+     * @param category Catégorie de la question
+     * @param difficulty Difficulté de la question
+     * @return Question aléatoire
+     */
     public static Question getRandomQuestion(String category, String difficulty) {
         Map<String, Map<String, List<Question>>> categories = question_list;
         //System.out.println("Categories :");
