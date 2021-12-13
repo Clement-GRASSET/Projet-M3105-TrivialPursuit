@@ -48,7 +48,6 @@ public class GameScene extends Scene {
         mouseLight = new PointLight();
 
         gameUI = new GameUI(players, scores);
-        UIManager.addElement(gameUI);
 
         setBackgroundColor(new Color(20,20,20));
 
@@ -71,12 +70,13 @@ public class GameScene extends Scene {
         mouseLight.setRadius(4);
         mouseLight.setHeight(1);
 
-        music.setLoop(true, 2.18181818);
-        music_thinking.setLoop(true, 2.18181818);
-        music.setVolume(1);
+        music.setLoop(true);
+        music_thinking.setLoop(true);
+        music.setVolume(0);
         music_thinking.setVolume(0);
         music.play();
         music_thinking.play();
+        switchMusic(music_thinking, music);
 
         for (int i = 0; i < players.size(); i++) {
             Pawn pawn = (Pawn) addActor(Pawn.class);
@@ -90,9 +90,11 @@ public class GameScene extends Scene {
             scores.put(players.get(i), new PlayerScores());
         }
 
+        UIManager.addElement(gameUI);
         UITextButton pauseButton = new UITextButton("Pause");
         pauseButton.setAnchor(UIElement.Anchor.TOP_RIGHT);
         pauseButton.setAlignment(new Vector2D(-1, 1));
+        pauseButton.setRenderOrder(2);
         gameUI.addElement(pauseButton);
         pauseButton.onClick(() -> {
             Pause pauseUI = new Pause();
@@ -140,8 +142,7 @@ public class GameScene extends Scene {
             moveCameraTo(new Vector2D(0,0), 1, 0.3, () -> {
 
                 List<Case> cases = gameBoard.getReachableCases(pawns.get(player).getCurrentCase(), randomNumberUI.getNumber());
-                CaseSelectionUI caseSelectionUI = new CaseSelectionUI();
-                caseSelectionUI.addButtons(cases);
+                CaseSelectionUI caseSelectionUI = new CaseSelectionUI(cases);
 
                 caseSelectionUI.onDestroy(() -> {
                     gameUI.removeElement(caseSelectionUI);
@@ -273,10 +274,10 @@ public class GameScene extends Scene {
         });
         animation.onUpdate(() -> {
             getCamera().setPosition(new Vector2D(
-                    interpolate(cameraPosition.getX(), position.getX(), animation.getValue()),
-                    interpolate(cameraPosition.getY(), position.getY(), animation.getValue())
+                    Animation.interpolate(cameraPosition.getX(), position.getX(), animation.getValue()),
+                    Animation.interpolate(cameraPosition.getY(), position.getY(), animation.getValue())
             ));
-            getCamera().setZoom( interpolate(cameraZoom, zoom, animation.getValue()) );
+            getCamera().setZoom( Animation.interpolate(cameraZoom, zoom, animation.getValue()) );
         });
         if (then != null)
             animation.onFinish(then);
@@ -291,9 +292,9 @@ public class GameScene extends Scene {
         });
         animation.onUpdate(() -> {
             light.setIntensity(new Vector3D(
-                    interpolate(baseIntensity.getX(), intensity.getX(), animation.getValue()),
-                    interpolate(baseIntensity.getY(), intensity.getY(), animation.getValue()),
-                    interpolate(baseIntensity.getZ(), intensity.getZ(), animation.getValue())
+                    Animation.interpolate(baseIntensity.getX(), intensity.getX(), animation.getValue()),
+                    Animation.interpolate(baseIntensity.getY(), intensity.getY(), animation.getValue()),
+                    Animation.interpolate(baseIntensity.getZ(), intensity.getZ(), animation.getValue())
             ));
         });
         animation.start(this);
@@ -305,11 +306,11 @@ public class GameScene extends Scene {
                 new Keyframe(1, 4)
         });
         animation.onUpdate(() -> {
-            getCamera().setZoom( interpolate(0.7, 3, animation.getValue()) );
+            getCamera().setZoom( Animation.interpolate(0.7, 3, animation.getValue()) );
             light.setDirection(new Vector3D(
                     1,
                     1,
-                    1/interpolate(-20, -0.8, animation.getValue())
+                    1/Animation.interpolate(-20, -0.8, animation.getValue())
             ));
         });
         animation.onFinish(then);
@@ -317,14 +318,16 @@ public class GameScene extends Scene {
     }
 
     public void switchMusic(Sound current, Sound target) {
+        double current_volume = current.getVolume();
+        double target_volume = target.getVolume();
         Animation animation = new Animation(new Keyframe[]{
                 new Keyframe(0, 0),
-                new Keyframe(1, 1)
+                new Keyframe(1, 0.5)
         });
         animation.onUpdate(() -> {
-            float volume = (float) animation.getValue();
-            target.setVolume(volume);
-            current.setVolume(1-volume);
+            float value = (float) animation.getValue();
+            target.setVolume((float) Animation.interpolate(target_volume, 1, value));
+            current.setVolume((float) Animation.interpolate(current_volume, 0, value));
         });
         animation.onFinish(() -> {
             target.setVolume(1);

@@ -122,16 +122,10 @@ public class MainMenu extends UIScreenContainer {
             startButton.setSize(new Vector2D(17, 7));
             startButton.onClick( () -> {
                 Resources.getSound("/sounds/ui/game_start.wav").play();
+                menuMusic.stop();
                 GameLoadingScreen gameLoadingScreen = new GameLoadingScreen();
-                Animation animation = new Animation(new Keyframe[] {
-                        new Keyframe(menuMusic.getVolume(),0),
-                        new Keyframe(0,1.5)
-                });
-                animation.onUpdate(() -> { menuMusic.setVolume((float)animation.getValue()); });
-                animation.onFinish(() -> { menuMusic.stop(); });
-                animation.start(gameLoadingScreen);
                 gameLoadingScreen.onConstructAnimationFinished(() -> {
-                    Delay delay = new Delay(2);
+                    Delay delay = new Delay(0.8);
                     delay.onFinish(() -> {
                         GameScene gameScene = new GameScene(gameInfo);
                         SceneManager.setActiveScene(gameScene);

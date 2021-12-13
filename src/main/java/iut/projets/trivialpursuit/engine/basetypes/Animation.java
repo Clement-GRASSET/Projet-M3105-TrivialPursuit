@@ -49,4 +49,15 @@ public class Animation extends Task {
     public double getValue() {
         return value;
     }
+
+    /**
+     * Renvoie une moyenne pondérée entre deux valeurs.
+     * @param a Valeur a.
+     * @param b Valeur b.
+     * @param alpha Poids de la valeur b (0 = 0%, 1 = 100%)
+     * @return L'interpolation entre les deux valeurs.
+     */
+    public static double interpolate(double a, double b, double alpha) {
+        return (1-alpha)*a + alpha*b;
+    }
 }

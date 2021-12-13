@@ -21,9 +21,9 @@ public abstract class CaseLight extends Actor {
         });
         animation.onUpdate(() -> {
             light.setIntensity(new Vector3D(
-                    interpolate(baseIntensity.getX(), intensity.getX(), animation.getValue()),
-                    interpolate(baseIntensity.getY(), intensity.getY(), animation.getValue()),
-                    interpolate(baseIntensity.getZ(), intensity.getZ(), animation.getValue())
+                    Animation.interpolate(baseIntensity.getX(), intensity.getX(), animation.getValue()),
+                    Animation.interpolate(baseIntensity.getY(), intensity.getY(), animation.getValue()),
+                    Animation.interpolate(baseIntensity.getZ(), intensity.getZ(), animation.getValue())
             ));
         });
         animation.onFinish(() -> {

@@ -20,6 +20,8 @@ public class CaseSelectionUI extends UIScreenContainer {
             setDefaultImage(Resources.getImage("/images/case_button.png"));
             setHoverImage(Resources.getImage("/images/case_button_hover.png"));
             setPressedImage(Resources.getImage("/images/case_button_press.png"));
+            setHoverSound("/sounds/ui/hover.wav");
+            setPressSound("/sounds/ui/click.wav");
         }
     }
 
@@ -27,11 +29,8 @@ public class CaseSelectionUI extends UIScreenContainer {
     private Runnable onDestroy;
     private Case selected;
 
-    public CaseSelectionUI() {
+    public CaseSelectionUI(List<Case> cases) {
         onDestroy = () -> {};
-    }
-
-    public void addButtons(List<Case> cases) {
         buttons = new HashMap<>();
         for (Case c : cases) {
             UIButton button = new CaseButton();

@@ -1,6 +1,5 @@
 package iut.projets.trivialpursuit.game.ui;
 
-import iut.projets.trivialpursuit.engine.UIManager;
 import iut.projets.trivialpursuit.engine.basetypes.Animation;
 import iut.projets.trivialpursuit.engine.basetypes.Keyframe;
 import iut.projets.trivialpursuit.engine.types.Vector2D;

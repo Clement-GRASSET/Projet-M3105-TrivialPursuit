@@ -58,15 +58,4 @@ public abstract class GameObject {
         tasksToRemove.add(task);
     }
 
-    /**
-     * Renvoie une moyenne pondérée entre deux valeurs.
-     * @param a Valeur a.
-     * @param b Valeur b.
-     * @param alpha Poids de la valeur b (0 = 0%, 1 = 100%)
-     * @return L'interpolation entre les deux valeurs.
-     */
-    public double interpolate(double a, double b, double alpha) {
-        return (1-alpha)*a + alpha*b;
-    }
-
 }

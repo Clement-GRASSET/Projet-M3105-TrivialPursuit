@@ -72,8 +72,8 @@ public class Pawn extends Actor {
                 new Keyframe(1,0.3),
         });
         animation.onUpdate(() -> {
-            double x = interpolate(start.getX(), position.getX(), animation.getValue());
-            double y = interpolate(start.getY(), position.getY(), animation.getValue());
+            double x = Animation.interpolate(start.getX(), position.getX(), animation.getValue());
+            double y = Animation.interpolate(start.getY(), position.getY(), animation.getValue());
             setPosition(new Vector2D(x,y));
         });
         animation.start(this);
