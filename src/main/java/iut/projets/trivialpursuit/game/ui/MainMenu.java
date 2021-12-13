@@ -228,7 +228,7 @@ public class MainMenu extends UIScreenContainer {
         profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
         profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
         player = new Player(profile, TrivialPursuitColor.PINK);
-        gameInfo.addPlayer(player);
+        gameInfo.getPlayers().add(player);
 
         // Player 2
         profile = new Profile();
@@ -240,51 +240,7 @@ public class MainMenu extends UIScreenContainer {
         profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
         profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
         player = new Player(profile, TrivialPursuitColor.YELLOW);
-        gameInfo.addPlayer(player);
-
-        profile = new Profile();
-        profile.setName("Joueur 3");
-        profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
-        profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
-        player = new Player(profile, TrivialPursuitColor.BLUE);
-        gameInfo.addPlayer(player);
-
-        profile = new Profile();
-        profile.setName("Joueur 4");
-        profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
-        profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
-        player = new Player(profile, TrivialPursuitColor.GREEN);
-        gameInfo.addPlayer(player);
-/*
-        profile = new Profile();
-        profile.setName("Joueur 5");
-        profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
-        profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
-        player = new Player(profile, TrivialPursuitColor.PURPLE);
-        gameInfo.addPlayer(player);
-
-        profile = new Profile();
-        profile.setName("Joueur 6");
-        profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
-        profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
-        profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
-        profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
-        player = new Player(profile, TrivialPursuitColor.ORANGE);
-        gameInfo.addPlayer(player);*/
+        gameInfo.getPlayers().add(player);
     }
 
 }
