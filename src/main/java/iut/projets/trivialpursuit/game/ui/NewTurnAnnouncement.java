@@ -23,7 +23,7 @@ public class NewTurnAnnouncement extends UIScreenContainer {
         addElement(image);
 
         UIText text = new UIText();
-        text.setText("Au tour de " + player.getProfile().getName() + " !");
+        text.setText("Au tour de " + player.getName() + " !");
         text.setAnchor(Anchor.CENTER_CENTER);
         text.setAlignment(new Vector2D(0,0));
         text.setPosition(new Vector2D(0,0));

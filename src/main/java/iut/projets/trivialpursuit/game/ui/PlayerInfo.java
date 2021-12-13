@@ -77,7 +77,7 @@ public class PlayerInfo extends UIBoxContainer {
         addElement(image);
 
         UIText name = new UIText();
-        name.setText("Player name");
+        name.setText(player.getName());
         name.setAnchor(Anchor.TOP_CENTER);
         name.setAlignment(new Vector2D(0,0));
         name.setTextAlign(Anchor.CENTER_CENTER);

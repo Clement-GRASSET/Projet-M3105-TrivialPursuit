@@ -216,10 +216,12 @@ public class MainMenu extends UIScreenContainer {
 
         // Player 1
         player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.BLUE);
+        player.setName("Joueur 1");
         gameInfo.getPlayers().add(player);
 
         // Player 2
         player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.PINK);
+        player.setName("Joueur 2");
         gameInfo.getPlayers().add(player);
     }
 

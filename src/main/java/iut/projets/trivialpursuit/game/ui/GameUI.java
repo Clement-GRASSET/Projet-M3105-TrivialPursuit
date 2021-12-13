@@ -16,7 +16,7 @@ import java.util.Map;
 
 public class GameUI extends UIScreenContainer {
 
-    private class PlayerStatsUI extends UIBoxContainer {
+    private static class PlayerStatsUI extends UIBoxContainer {
 
         Map<TrivialPursuitColor, UIImage> slices;
 
@@ -43,12 +43,13 @@ public class GameUI extends UIScreenContainer {
             addElement(background);
 
             UIText text = new UIText();
-            text.setText(player.getProfile().getName());
+            text.setText(player.getName());
             text.setSize(getSize());
             text.setAnchor(Anchor.CENTER_CENTER);
             text.setAlignment(new Vector2D(0,0));
             text.setPosition(new Vector2D(2, 0));
             text.setTextAlign(Anchor.CENTER_LEFT);
+            text.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
             text.setFontSize(3);
             addElement(text);
 
@@ -59,13 +60,6 @@ public class GameUI extends UIScreenContainer {
             pawn.setPosition(new Vector2D(-1, 0));
             pawn.setImage(Resources.getImage("/images/pawn.png"));
             addElement(pawn);
-
-            /*addSlice(TrivialPursuitColor.BLUE);
-            addSlice(TrivialPursuitColor.GREEN);
-            addSlice(TrivialPursuitColor.ORANGE);
-            addSlice(TrivialPursuitColor.PINK);
-            addSlice(TrivialPursuitColor.PURPLE);
-            addSlice(TrivialPursuitColor.YELLOW);*/
         }
 
         public void addSlice(TrivialPursuitColor color) {
