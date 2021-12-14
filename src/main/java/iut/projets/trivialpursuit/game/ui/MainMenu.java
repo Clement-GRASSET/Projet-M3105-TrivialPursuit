@@ -69,6 +69,16 @@ public class MainMenu extends UIScreenContainer {
             logo.setSize(50);
             logo.setPosition(new Vector2D(0, -15));
             addElement(logo);
+
+            UIText credits = new UIText();
+            credits.setAnchor(Anchor.BOTTOM_LEFT);
+            credits.setTextAlign(Anchor.BOTTOM_LEFT);
+            credits.setAlignment(new Vector2D(1,-1));
+            credits.setPosition(new Vector2D(1,-1));
+            credits.setText("Musiques par \"The Noble Demon\"");
+            credits.setFontSize(2.5);
+            credits.setColor(Color.BLACK);
+            addElement(credits);
         }
     }
 
@@ -169,11 +179,10 @@ public class MainMenu extends UIScreenContainer {
 
         initializeGameInfo();
 
-        music_bpm = 132.0;
+        music_bpm = 120.0;
 
         menuMusic = Resources.getSound("/sounds/musics/main_menu.wav");
-        menuMusic.setLoop(true, (60.0/music_bpm)*44);
-        menuMusic.setVolume(0.5f);
+        menuMusic.setLoop(true, (60.0/music_bpm)*8);
         menuMusic.play();
         music_start_time = System.nanoTime();
 

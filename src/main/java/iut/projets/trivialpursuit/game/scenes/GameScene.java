@@ -70,13 +70,12 @@ public class GameScene extends Scene {
         mouseLight.setRadius(4);
         mouseLight.setHeight(1);
 
-        music.setLoop(true);
-        music_thinking.setLoop(true);
-        music.setVolume(0);
+        music.setLoop(true, (60.0/172)*41);
+        music.setVolume(1);
+        music_thinking.setLoop(true, (60.0/172)*41);
         music_thinking.setVolume(0);
         music.play();
         music_thinking.play();
-        switchMusic(music_thinking, music);
 
         for (int i = 0; i < players.size(); i++) {
             Pawn pawn = (Pawn) addActor(Pawn.class);
@@ -336,7 +335,7 @@ public class GameScene extends Scene {
         double target_volume = target.getVolume();
         Animation animation = new Animation(new Keyframe[]{
                 new Keyframe(0, 0),
-                new Keyframe(1, 0.5)
+                new Keyframe(1, 1)
         });
         animation.onUpdate(() -> {
             float value = (float) animation.getValue();
