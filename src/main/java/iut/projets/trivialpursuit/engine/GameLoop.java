@@ -91,8 +91,10 @@ public class GameLoop extends Thread {
             drawDebug(g);
 
         g.dispose();
-        bufferStrategy.show();
 
+        try {
+            bufferStrategy.show();
+        } catch (Exception ignored) {}
     }
 
     /**

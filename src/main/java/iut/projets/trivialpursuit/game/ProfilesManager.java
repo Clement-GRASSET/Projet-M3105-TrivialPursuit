@@ -188,29 +188,29 @@ public class ProfilesManager {
      * Crée le contenu du fichier XML
      */
     public static void createProfiles() {
-        createProfile("Profile 1");
-        createColor("Profile 1", "PURPLE", "Y", "Débutant");
-        createColor("Profile 1", "BLUE", "Arts", "Débutant");
-        createColor("Profile 1", "PINK", "Sports", "Débutant");
-        createColor("Profile 1", "YELLOW", "Science", "Débutant");
-        createColor("Profile 1", "ORANGE", "Histoire", "Débutant");
-        createColor("Profile 1", "GREEN", "Nature", "Débutant");
+        createProfile("Débutant");
+        createColor("Débutant", "PURPLE", "Géographie", "Débutant");
+        createColor("Débutant", "BLUE", "Divertissements", "Débutant");
+        createColor("Débutant", "PINK", "Histoire", "Débutant");
+        createColor("Débutant", "YELLOW", "Art et littérature", "Débutant");
+        createColor("Débutant", "ORANGE", "Science et nature", "Débutant");
+        createColor("Débutant", "GREEN", "Sports et loisirs", "Débutant");
 
-        createProfile("Profile 2");
-        createColor("Profile 2", "PURPLE", "Y", "Intermédiaire");
-        createColor("Profile 2", "BLUE", "Arts", "Intermédiaire");
-        createColor("Profile 2", "PINK", "Sports", "Intermédiaire");
-        createColor("Profile 2", "YELLOW", "Science", "Intermédiaire");
-        createColor("Profile 2", "ORANGE", "Histoire", "Intermédiaire");
-        createColor("Profile 2", "GREEN", "Nature", "Intermédiaire");
+        createProfile("Intermédiaire");
+        createColor("Intermédiaire", "PURPLE", "Géographie", "Intermédiaire");
+        createColor("Intermédiaire", "BLUE", "Divertissements", "Intermédiaire");
+        createColor("Intermédiaire", "PINK", "Histoire", "Intermédiaire");
+        createColor("Intermédiaire", "YELLOW", "Art et littérature", "Intermédiaire");
+        createColor("Intermédiaire", "ORANGE", "Science et nature", "Intermédiaire");
+        createColor("Intermédiaire", "GREEN", "Sports et loisirs", "Intermédiaire");
 
-        createProfile("Profile 3");
-        createColor("Profile 3", "PURPLE", "Y", "Expert");
-        createColor("Profile 3", "BLUE", "Arts", "Expert");
-        createColor("Profile 3", "PINK", "Sports", "Expert");
-        createColor("Profile 3", "YELLOW", "Science", "Expert");
-        createColor("Profile 3", "ORANGE", "Histoire", "Expert");
-        createColor("Profile 3", "GREEN", "Nature", "Expert");
+        createProfile("Expert");
+        createColor("Expert", "PURPLE", "Géographie", "Expert");
+        createColor("Expert", "BLUE", "Divertissements", "Expert");
+        createColor("Expert", "PINK", "Histoire", "Expert");
+        createColor("Expert", "YELLOW", "Art et littérature", "Expert");
+        createColor("Expert", "ORANGE", "Science et nature", "Expert");
+        createColor("Expert", "GREEN", "Sports et loisirs", "Expert");
     }
 
     public static int getProfilesListSize() {
