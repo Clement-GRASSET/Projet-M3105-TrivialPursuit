@@ -2,6 +2,9 @@ package iut.projets.trivialpursuit.game;
 
 import java.awt.*;
 
+/**
+ * Représente une des six couleurs du trivial pursuit.
+ */
 public enum TrivialPursuitColor {
     BLUE,
     GREEN,
@@ -10,6 +13,10 @@ public enum TrivialPursuitColor {
     PURPLE,
     YELLOW;
 
+    /**
+     * Renvoie la couleur rgb associée.
+     * @return Couleur rgb associée.
+     */
     public Color getRGB() {
         switch (this) {
             case BLUE: return new Color(43, 197, 255);

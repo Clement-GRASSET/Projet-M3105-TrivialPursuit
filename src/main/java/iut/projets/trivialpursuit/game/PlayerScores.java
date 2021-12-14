@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Représente les points gagnés par un joueur.
+ */
 public class PlayerScores {
 
     private static class Score {
@@ -19,6 +22,9 @@ public class PlayerScores {
     private final Map<TrivialPursuitColor, Score> scores;
     TrivialPursuitColor maxFail;
 
+    /**
+     * Construit un PlayerScores.
+     */
     public PlayerScores() {
         scores = new HashMap<>();
         scores.put(TrivialPursuitColor.BLUE, new Score());
@@ -30,6 +36,13 @@ public class PlayerScores {
         maxFail = TrivialPursuitColor.BLUE;
     }
 
+    /**
+     * Enregistre une tentative de réponse à une question.
+     * Si la réponse est juste, le joueur gagne un point.
+     * Si la réponse est fausse, le nombre de mauvaises réponses pour cette catégorie augmente.
+     * @param color Couleur de la catégorie de la question.
+     * @param success Vrai si la réponse a été correcte.
+     */
     public void addAttempt(TrivialPursuitColor color, boolean success) {
         if (success)
             scores.get(color).valid = true;
@@ -40,6 +53,10 @@ public class PlayerScores {
         }
     }
 
+    /**
+     * Renvoie vrai si le joueur a gagné toutes les couleurs.
+     * @return Vrai si le joueur a gagné toutes les couleurs.
+     */
     public boolean isComplete() {
         return scores.get(TrivialPursuitColor.BLUE).valid &&
                 scores.get(TrivialPursuitColor.GREEN).valid &&
@@ -49,6 +66,10 @@ public class PlayerScores {
                 scores.get(TrivialPursuitColor.YELLOW).valid;
     }
 
+    /**
+     * Renvoie toutes les couleurs gagnées par le joueur.
+     * @return Toutes les couleurs gagnées par le joueur.
+     */
     public List<TrivialPursuitColor> getAllSuccess() {
         List<TrivialPursuitColor> success = new ArrayList<>();
         scores.forEach((color, score) -> {
@@ -58,6 +79,10 @@ public class PlayerScores {
         return success;
     }
 
+    /**
+     * Renvoie la couleur correspondant à la catégorie à laquelle le joueur a échoué le plus de fois.
+     * @return Couleur correspondant à la catégorie à laquelle le joueur a échoué le plus de fois.
+     */
     public TrivialPursuitColor getMostFailedColor() {
         return maxFail;
     }

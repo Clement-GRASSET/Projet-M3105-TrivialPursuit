@@ -6,10 +6,18 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 
+/**
+ * Interface utilisateur qui annonce la case choisie par le joueur.
+ */
 public class CaseAnnouncement extends UIScreenContainer {
 
     private Runnable onDestroy;
 
+    /**
+     * Construit une annonce de case.
+     * @param text Texte de l'annonce.
+     * @param color Couleur de l'annonce.
+     */
     public CaseAnnouncement(String text, Color color) {
         onDestroy = () -> {};
 
@@ -55,6 +63,10 @@ public class CaseAnnouncement extends UIScreenContainer {
         opacity_animation.start(this);
     }
 
+    /**
+     * Définit la fonction à exécuter après l'annonce de la case.
+     * @param onDestroy Fonction à exécuter.
+     */
     public void onDestroy(Runnable onDestroy) {
         this.onDestroy = onDestroy;
     }

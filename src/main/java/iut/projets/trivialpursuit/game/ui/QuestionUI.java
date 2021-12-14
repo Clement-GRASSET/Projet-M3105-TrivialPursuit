@@ -83,6 +83,10 @@ public class QuestionUI extends UIScreenContainer {
         }
     }
 
+    /**
+     * Définit la fonction à exécuter après que le joueur ait répondu où que le temps soit écoulé.
+     * @param onDestroy Fonction à exécuter.
+     */
     public void onDestroy(Runnable onDestroy) {
         this.onDestroy = onDestroy;
     }

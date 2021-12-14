@@ -113,6 +113,10 @@ public class RandomNumberUI extends UIScreenContainer {
         return number;
     }
 
+    /**
+     * Définit la fonction à exécuter après que le joueur ait choisi un nombre.
+     * @param onDestroy Fonction à exécuter.
+     */
     public void onDestroy(Runnable onDestroy) {
         this.onDestroy = onDestroy;
     }

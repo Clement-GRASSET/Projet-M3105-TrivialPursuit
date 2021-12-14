@@ -47,6 +47,10 @@ public class CaseSelectionUI extends UIScreenContainer {
         }
     }
 
+    /**
+     * Définit la fonction à exécuter après la sélection de la case.
+     * @param onDestroy Fonction à exécuter.
+     */
     public void onDestroy(Runnable onDestroy) {
         this.onDestroy = onDestroy;
     }

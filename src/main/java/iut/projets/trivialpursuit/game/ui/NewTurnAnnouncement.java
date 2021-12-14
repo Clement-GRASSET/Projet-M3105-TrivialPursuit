@@ -60,6 +60,10 @@ public class NewTurnAnnouncement extends UIScreenContainer {
         opacity_animation.start(this);
     }
 
+    /**
+     * Définit la fonction à exécuter après l'annonce du joueur.
+     * @param onDestroy Fonction à exécuter.
+     */
     public void onDestroy(Runnable onDestroy) {
         this.onDestroy = onDestroy;
     }
