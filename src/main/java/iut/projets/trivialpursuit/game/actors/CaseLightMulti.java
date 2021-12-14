@@ -7,11 +7,17 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
+/**
+ * Lumières colorées pour la case du centre.
+ */
 public class CaseLightMulti extends CaseLight {
 
     private final PointLight [] lights;
     private double time;
 
+    /**
+     * Construit une lumière de case
+     */
     public CaseLightMulti() {
         super();
         lights = new PointLight[6];

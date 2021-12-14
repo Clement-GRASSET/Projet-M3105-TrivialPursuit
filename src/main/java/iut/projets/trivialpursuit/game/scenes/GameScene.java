@@ -20,11 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Scène dans laquelle se trouve le jeu.
+ */
 public class GameScene extends Scene {
 
     private final DirectionalLight light;
     private final PointLight mouseLight;
-    double compteur;
     private final Sound music, music_thinking;
     private final List<Player> players;
     private final Map<Player, Pawn> pawns;
@@ -34,6 +36,10 @@ public class GameScene extends Scene {
     private int playerIndex;
     private final Vector3D lightDefaultIntensity, lightQuestionIntensity;
 
+    /**
+     * Construit la scène du jeu
+     * @param gameInfo Données du jeu à démarrer.
+     */
     public GameScene(GameInfo gameInfo) {
         this.players = gameInfo.getPlayers();
         playerIndex = 0;
@@ -59,8 +65,6 @@ public class GameScene extends Scene {
 
     @Override
     public void start() {
-        compteur = 0;
-
         addLight(light);
         light.setDirection(new Vector3D(1,1,-1));
 
@@ -116,6 +120,9 @@ public class GameScene extends Scene {
         });
     }
 
+    /**
+     * Annonce le joueur suivant et démarre son tour.
+     */
     private void newTurn() {
         Player player = players.get(playerIndex);
         setLightIntensity(mouseLight, Vector3D.multiply(new Vector3D(player.getPawnColor().getRGB()), 5), 0.5);
@@ -130,6 +137,10 @@ public class GameScene extends Scene {
         gameUI.addElement(newTurnAnnouncement);
     }
 
+    /**
+     * Lance un tour du début dans annoncer de joueur.
+     * Utile pour permettre à un joueur de rejouer.
+     */
     private void beginTurn() {
         Player player = players.get(playerIndex);
 
@@ -253,6 +264,10 @@ public class GameScene extends Scene {
         gameUI.addElement(randomNumberUI);
     }
 
+    /**
+     * Arrête le jeu et annonce le gagnant.
+     * @param player Joueur gagnant.
+     */
     private void end(Player player) {
         ResultsUI resultsUI = new ResultsUI(player);
         resultsUI.onBackToMenuClicked(() -> {
@@ -264,6 +279,10 @@ public class GameScene extends Scene {
         UIManager.addElement(resultsUI);
     }
 
+    /**
+     * Retourne au menu principal.
+     * @param onLoadingShow Fonction à exécuter quand l'écran de chargement a fini de s'afficher et qu'il occupe tout l'écran.
+     */
     private void backToMenu(Runnable onLoadingShow) {
         music.stop();
         music_thinking.stop();
@@ -277,6 +296,13 @@ public class GameScene extends Scene {
         UIManager.addElement(loadingScreen);
     }
 
+    /**
+     * Déplace la caméra.
+     * @param position Nouvelle position.
+     * @param zoom Nouveau zoom.
+     * @param speed Vitesse de transition.
+     * @param then Fonction à exécuter ensuite.
+     */
     private void moveCameraTo(Vector2D position, double zoom, double speed, Runnable then) {
         Vector2D cameraPosition = getCamera().getPosition();
         double cameraZoom = getCamera().getZoom();
@@ -297,6 +323,12 @@ public class GameScene extends Scene {
         animation.start(this);
     }
 
+    /**
+     * Redéfinit l'intensité de la lumière.
+     * @param light Lumière à modifier.
+     * @param intensity Nouvelle intensité.
+     * @param animationDuration Durée de la transition.
+     */
     private void setLightIntensity(Light light, Vector3D intensity, double animationDuration) {
         Vector3D baseIntensity = light.getIntensity();
         Animation animation = new Animation(new Keyframe[] {
@@ -313,6 +345,11 @@ public class GameScene extends Scene {
         animation.start(this);
     }
 
+    /**
+     * Joue l'animation d'introduction.
+     * Zoome sur le plateau et monte la lumière au-dessus du plateau.
+     * @param then Fonction à exécuter ensuite.
+     */
     private void playIntroAnimation(Runnable then) {
         Animation animation = new Animation(new Keyframe[] {
                 new Keyframe(0, 0),
@@ -330,6 +367,11 @@ public class GameScene extends Scene {
         animation.start(this);
     }
 
+    /**
+     * Alterne entre deux musiques en changeant progressivement le volume.
+     * @param current Musique actuelle.
+     * @param target Musique cible.
+     */
     public void switchMusic(Sound current, Sound target) {
         double current_volume = current.getVolume();
         double target_volume = target.getVolume();
@@ -351,30 +393,6 @@ public class GameScene extends Scene {
 
     @Override
     public void update(double frameTime) {
-        compteur += frameTime;
-
         mouseLight.setPosition(getMousePositionInScene());
-
-        //Fait tourner la lumière autour de la scene
-        //light.setDirection(new Vector3D(Math.cos(compteur), Math.sin(compteur), -0.3));
-
-        /*light.setDirection(new Vector3D(
-                getMousePositionInScene().getX()*-1,
-                getMousePositionInScene().getY()*-1,
-                -2
-        ));*/
-
-        //light.setDirection(new Vector3D(1,1,-0.5));
-
-        //getCamera().setPosition(new Vector2D(50*Math.cos(System.currentTimeMillis()*0.002), 50*Math.sin(System.currentTimeMillis()*0.002)));
-        //getCamera().setPosition(new Vector2D(50, 0));
-        //getCamera().setRotation(Rotation.deg(System.currentTimeMillis()*0.02));
-        //getCamera().setRotation(Rotation.deg(45));
-
-        //getCamera().setZoom(Math.sin(System.currentTimeMillis()/2000.0)+1);
-
-        /*double zoom = getMousePositionInScene().getY()*-0.001;
-        getCamera().setZoom(Math.min(Math.max(getCamera().getZoom() + zoom, 0.5), 10));
-        System.out.println(zoom);*/
     }
 }

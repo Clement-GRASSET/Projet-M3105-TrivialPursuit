@@ -4,12 +4,23 @@ import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.core.Actor;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
+/**
+ * Part d'un pion.
+ * Représente une couleur gagnée par un joueur.
+ */
 public class Slice extends Actor {
 
+    /**
+     * Construit une part.
+     */
     public Slice() {
         setRenderOrder(10);
     }
 
+    /**
+     * Définit la couleur de la part.
+     * @param color Couleur de la part.
+     */
     void setColor(TrivialPursuitColor color) {
         switch (color) {
             case BLUE: {

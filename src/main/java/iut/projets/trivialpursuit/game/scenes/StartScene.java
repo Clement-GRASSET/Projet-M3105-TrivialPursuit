@@ -7,6 +7,9 @@ import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.game.ui.FPSCounter;
 import iut.projets.trivialpursuit.game.ui.SplashScreen;
 
+/**
+ * Scène de démarrage du jeu pendant laquelle on charge toutes les ressources du jeu.
+ */
 public class StartScene extends Scene {
 
     @Override

@@ -9,12 +9,13 @@ import iut.projets.trivialpursuit.game.ui.MainMenu;
 
 import java.awt.*;
 
-
+/**
+ * Scène dans laquelle se trouve le menu principal.
+ */
 public class MainMenuScene extends Scene {
 
-    public MainMenuScene() {
-        super();
-
+    @Override
+    public void start() {
         setBackgroundColor(Color.WHITE);
         DirectionalLight light = new DirectionalLight();
         light.setDirection(new Vector3D(0,0,-1));

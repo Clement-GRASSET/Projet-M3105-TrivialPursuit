@@ -12,6 +12,9 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Pion jouable.
+ */
 public class Pawn extends Actor {
 
     private Case currentCase;
@@ -26,6 +29,9 @@ public class Pawn extends Actor {
             yellow = Resources.getImage("/textures/pawn/pawn_yellow.png"),
             normals = Resources.getImage("/textures/pawn/pawn_normals.png");
 
+    /**
+     * Construit un pion.
+     */
     public Pawn() {
         setMaterial(new BaseMaterial(blue, normals));
         setScale(new Vector2D(8,8));
@@ -42,6 +48,10 @@ public class Pawn extends Actor {
         });
     }
 
+    /**
+     * Définit la couleur du pion.
+     * @param pawnColor Couleur du pion.
+     */
     public void setColor(TrivialPursuitColor pawnColor) {
         switch (pawnColor) {
             case BLUE:
@@ -65,6 +75,10 @@ public class Pawn extends Actor {
         }
     }
 
+    /**
+     * Déplace le pion vers une position en jouant une animation.
+     * @param position Position cible.
+     */
     public void moveTo(Vector2D position) {
         Vector2D start = getPosition();
         Animation animation = new Animation(new Keyframe[] {
@@ -79,14 +93,26 @@ public class Pawn extends Actor {
         animation.start(this);
     }
 
+    /**
+     * Renvoie la case sur laquelle le pion se trouve.
+     * @return Case sur laquelle le pion se trouve.
+     */
     public Case getCurrentCase() {
         return currentCase;
     }
 
+    /**
+     * Définit la case sur laquelle le pion se trouve.
+     * @param currentCase Case sur laquelle le pion se trouve.
+     */
     public void setCurrentCase(Case currentCase) {
         this.currentCase = currentCase;
     }
 
+    /**
+     * Ajoute une part au pion.
+     * @param color Couleur de la part.
+     */
     public void addSlice(TrivialPursuitColor color) {
         if (slices.containsKey(color)) return;
         Slice slice = (Slice) getScene().addActor(Slice.class);

@@ -3,8 +3,16 @@ package iut.projets.trivialpursuit.game.actors;
 import iut.projets.trivialpursuit.engine.core.Actor;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
+/**
+ * Représente une case.
+ * Utilisé uniquement pour les informations telles que les cases adjacentes, la position ou le type de case.
+ */
 public class Case extends Actor {
 
+    /**
+     * Représente le type de la case.
+     * SPECIAL signifie que la case permet de gagner un point.
+     */
     public enum CaseType {
         BLUE,
         GREEN,
@@ -25,18 +33,14 @@ public class Case extends Actor {
     private Case [] linkedCases;
     private CaseType type;
 
-    //private final Image defaultImage, hoverImage;
-    //private boolean hover, wasHovering;
-
+    /**
+     * Construit une case.
+     */
     public Case() {
-
-        /*hover = false;
-        wasHovering = false;*/
-
         linkedCases = new Case[] {};
         type = CaseType.MULTI;
 
-        setRenderOrder(-5);
+        setAllowRender(false);
     }
 
     @Override
@@ -46,35 +50,45 @@ public class Case extends Actor {
 
     @Override
     public void update(double frameTime) {
-        /*Vector2D mouse = getScene().getMousePositionInScene();
-        hover = Vector2D.distance(getPosition(), mouse) < getScale().getX()/2;
-        if (hover) {
-            System.out.println(type.name());
-            *//*for (Case c : linkedCases)
-                ((BaseMaterial) c.getMaterial()).setColor(hoverImage);*//*
-        } else if (!hover && wasHovering) {
-            *//*for (Case c : linkedCases)
-                ((BaseMaterial) c.getMaterial()).setColor(defaultImage);*//*
-        }
-        wasHovering = hover;*/
+
     }
 
+    /**
+     * Renvoie toutes les cases adjacentes.
+     * @return Toutes les cases adjacentes.
+     */
     public Case[] getLinkedCases() {
         return linkedCases;
     }
 
+    /**
+     * Définit toutes les cases adjacentes.
+     * @param linkedCases Cases adjacentes.
+     */
     public void setLinkedCases(Case[] linkedCases) {
         this.linkedCases = linkedCases;
     }
 
+    /**
+     * Définit le type de la case.
+     * @param type Type de case.
+     */
     public void setType(CaseType type) {
         this.type = type;
     }
 
+    /**
+     * Renvoie le type de la case.
+     * @return Type de la case.
+     */
     public CaseType getType() {
         return type;
     }
 
+    /**
+     * Renvoie la couleur de la case.
+     * @return Couleur de la case.
+     */
     public TrivialPursuitColor getColor() {
         switch (type) {
             case BLUE:
@@ -93,6 +107,10 @@ public class Case extends Actor {
         }
     }
 
+    /**
+     * Renvoie vrai si la case permet de gagner un point.
+     * @return Vrai si la case permet de gagner un point.
+     */
     public boolean isSpecial() {
         return type == CaseType.SPECIAL_BLUE ||
                 type == CaseType.SPECIAL_GREEN ||

@@ -4,11 +4,17 @@ import iut.projets.trivialpursuit.engine.basetypes.PointLight;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
+/**
+ * Lumière par défaut des cases.
+ */
 public class CaseLightSingle extends CaseLight {
 
     private final PointLight light;
     private Vector3D lightColor;
 
+    /**
+     * Construit une lumière de case
+     */
     public CaseLightSingle() {
         super();
         light = new PointLight();
@@ -39,6 +45,10 @@ public class CaseLightSingle extends CaseLight {
         });
     }
 
+    /**
+     * Définit la couleur de trivial pursuit à partir de laquelle la lumière devrait se colorer.
+     * @param color Couleur de trivial pursuit.
+     */
     public void setColor(TrivialPursuitColor color) {
         lightColor = colorToVector(color);
     }

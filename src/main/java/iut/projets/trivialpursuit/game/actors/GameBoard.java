@@ -10,6 +10,9 @@ import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * Plateau du jeu.
+ */
 public class GameBoard extends Actor {
 
     private Case c0, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10,
@@ -18,6 +21,9 @@ public class GameBoard extends Actor {
             c31, c32, c33, c34, c35, c36, c37, c38, c39, c40,
             c41, c42;
 
+    /**
+     * Construit un plateau.
+     */
     public GameBoard() {
         super();
         setScale(new Vector2D(100, 100));
@@ -182,18 +188,34 @@ public class GameBoard extends Actor {
 
     }
 
+    /**
+     * Ajoute une case au plateau
+     * @param angle Angle de la case avec le centre du plateau pour centre de rotation.
+     * @param distance Distance de la case par rapport au centre.
+     * @return Case créée.
+     */
     private Case addCase(Rotation angle, double distance) {
-        Actor caseAcor = getScene().addActor(Case.class);
+        Actor caseActor = getScene().addActor(Case.class);
         double x = Math.cos(angle.getRad()) * distance;
         double y = Math.sin(angle.getRad()) * distance;
-        caseAcor.setPosition(new Vector2D(x, y));
-        return (Case) caseAcor;
+        caseActor.setPosition(new Vector2D(x, y));
+        return (Case) caseActor;
     }
 
+    /**
+     * Renvoie la case au centre du plateau.
+     * @return Case au centre du plateau.
+     */
     public Case getCenter() {
         return c0;
     }
 
+    /**
+     * Renvoie toutes les cases atteignables à partir d'une case et en un certain nombre de coups.
+     * @param start Case de départ.
+     * @param steps Nombre de coups.
+     * @return Liste de cases atteignables.
+     */
     public List<Case> getReachableCases(Case start, int steps) {
         List<List<Case>> chemins = new ArrayList<>();
         List<Case> base = new ArrayList<>();
@@ -201,8 +223,6 @@ public class GameBoard extends Actor {
         chemins.add(base);
 
         for (int i = 0; i < steps; i++) {
-
-            //System.out.println("Etape " + (i+1));
 
             List<List<Case>> nouveaux_chemins = new ArrayList<>();
             List<Case> cases_adjacentes = new ArrayList<>();
@@ -212,7 +232,6 @@ public class GameBoard extends Actor {
                 Case derniere_case = chemin.get(chemin.size()-1);
                 for (Case case_adjacente : derniere_case.getLinkedCases()) {
                     if (!chemin.contains(case_adjacente) && !cases_adjacentes.contains(case_adjacente)) {
-                        //System.out.println("Case adjacente trouvée");
                         cases_adjacentes.add(case_adjacente);
                         List<Case> nouveau_chemin = new ArrayList<>();
                         nouveau_chemin.addAll(chemin);
@@ -223,8 +242,6 @@ public class GameBoard extends Actor {
             }
             chemins.clear();
             chemins.addAll(nouveaux_chemins);
-            //System.out.println("Nombre de chemins : " + chemins.size());
-
         }
 
         List<Case> list = new ArrayList<>();
