@@ -213,6 +213,14 @@ public class ProfilesManager {
         createColor("Profile 3", "GREEN", "Nature", "Expert");
     }
 
+    public static int getProfilesListSize() {
+        return  profiles_list.size();
+    }
+
+    public static Profile getProfiles(int i) {
+        return profiles_list.get(i);
+    }
+
     public static Profile getDefaultProfile() {
         return profiles_list.get(0);
     }

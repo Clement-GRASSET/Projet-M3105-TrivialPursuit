@@ -1,26 +1,26 @@
 package iut.projets.trivialpursuit.game.ui;
 
-
 import iut.projets.trivialpursuit.engine.Game;
-import iut.projets.trivialpursuit.game.GameInfo;
-import iut.projets.trivialpursuit.game.Player;
-import iut.projets.trivialpursuit.game.Profile;
-import iut.projets.trivialpursuit.game.TrivialPursuitColor;
+import iut.projets.trivialpursuit.game.*;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.util.Locale;
 import java.util.Vector;
 
-public class ProfileMenu extends JDialog implements ActionListener {
-    JButton add_profile;
-    JComboBox collist, plist;
-    Vector<ProfileZone> zoneslist;
-    GameInfo player_selection = new GameInfo();
+public class ProfileMenu extends JDialog implements ActionListener, ItemListener {
+    private boolean exists = false;
+    private GameInfo player_selection = new GameInfo();
+
+    private JButton add_profile;
+    private JComboBox collist, plist;
+
+    private Vector<JComboBox> vcollist = new Vector<>(), vplist = new Vector<>();
+    private Vector<ProfileZone> zoneslist;
+    private Vector<JButton> vremove = new Vector<>();
+
     String [] colors = {TrivialPursuitColor.BLUE.toString(),
                         TrivialPursuitColor.GREEN.toString(),
                         TrivialPursuitColor.ORANGE.toString(),
@@ -28,7 +28,7 @@ public class ProfileMenu extends JDialog implements ActionListener {
                         TrivialPursuitColor.PURPLE.toString(),
                         TrivialPursuitColor.YELLOW.toString()};
 
-    String [] profiles = {"Profile 1", "Profile 2", "Profile 3", "Profile 4", "Profile 5", "Profile 6"};
+    String [] profiles;
 
 
 
@@ -110,6 +110,31 @@ public class ProfileMenu extends JDialog implements ActionListener {
         }
     }
 
+
+    ProfileMenu(JFrame owner, int width, int height, int x, int y, GameInfo pselect) {
+        super(owner, true);
+
+        this.zoneslist = new Vector<>();
+        this.player_selection = pselect;
+
+        this.profiles = new String[ProfilesManager.getProfilesListSize()];
+
+        for (int i = 0 ; i < ProfilesManager.getProfilesListSize() ; i++)
+            this.profiles[i] = ProfilesManager.getProfiles(i).getName();
+
+        setSize(width, height);
+        setLocation(x+Game.getWindow().getWidth()/2-width/2, y+ Game.getWindow().getHeight()/2-height/2);
+        setUndecorated(true);
+
+        getContentPane().setBackground(new Color(95, 95, 95));
+        setLayout(null);
+
+        createProfileZone();
+
+        setResizable(false);
+        setVisible(true);
+    }
+
     private void createProfileZone() {
         if (zoneslist.size() == 0)
             for (int i = 0; i < player_selection.getPlayers().size(); i++) {
@@ -118,6 +143,10 @@ public class ProfileMenu extends JDialog implements ActionListener {
                 else
                     zoneslist.add(new ProfileZone(("Joueur " + (i + 1)), 320 - ((((player_selection.getPlayers().size()+1) * getWidth() / 7) / 2) + (((getWidth() / 49) * (player_selection.getPlayers().size()+1)) / 2)) + i * 8 * getWidth() / 49, 5 * getHeight() / 24));
             }
+
+        vcollist.clear();
+        vplist.clear();
+        vremove.clear();
 
         for (int i = 0 ; i < player_selection.getPlayers().size() ; i++) {
             collist = new MyComboBox(colors);
@@ -131,6 +160,11 @@ public class ProfileMenu extends JDialog implements ActionListener {
             collist.setOpaque(true);
             collist.setVisible(true);
 
+            collist.addItemListener(this);
+
+            collist.setSelectedItem(player_selection.getPlayers().get(i).getPawnColor().toString());
+
+            vcollist.add(collist);
             add(collist);
 
             //Sélection de profile
@@ -143,14 +177,19 @@ public class ProfileMenu extends JDialog implements ActionListener {
             plist.setBackground(new Color(85, 85, 85));
             plist.setForeground(Color.WHITE);
 
+            plist.setSelectedItem(player_selection.getPlayers().get(i).getProfile().getName());
+
+            vplist.add(plist);
             add(plist);
 
 
             JPanel panel = new JPanel();
             panel.setBackground(new Color(74, 74, 74));
             panel.setBounds(zoneslist.get(i).x, zoneslist.get(i).y, zoneslist.get(i).width, zoneslist.get(i).height);
+
             JLabel player_name = new JLabel("Joueur "+(i+1));
             player_name.setForeground(Color.WHITE);
+
             panel.add(player_name);
 
             //Boutton suppression
@@ -167,11 +206,12 @@ public class ProfileMenu extends JDialog implements ActionListener {
                 remove_profile.setActionCommand("action_removep");
                 remove_profile.addActionListener(this);
 
+                vremove.add(remove_profile);
                 add(remove_profile);
 
                 JLabel minus = new JLabel("-");
-                minus.setBounds(zoneslist.get(i).xremovelogo, zoneslist.get(i).yremovelogo, zoneslist.get(i).width_removelogo, zoneslist.get(i).height_removelogo);
                 minus.setForeground(zoneslist.get(i).remove_color);
+                minus.setFont(new Font("Arial", Font.BOLD, 24));
 
                 panel.add(minus);
             }
@@ -242,35 +282,12 @@ public class ProfileMenu extends JDialog implements ActionListener {
         add(quit_button);
     }
 
-    ProfileMenu(JFrame owner, int width, int height, int x, int y, GameInfo pselect) {
-        super(owner, true);
-        zoneslist = new Vector<>();
-        this.player_selection = pselect;
-
-        setSize(width, height);
-        setLocation(x+Game.getWindow().getWidth()/2-width/2, y+ Game.getWindow().getHeight()/2-height/2);
-        setUndecorated(true);
-
-        getContentPane().setBackground(new Color(95, 95, 95));
-        setLayout(null);
-
-        createProfileZone();
-
-        setResizable(false);
-        setVisible(true);
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
+        //Boutton d'ajout de profile
         if(e.getActionCommand().equals("action_addp") && player_selection.getPlayers().size() < 6) {
-            Profile profile = new Profile();
+            Profile profile = ProfilesManager.getDefaultProfile();
             profile.setName("Joueur " + (player_selection.getPlayers().size() + 1));
-            profile.setCategory(TrivialPursuitColor.BLUE, "Y", "Débutant");
-            profile.setCategory(TrivialPursuitColor.GREEN, "Y", "Débutant");
-            profile.setCategory(TrivialPursuitColor.ORANGE, "Y", "Intermédiaire");
-            profile.setCategory(TrivialPursuitColor.PINK, "Y", "Intermédiaire");
-            profile.setCategory(TrivialPursuitColor.PURPLE, "Y", "Expert");
-            profile.setCategory(TrivialPursuitColor.YELLOW, "Y", "Expert");
 
             Vector<TrivialPursuitColor> colors_array = new Vector<>();
             colors_array.add(TrivialPursuitColor.BLUE);
@@ -300,8 +317,11 @@ public class ProfileMenu extends JDialog implements ActionListener {
             createProfileZone();
         }
 
+        //Boutton de suppression de profile
         if(e.getActionCommand().equals("action_removep") && player_selection.getPlayers().size() > 2) {
-            player_selection.getPlayers().remove(player_selection.getPlayers().size()-1);
+            for (int i = 0 ;  i < player_selection.getPlayers().size() ; i++)
+                if (e.getSource() == vremove.get(i))
+                    player_selection.getPlayers().remove(i);
 
             for (int i = 0 ; i < zoneslist.size() ; i++)
                 zoneslist.remove(i);
@@ -315,8 +335,58 @@ public class ProfileMenu extends JDialog implements ActionListener {
             createProfileZone();
         }
 
+        //Bouton OK pour quitter le menu
         if (e.getActionCommand().equals("action_quit")) {
-            dispose();
+            exists = false;
+            int nbexisting = 0;
+
+            for (int i = 0 ; i < player_selection.getPlayers().size() ; i++)
+                for (int j = 0; j < player_selection.getPlayers().size(); j++)
+                    if (player_selection.getPlayers().get(i).getPawnColor().toString() == player_selection.getPlayers().get(j).getPawnColor().toString() && i != j)
+                        nbexisting++;
+
+            if (nbexisting >= 1)
+                exists = true;
+
+                if (!exists) {
+                    for (int i = 0; i < player_selection.getPlayers().size(); i++) {/*
+                        TrivialPursuitColor col = TrivialPursuitColor.valueOf(vcollist.get(i).getSelectedItem().toString());
+                        Profile.Category cat = player_selection.getPlayers().get(i).getProfile().getCategory(col);
+
+                        System.out.println(col + " " + cat.getCategoryName() + " " + cat.getDifficulty().toString());
+
+                        Profile p = new Profile();
+                        p.setName(vplist.get(i).getSelectedItem().toString());
+                        p.setCategory(col, cat.toString(), cat.getDifficulty());*/
+
+                        player_selection.getPlayers().set(i, new Player(player_selection.getPlayers().get(i).getProfile(), TrivialPursuitColor.valueOf(vcollist.get(i).getSelectedItem().toString())));
+                        System.out.println(player_selection.getPlayers().get(i).getProfile().getName());
+                    }
+                    System.out.println("Fermer");
+                    dispose();
+                }
+                else
+                    System.out.println("Existe déjà");
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getStateChange() == ItemEvent.SELECTED) {
+            exists = false;
+            int nbexisting = 0;
+
+            for (int j = 0 ; j < player_selection.getPlayers().size() ; j++)
+                if (e.getItem().toString() == player_selection.getPlayers().get(j).getPawnColor().toString())
+                    nbexisting++;
+
+            if (nbexisting >= 1)
+                exists = true;
+
+            for (int i = 0 ; i < vcollist.size() ; i++)
+                if (e.getSource().equals(vcollist.get(i)))
+                    player_selection.getPlayers().set(i, new Player(player_selection.getPlayers().get(i).getProfile(),
+                                                      TrivialPursuitColor.valueOf(vcollist.get(i).getSelectedItem().toString())));
         }
     }
 }
