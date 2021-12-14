@@ -224,9 +224,11 @@ public class GameScene extends Scene {
                                     setLightIntensity(light, lightDefaultIntensity, 0.5);
                                     caseLight.remove();
                                     if (questionUI.getSuccess()) {
-                                        scores.get(player).addAttempt(c.getColor(), true);
-                                        pawns.get(player).addSlice(c.getColor());
-                                        gameUI.updateScores();
+                                        if (c.isSpecial()) {
+                                            scores.get(player).addAttempt(c.getColor(), true);
+                                            pawns.get(player).addSlice(c.getColor());
+                                            gameUI.updateScores();
+                                        }
                                         beginTurn();
                                     } else {
                                         scores.get(player).addAttempt(c.getColor(), false);

@@ -92,4 +92,13 @@ public class Case extends Actor {
             default: return null;
         }
     }
+
+    public boolean isSpecial() {
+        return type == CaseType.SPECIAL_BLUE ||
+                type == CaseType.SPECIAL_GREEN ||
+                type == CaseType.SPECIAL_ORANGE ||
+                type == CaseType.SPECIAL_PINK ||
+                type == CaseType.SPECIAL_PURPLE ||
+                type == CaseType.SPECIAL_YELLOW;
+    }
 }

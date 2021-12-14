@@ -1,5 +1,6 @@
 package iut.projets.trivialpursuit.game.ui;
 
+import iut.projets.trivialpursuit.engine.Resources;
 import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.game.Player;
@@ -25,7 +26,8 @@ public class ResultsUI extends UIScreenContainer {
         playerName.setTextAlign(Anchor.CENTER_CENTER);
         playerName.setPosition(new Vector2D(0,-15));
         playerName.setFontSize(15);
-        playerName.setText(player.getProfile().getName());
+        playerName.setText(player.getName());
+        playerName.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
         addElement(playerName);
 
         UIText text = new UIText();
@@ -33,6 +35,7 @@ public class ResultsUI extends UIScreenContainer {
         text.setTextAlign(Anchor.CENTER_CENTER);
         text.setPosition(new Vector2D(0,-3));
         text.setFontSize(12);
+        text.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
         text.setText("a gagné !");
         addElement(text);
 

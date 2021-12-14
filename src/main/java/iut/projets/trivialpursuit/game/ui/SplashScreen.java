@@ -25,7 +25,8 @@ public class SplashScreen extends UIScreenContainer {
         progressText.setTextAlign(Anchor.CENTER_RIGHT);
         progressText.setAlignment(new Vector2D(-1, -1));
         progressText.setPosition(new Vector2D(-17,-8));
-        progressText.setFontSize(4);
+        progressText.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
+        progressText.setFontSize(3.5);
         addElement(progressText);
 
         setProgress(0);

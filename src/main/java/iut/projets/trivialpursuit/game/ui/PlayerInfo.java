@@ -17,7 +17,7 @@ public class PlayerInfo extends UIBoxContainer {
     private static class ColorInfo extends UIBoxContainer {
         ColorInfo(Profile profile, TrivialPursuitColor color) {
             setAnchor(Anchor.TOP_CENTER);
-            setSize(new Vector2D(22, 5));
+            setSize(new Vector2D(24, 5));
 
             UIImage image = new UIImage();
             image.setImageUniform(color.getRGB());
@@ -41,7 +41,7 @@ public class PlayerInfo extends UIBoxContainer {
             category.setAlignment(new Vector2D(0,0));
             category.setTextAlign(Anchor.CENTER_LEFT);
             category.setPosition(new Vector2D(5, -1));
-            category.setFontSize(2.2);
+            category.setFontSize(2);
             category.setFont(Resources.getFont("/fonts/theboldfont.ttf"));
             addElement(category);
 
