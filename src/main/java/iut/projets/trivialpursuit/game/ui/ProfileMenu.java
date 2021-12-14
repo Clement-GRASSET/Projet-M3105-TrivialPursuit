@@ -301,16 +301,12 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
 
         //Boutton de suppression de profile
         if(e.getActionCommand().equals("action_removep") && player_selection.getPlayers().size() > 2) {
-            boolean removed = false;
-            for (int i = 0 ;  i < player_selection.getPlayers().size() ; i++) {
-                if (e.getSource() == vremove.get(i)) {
+            for (int i = 0 ;  i < player_selection.getPlayers().size() ; i++)
+                if (e.getSource() == vremove.get(i))
                     player_selection.getPlayers().remove(i);
-                    removed = true;
-                }
 
-                if (removed)
+            for (int i = 0 ;  i < player_selection.getPlayers().size() ; i++)
                     player_selection.getPlayers().get(i).setName("Joueur " + (i+1));
-            }
 
             for (int i = 0 ; i < zoneslist.size() ; i++)
                 zoneslist.remove(i);
@@ -361,9 +357,11 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
 
 
             for (int i = 0 ; i < vcollist.size() ; i++)
-                if (e.getSource().equals(vcollist.get(i)))
-                    player_selection.getPlayers().set(i, new Player(player_selection.getPlayers().get(i).getProfile(),
-                                                                    TrivialPursuitColor.valueOf(vcollist.get(i).getSelectedItem().toString())));
+                if (e.getSource().equals(vcollist.get(i))) {
+                    Player player = new Player(player_selection.getPlayers().get(i).getProfile(), TrivialPursuitColor.valueOf(vcollist.get(i).getSelectedItem().toString()));
+                    player.setName("Joueur " + (i+1));
+                    player_selection.getPlayers().set(i, player);
+                }
 
             for (int i = 0 ; i < vplist.size() ; i++)
                 if (e.getSource().equals(vplist.get(i)))
