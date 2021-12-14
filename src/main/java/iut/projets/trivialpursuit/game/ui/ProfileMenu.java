@@ -50,8 +50,8 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
             this.xfont = x+getWidth()/32;
             this.yfont = y+getHeight()/18;
 
-            this.xremovebutton = x+width-getWidth()/36;
-            this.yremovebutton = y;
+            this.xremovebutton = x+width-29*getWidth()/720;
+            this.yremovebutton = y+getWidth()/48;
             this.width_removebutton = width/6;
             this.height_removebutton = height/8;
         }
@@ -171,7 +171,7 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
             panel.setBounds(zoneslist.get(i).x, zoneslist.get(i).y, zoneslist.get(i).width, zoneslist.get(i).height);
 
             JLabel player_name = new JLabel("Joueur "+(i+1));
-            player_name.setForeground(Color.WHITE);
+            player_name.setForeground(zoneslist.get(i).font_color);
 
             panel.add(player_name);
 
@@ -184,7 +184,7 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
                 remove_profile.setOpaque(false);
                 remove_profile.setFocusPainted(false);
                 remove_profile.setContentAreaFilled(false);
-                remove_profile.setBorderPainted(false);
+                remove_profile.setBorder(BorderFactory.createLineBorder(zoneslist.get(i).remove_color));
 
                 remove_profile.setActionCommand("action_removep");
                 remove_profile.addActionListener(this);
