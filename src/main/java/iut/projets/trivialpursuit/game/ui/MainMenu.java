@@ -7,6 +7,7 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.game.*;
 import iut.projets.trivialpursuit.game.scenes.GameScene;
+import iut.projets.trivialpursuit.game.xml.ProfilesManager;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -184,7 +185,7 @@ public class MainMenu extends UIScreenContainer {
     private final long music_start_time;
     private final double music_bpm;
 
-    private GameInfo gameInfo;
+    private static GameInfo gameInfo;
 
     /**
      * Construit un menu principal.
@@ -242,18 +243,21 @@ public class MainMenu extends UIScreenContainer {
      * Ajoute des joueurs par défaut au game info.
      */
     private void initializeGameInfo() {
-        gameInfo = new GameInfo();
-        Player player;
+        if (gameInfo == null) {
+            gameInfo = new GameInfo();
 
-        // Player 1
-        player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.BLUE);
-        player.setName("Joueur 1");
-        gameInfo.getPlayers().add(player);
+            Player player;
 
-        // Player 2
-        player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.PINK);
-        player.setName("Joueur 2");
-        gameInfo.getPlayers().add(player);
+            // Player 1
+            player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.BLUE);
+            player.setName("Joueur 1");
+            gameInfo.getPlayers().add(player);
+
+            // Player 2
+            player = new Player(ProfilesManager.getDefaultProfile(), TrivialPursuitColor.PINK);
+            player.setName("Joueur 2");
+            gameInfo.getPlayers().add(player);
+        }
     }
 
 }

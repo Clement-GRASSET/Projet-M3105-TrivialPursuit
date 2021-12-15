@@ -6,7 +6,7 @@ import iut.projets.trivialpursuit.engine.basetypes.UIImage;
 import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.game.Player;
-import iut.projets.trivialpursuit.game.Profile;
+import iut.projets.trivialpursuit.game.xml.Profile;
 import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
 import java.util.ArrayList;

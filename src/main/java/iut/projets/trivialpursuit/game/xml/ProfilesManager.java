@@ -1,6 +1,7 @@
-package iut.projets.trivialpursuit.game;
+package iut.projets.trivialpursuit.game.xml;
 
 import iut.projets.trivialpursuit.engine.Game;
+import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

@@ -4,7 +4,6 @@ import iut.projets.trivialpursuit.engine.UIManager;
 import iut.projets.trivialpursuit.engine.basetypes.DirectionalLight;
 import iut.projets.trivialpursuit.engine.core.Scene;
 import iut.projets.trivialpursuit.engine.types.Vector3D;
-import iut.projets.trivialpursuit.game.questions.QuestionsManager;
 import iut.projets.trivialpursuit.game.ui.MainMenu;
 
 import java.awt.*;

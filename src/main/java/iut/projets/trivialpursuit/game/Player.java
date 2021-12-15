@@ -1,5 +1,7 @@
 package iut.projets.trivialpursuit.game;
 
+import iut.projets.trivialpursuit.game.xml.Profile;
+
 /**
  * Représente un joueur définit par un profil, une couleur et un nom.
  */

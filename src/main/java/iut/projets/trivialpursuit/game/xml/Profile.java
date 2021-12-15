@@ -1,4 +1,6 @@
-package iut.projets.trivialpursuit.game;
+package iut.projets.trivialpursuit.game.xml;
+
+import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class Profile {
     /**
      * Construit un profil.
      */
-    public Profile() {
+    Profile() {
         categories = new HashMap<>();
         categories.put(TrivialPursuitColor.BLUE, new Category());
         categories.put(TrivialPursuitColor.GREEN, new Category());

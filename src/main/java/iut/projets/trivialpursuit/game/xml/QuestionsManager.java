@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.game.questions;
+package iut.projets.trivialpursuit.game.xml;
 
 import iut.projets.trivialpursuit.engine.Game;
 import org.w3c.dom.Document;
@@ -130,7 +130,7 @@ public class QuestionsManager {
         createQuestion("Géographie", "Débutant", "Dans quel état américain se trouve la vallée de la Mort ?", "Texas", "Californie", "Floride", "Louisiane", 1);
 
         createDifficulty("Géographie", "Intermédiaire");
-        createQuestion("Géographie", "Intermédiaire", "Quelles sont les coordonées de l'Allemagne ?", "(35.861660, 104.195397)", "(-85, 65)", "(35, -98)", "(51.165691, 10.451526)", 3);
+        createQuestion("Géographie", "Intermédiaire", "Quelles sont les coordonnées de l'Allemagne ?", "(35.861660, 104.195397)", "(-85, 65)", "(35, -98)", "(51.165691, 10.451526)", 3);
         createQuestion("Géographie", "Intermédiaire", "Quelle est le plus grande île de la Méditerranée ?", "La grande ourse", "Sicile", "Corse", "L'Italie", 1);
         createQuestion("Géographie", "Intermédiaire", "Combien de pays ont une frontière commune avec la France ?", "7", "8", "6", "5", 1);
         createQuestion("Géographie", "Intermédiaire", "Comment appelle-t-on les habitants des Bouches-du-Rhône ?", "Bucco dentaires", "Bouchers", "Bucco-rhodaniens", "Rhonins", 2);
@@ -182,9 +182,9 @@ public class QuestionsManager {
         createQuestion("Histoire", "Débutant", "Qu'est-ce qui a provoqué une dizaine de milliers de morts en France pendant l'été 2003 ?", "La canicule", "La glaciation", "Une tempête de sable", "Une attaque au lance-flamme", 0);
         createQuestion("Histoire", "Débutant", "Combien de temps a durée le Moyen Âge ?", "La moitié de l'âge de l'humanité", "52 596 000 000 secondes", "La moitié de l'âge de la Terre", "8 766 000 heures", 3);
         createQuestion("Histoire", "Débutant", "Qu'est-ce que le Commune de Paris ?", "Manifestation Pacifique pendant la querre Franco-prussienne", "Période d'insurrection", "Le centre-ville de Paris", "Élément déclencheur de la Révolution française", 1);
-        createQuestion("Histoire", "Débutant", "Quel événemen à conduit à la Première Guerre Mondiale ?", "L'Avant Guerre Mondiale", "Occupation de la Pologne par l'URSS", "Assassnat de François Ferdinand", "Annexion de l'Autriche par l'Allemagne", 2);
+        createQuestion("Histoire", "Débutant", "Quel événement à conduit à la Première Guerre Mondiale ?", "L'Avant Guerre Mondiale", "Occupation de la Pologne par l'URSS", "Assassnat de François Ferdinand", "Annexion de l'Autriche par l'Allemagne", 2);
         createQuestion("Histoire", "Débutant", "Comment appelle-t-on la chasse aux sorcières de Richelieu ?", "Affaire des soeurs de la Rochelle", "Affaire des possédées de Loudun", "Affaire Dreyfus", "Affaire du collier de la reine", 1);
-        createQuestion("Histoire", "Débutant", "Qui a dessiné l'homme de Vitruve ?", "Arcimboldo", "Van Gogh", "Léonrad de Vinci", "Michel-Ange", 2);
+        createQuestion("Histoire", "Débutant", "Qui a dessiné l'homme de Vitruve ?", "Arcimboldo", "Van Gogh", "Léonard de Vinci", "Michel-Ange", 2);
 
         createDifficulty("Histoire", "Intermédiaire");
         createQuestion("Histoire", "Intermédiaire", "Comment se nomme le dieu du vin ?", "Héra", "Déméter", "Dionysos", "La réponse D", 2);
@@ -192,7 +192,7 @@ public class QuestionsManager {
         createQuestion("Histoire", "Intermédiaire", "Combien de pyramides de Gizeh ont été construites ?", "2", "2x-5 = 0", "2x^2+4x+2 = 0", "1.5", 0);
         createQuestion("Histoire", "Intermédiaire", "Quel traité institue la création de la Communauté Économique Européenne ?", "Rome", "Versailles", "Maastricht", "Lisbonne", 0);
         createQuestion("Histoire", "Intermédiaire", "Dans la mythologie aztèque, qui est le Quetzalcoalt ?", "Dieu serpent à plumes", "Die à tête de chien ", "Roi des morts", "Dieu soleil", 0);
-        createQuestion("Histoire", "Intermédiaire", "Quelle était la profession initale de Gandhi M", "Juge", "Procureur", "Médecin", "Avocat", 3);
+        createQuestion("Histoire", "Intermédiaire", "Quelle était la profession initiale de Gandhi M", "Juge", "Procureur", "Médecin", "Avocat", 3);
 
         createDifficulty("Histoire", "Expert");
         createQuestion("Histoire", "Expert", "Combien de mort y a-t-il eu en été 2003 ? ", "15 830", "19 490", "21 272", "Beaucoup", 1);
@@ -208,7 +208,7 @@ public class QuestionsManager {
         createCategory("Art et littérature");
 
         createDifficulty("Art et littérature", "Débutant");
-        createQuestion("Art et littérature", "Débutant", "Qu'est-ce qui indique qu'une oeuvre a une grande qualité ?", "Il coûte cher", "Il est recommmandé par Olivier Mine", "Il est bien fait", "Il a reçu un prix", 1);
+        createQuestion("Art et littérature", "Débutant", "Qu'est-ce qui indique qu'une oeuvre a une grande qualité ?", "Elle coûte cher", "Elle est recommandée par Olivier Mine", "Elle est bien faite", "Elle a reçu un prix", 1);
         createQuestion("Art et littérature", "Débutant", "Quel est le pays ayant le plus de souffrance ?", "Allemagne", "Russie", "Espagne", "Groenland", 2);
         createQuestion("Art et littérature", "Débutant", "Pourquoi Frodon va-t-il sur un volcan ?", "Il avait froid", "Il n'a plus d'argent", "Pour tuer Gollum", "Pour y jeter l'anneau", 3);
         createQuestion("Art et littérature", "Débutant", "Quel est le nom de le personne ayant servit de modèle pour la Joconde ?", "Sara Zezza", "Cora Gennari", "Mina Loria", "Mona Lisa", 0);

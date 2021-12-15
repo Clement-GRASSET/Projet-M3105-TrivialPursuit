@@ -2,12 +2,13 @@ package iut.projets.trivialpursuit.game.ui;
 
 import iut.projets.trivialpursuit.engine.Game;
 import iut.projets.trivialpursuit.game.*;
+import iut.projets.trivialpursuit.game.xml.Profile;
+import iut.projets.trivialpursuit.game.xml.ProfilesManager;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Locale;
 import java.util.Vector;
 
 /**

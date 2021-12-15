@@ -1,4 +1,4 @@
-package iut.projets.trivialpursuit.game.questions;
+package iut.projets.trivialpursuit.game.xml;
 
 public class Question {
     String question;

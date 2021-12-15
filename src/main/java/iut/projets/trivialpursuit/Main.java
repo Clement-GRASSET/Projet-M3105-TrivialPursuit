@@ -2,9 +2,8 @@ package iut.projets.trivialpursuit;
 
 import iut.projets.trivialpursuit.engine.Game;
 import iut.projets.trivialpursuit.engine.SceneManager;
-import iut.projets.trivialpursuit.engine.Settings;
-import iut.projets.trivialpursuit.game.ProfilesManager;
-import iut.projets.trivialpursuit.game.questions.QuestionsManager;
+import iut.projets.trivialpursuit.game.xml.ProfilesManager;
+import iut.projets.trivialpursuit.game.xml.QuestionsManager;
 import iut.projets.trivialpursuit.game.scenes.StartScene;
 
 public class Main {

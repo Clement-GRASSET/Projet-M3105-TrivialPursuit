@@ -11,8 +11,9 @@ import iut.projets.trivialpursuit.engine.core.UIElement;
 import iut.projets.trivialpursuit.engine.types.*;
 import iut.projets.trivialpursuit.game.*;
 import iut.projets.trivialpursuit.game.actors.*;
-import iut.projets.trivialpursuit.game.questions.Question;
-import iut.projets.trivialpursuit.game.questions.QuestionsManager;
+import iut.projets.trivialpursuit.game.xml.Profile;
+import iut.projets.trivialpursuit.game.xml.Question;
+import iut.projets.trivialpursuit.game.xml.QuestionsManager;
 import iut.projets.trivialpursuit.game.ui.*;
 
 import java.awt.*;

@@ -6,7 +6,7 @@
 
   <groupId>iut.projet.trivialpursuit</groupId>
   <artifactId>TrivialPursuit</artifactId>
-  <version>0.3_BETA</version>
+  <version>1.0</version>
 
   <name>trivial-pursuit</name>
   <!-- FIXME change it to the project's website -->
