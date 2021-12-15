@@ -12,8 +12,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Menu principal.
+ */
 public class MainMenu extends UIScreenContainer {
 
+    /**
+     * Écran titre
+     */
     private class TitleScreen extends UIScreenContainer {
         TitleScreen() {
             UITextButton playButton = new UITextButton("Jouer");
@@ -82,6 +88,9 @@ public class MainMenu extends UIScreenContainer {
         }
     }
 
+    /**
+     * Écran de selection de profil.
+     */
     private class ProfileSelectionScreen extends UIScreenContainer {
         final List<PlayerInfo> playerInfos;
         ProfileSelectionScreen() {
@@ -146,6 +155,9 @@ public class MainMenu extends UIScreenContainer {
             addElement(startButton);
         }
 
+        /**
+         * Met à jour les joueurs.
+         */
         void updatePlayers() {
             for (PlayerInfo playerInfo : playerInfos) {
                 removeElement(playerInfo);
@@ -174,6 +186,9 @@ public class MainMenu extends UIScreenContainer {
 
     private GameInfo gameInfo;
 
+    /**
+     * Construit un menu principal.
+     */
     public MainMenu() {
         super();
 
@@ -212,6 +227,10 @@ public class MainMenu extends UIScreenContainer {
         logo.setSize( Math.pow(scale, 10)*0.8 + 20);
     }
 
+    /**
+     * Remplace le menu à l'écran par un autre menu.
+     * @param menu Nouveau menu à afficher.
+     */
     private void setActiveMenu(UIContainer menu) {
         if (activeMenu != null)
             removeElement(activeMenu);
@@ -219,6 +238,9 @@ public class MainMenu extends UIScreenContainer {
         addElement(activeMenu);
     }
 
+    /**
+     * Ajoute des joueurs par défaut au game info.
+     */
     private void initializeGameInfo() {
         gameInfo = new GameInfo();
         Player player;

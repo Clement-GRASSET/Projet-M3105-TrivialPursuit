@@ -6,10 +6,16 @@ import iut.projets.trivialpursuit.engine.basetypes.UIScreenContainer;
 import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 
+/**
+ * Écran de démarrage du jeu.
+ */
 public class SplashScreen extends UIScreenContainer {
 
     private final UIText progressText;
 
+    /**
+     * Construit l'écran de démarrage.
+     */
     public SplashScreen() {
         super();
         UIImage logo = new UIImage();
@@ -32,6 +38,10 @@ public class SplashScreen extends UIScreenContainer {
         setProgress(0);
     }
 
+    /**
+     * Met à jour la progression du chargement.
+     * @param progress Progression du chargement [0, 1].
+     */
     public void setProgress(double progress) {
         progressText.setText(String.format("%,.0f", progress*100) + "%");
     }

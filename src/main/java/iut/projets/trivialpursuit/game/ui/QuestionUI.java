@@ -5,6 +5,9 @@ import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.game.questions.Question;
 
+/**
+ * Pose une question.
+ */
 public class QuestionUI extends UIScreenContainer {
 
     private Runnable onDestroy;
@@ -13,6 +16,10 @@ public class QuestionUI extends UIScreenContainer {
     private final UIScreenContainer questionContainer;
     UIText timeCount;
 
+    /**
+     * Construit une interface qui pose une question.
+     * @param question Question à poser.
+     */
     public QuestionUI(Question question) {
         onDestroy = () -> {};
         success = false;
@@ -91,6 +98,10 @@ public class QuestionUI extends UIScreenContainer {
         this.onDestroy = onDestroy;
     }
 
+    /**
+     * Informe l'utilisateur que la question est terminée.
+     * @param text Texte à afficher.
+     */
     private void end(String text) {
         if (success)
             Resources.getSound("/sounds/ui/button_answer_success.wav").play();
@@ -140,6 +151,10 @@ public class QuestionUI extends UIScreenContainer {
         opacity_animation.start(this);
     }
 
+    /**
+     * Renvoie vrai si l'utilisateur a répondu correctement.
+     * @return Vrai si l'utilisateur a répondu correctement.
+     */
     public boolean getSuccess() {
         return success;
     }

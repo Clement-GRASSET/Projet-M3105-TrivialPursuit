@@ -12,9 +12,20 @@ import iut.projets.trivialpursuit.game.TrivialPursuitColor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Bloc qui résume les informations d'un joueur et de son profil.
+ */
 public class PlayerInfo extends UIBoxContainer {
 
+    /**
+     * Bloc qui affiche la catégorie d'une couleur.
+     */
     private static class ColorInfo extends UIBoxContainer {
+        /**
+         * Construit un ColorInfo.
+         * @param profile Profil du joueur.
+         * @param color Couleur de la question.
+         */
         ColorInfo(Profile profile, TrivialPursuitColor color) {
             setAnchor(Anchor.TOP_CENTER);
             setSize(new Vector2D(24, 5));
@@ -57,6 +68,10 @@ public class PlayerInfo extends UIBoxContainer {
         }
     }
 
+    /**
+     * Construit un PlayerInfo
+     * @param player Joueur à afficher.
+     */
     public PlayerInfo(Player player) {
         super();
         setAnchor(Anchor.CENTER_CENTER);

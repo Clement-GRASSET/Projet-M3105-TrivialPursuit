@@ -14,12 +14,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface utilisateur affichée en jeu.
+ */
 public class GameUI extends UIScreenContainer {
 
+    /**
+     * Bloc contenant le nom d'un joueur et ses points gagnés.
+     */
     private static class PlayerStatsUI extends UIBoxContainer {
 
         Map<TrivialPursuitColor, UIImage> slices;
 
+        /**
+         * Construit le bloc du joueur.
+         * @param player Joueur à représenter.
+         */
         PlayerStatsUI(Player player) {
             slices = new HashMap<>();
 
@@ -62,6 +72,10 @@ public class GameUI extends UIScreenContainer {
             addElement(pawn);
         }
 
+        /**
+         * Ajoute une part aux points gagnés.
+         * @param color Couleur de la part.
+         */
         public void addSlice(TrivialPursuitColor color) {
             if (slices.containsKey(color)) return;
 
@@ -89,6 +103,11 @@ public class GameUI extends UIScreenContainer {
     private final Map<Player, PlayerScores> scores;
     private final Map<Player, PlayerStatsUI> playerStatsUI;
 
+    /**
+     * Construit l'interface utilisateur.
+     * @param players Liste des joueurs.
+     * @param scores Scores des joueurs.
+     */
     public GameUI(List<Player> players, Map<Player, PlayerScores> scores) {
         this.players = players;
         this.scores = scores;
@@ -102,6 +121,9 @@ public class GameUI extends UIScreenContainer {
         }
     }
 
+    /**
+     * Met à jour les scores.
+     */
     public void updateScores() {
         scores.forEach((player, scores) -> {
             for (TrivialPursuitColor color : scores.getAllSuccess()) {

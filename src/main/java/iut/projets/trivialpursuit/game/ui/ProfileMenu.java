@@ -10,6 +10,9 @@ import java.awt.event.*;
 import java.util.Locale;
 import java.util.Vector;
 
+/**
+ * Menu de sélection des profils des joueurs.
+ */
 public class ProfileMenu extends JDialog implements ActionListener, ItemListener {
     private boolean exists = false;
     private GameInfo player_selection;
@@ -29,8 +32,6 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
                         TrivialPursuitColor.YELLOW.toString()};
 
     String [] profiles;
-
-
 
     private class ProfileZone{
         private int x, y, xfont, yfont, xremovebutton, yremovebutton, width_removebutton, height_removebutton;

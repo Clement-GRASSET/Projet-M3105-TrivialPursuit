@@ -10,11 +10,17 @@ import iut.projets.trivialpursuit.engine.Resources;
 
 import java.awt.*;
 
+/**
+ * Écran de chargement de la partie
+ */
 public class GameLoadingScreen extends UIScreenContainer {
 
     private final UIImage background, logo, loadingSpinner;
     private Runnable onConstructAnimationFinished;
 
+    /**
+     * Construit l'écran de chargement.
+     */
     public GameLoadingScreen() {
         onConstructAnimationFinished = () -> {};
 
@@ -38,7 +44,7 @@ public class GameLoadingScreen extends UIScreenContainer {
         addElement(background);
         addElement(loadingSpinner);
         addElement(logo);
-        playConstructAnimation(onConstructAnimationFinished);
+        playConstructAnimation();
     }
 
     @Override
@@ -46,13 +52,19 @@ public class GameLoadingScreen extends UIScreenContainer {
 
     }
 
+    /**
+     * Fait disparaitre l'écran de chargement en jouant une animation.
+     */
     public void remove() {
         playDestructAnimation(() -> {
             UIManager.removeElement(this);
         });
     }
 
-    private void playConstructAnimation(Runnable then) {
+    /**
+     * Affiche l'écran de chargement en jouant une animation.
+     */
+    private void playConstructAnimation() {
         Animation logoAnimation = new Animation(new Keyframe[] {
                 new Keyframe(50, 0),
                 new Keyframe(20, 0.2)
@@ -66,10 +78,17 @@ public class GameLoadingScreen extends UIScreenContainer {
         logoAnimation.start(this);
     }
 
+    /**
+     * Définit la fonction à exécuter après l'apparition de l'écran de chargement.
+     * @param onConstructAnimationFinished Fonction à exécuter.
+     */
     public void onConstructAnimationFinished(Runnable onConstructAnimationFinished) {
         this.onConstructAnimationFinished = onConstructAnimationFinished;
     }
 
+    /**
+     * Fait disparaitre l'écran de chargement en jouant une animation.
+     */
     private void playDestructAnimation(Runnable then) {
         UIImage image_down, image_up;
         image_down = new UIImage();

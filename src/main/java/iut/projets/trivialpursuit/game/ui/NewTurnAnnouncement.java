@@ -8,10 +8,17 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.basetypes.*;
 import iut.projets.trivialpursuit.game.Player;
 
+/**
+ * Interface utilisateur qui annonce le nom d'un joueur lors d'un nouveau tour.
+ */
 public class NewTurnAnnouncement extends UIScreenContainer {
 
     private Runnable onDestroy;
 
+    /**
+     * Construit l'annonce d'un joueur.
+     * @param player Joueur à annoncer.
+     */
     public NewTurnAnnouncement(Player player) {
         setOpacity(0);
 

@@ -8,13 +8,27 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 import java.awt.*;
 import java.util.function.Function;
 
+/**
+ * Interface utilisateur permettant de modifier les paramètres du jeu.
+ */
 public class Options extends UIScreenContainer {
 
+    /**
+     * Bloc contenant une option
+     */
     private static class Selector extends UIBoxContainer {
         private final Function<String, String> update;
         private final Runnable decrease, increase;
         private String textValue;
 
+        /**
+         * Construit un sélecteur.
+         * @param name Nom du sélecteur.
+         * @param update Fonction permettant de mettre à jour la valeur à afficher.
+         * @param decrease Fonction permettant d'augmenter la valeur du paramètre.
+         * @param increase Fonction permettant de diminuer la valeur du paramètre.
+         * @param fontColor Couleur du texte.
+         */
         Selector(String name, Function<String, String> update, Runnable decrease, Runnable increase, Color fontColor) {
             this.update = update;
             this.decrease = decrease;
@@ -77,14 +91,14 @@ public class Options extends UIScreenContainer {
 
             value.setText(update.apply(textValue));
         }
-
-        public void setValue(String value) {
-            this.textValue = value;
-        }
     }
 
     private Runnable onBackClicked;
 
+    /**
+     * Construit les options.
+     * @param fontColor Couleur du texte.
+     */
     public Options(Color fontColor) {
         onBackClicked = () -> {};
 
@@ -145,6 +159,10 @@ public class Options extends UIScreenContainer {
         addElement(fullScreen);
     }
 
+    /**
+     * Fonction à exécuter quand l'utilisateur appuie sur le bouton retour.
+     * @param onBackClicked Fonction à exécuter.
+     */
     public void onBackClicked(Runnable onBackClicked) {
         this.onBackClicked = onBackClicked;
     }

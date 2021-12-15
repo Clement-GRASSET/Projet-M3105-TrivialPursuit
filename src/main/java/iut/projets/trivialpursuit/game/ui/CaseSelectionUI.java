@@ -10,8 +10,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Interface utilisateur qui permet au joueur de sélectionner une case.
+ */
 public class CaseSelectionUI extends UIScreenContainer {
 
+    /**
+     * Bouton dont l'apparence a été modifiée
+     */
     private static class CaseButton extends UIButton {
         CaseButton() {
             setAnchor(Anchor.CENTER_CENTER);
@@ -29,6 +35,10 @@ public class CaseSelectionUI extends UIScreenContainer {
     private Runnable onDestroy;
     private Case selected;
 
+    /**
+     * Construit l'interface de sélection de case.
+     * @param cases Cases sélectionnables.
+     */
     public CaseSelectionUI(List<Case> cases) {
         onDestroy = () -> {};
         buttons = new HashMap<>();
@@ -55,6 +65,10 @@ public class CaseSelectionUI extends UIScreenContainer {
         this.onDestroy = onDestroy;
     }
 
+    /**
+     * Renvoie la case sélectionnée.
+     * @return La case sélectionnée.
+     */
     public Case getSelected() {
         return selected;
     }

@@ -10,11 +10,17 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interface utilisateur qui permet de tirer un nombre au hasard.
+ */
 public class RandomNumberUI extends UIScreenContainer {
 
     private int number;
     private Runnable onDestroy;
 
+    /**
+     * Bouton qui contient un nombre au hasard.
+     */
     private static class RandomButton extends UIButton {
         private final int number;
         RandomButton(int number) {
@@ -30,6 +36,9 @@ public class RandomNumberUI extends UIScreenContainer {
         }
     }
 
+    /**
+     * Construit une interface utilisateur qui permet de tirer un nombre au hasard.
+     */
     public RandomNumberUI() {
         onDestroy = () -> {};
 
@@ -109,6 +118,10 @@ public class RandomNumberUI extends UIScreenContainer {
         animation.start(this);
     }
 
+    /**
+     * Renvoie le nombre tiré par le joueur.
+     * @return Nombre tiré par le joueur.
+     */
     public int getNumber() {
         return number;
     }

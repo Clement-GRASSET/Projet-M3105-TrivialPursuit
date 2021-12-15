@@ -5,8 +5,14 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 import iut.projets.trivialpursuit.engine.basetypes.UIImage;
 import iut.projets.trivialpursuit.engine.Resources;
 
+/**
+ * Icône de chargement en bas à droite de l'écran.
+ */
 public class LoadingIcon extends UIImage {
 
+    /**
+     * Construit une icône de chargement.
+     */
     public LoadingIcon() {
         super();
         setImage(Resources.getImage("/images/loading-icon.png"));

@@ -7,11 +7,17 @@ import iut.projets.trivialpursuit.engine.basetypes.UIText;
 import java.util.List;
 import java.util.Vector;
 
+/**
+ * Compteur d'images par secondes.
+ */
 public class FPSCounter extends UIText {
 
     String fps;
     List<Long> frameTimes;
 
+    /**
+     * Construit le compteur d'images par secondes.
+     */
     public FPSCounter() {
         setPosition(new Vector2D(2, 2));
         setAnchor(Anchor.TOP_LEFT);

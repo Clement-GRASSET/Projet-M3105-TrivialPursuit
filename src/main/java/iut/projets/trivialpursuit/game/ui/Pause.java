@@ -6,10 +6,16 @@ import iut.projets.trivialpursuit.engine.types.Vector2D;
 
 import java.awt.*;
 
+/**
+ * Menu pause.
+ */
 public class Pause extends UIScreenContainer {
 
     private Runnable onResume, onQuit;
 
+    /**
+     * Construit un menu pause.
+     */
     public Pause() {
         onResume = () -> {};
         onQuit = () -> {};
@@ -65,10 +71,18 @@ public class Pause extends UIScreenContainer {
         main.addElement(quitButton);
     }
 
+    /**
+     * Fonction à exécuter quand l'utilisateur appuie sur le bouton reprendre.
+     * @param onResume Fonction à exécuter.
+     */
     public void onResume(Runnable onResume) {
         this.onResume = onResume;
     }
 
+    /**
+     * Fonction à exécuter quand l'utilisateur appuie sur le bouton quitter.
+     * @param onQuit Fonction à exécuter.
+     */
     public void onQuit(Runnable onQuit) {
         this.onQuit = onQuit;
     }

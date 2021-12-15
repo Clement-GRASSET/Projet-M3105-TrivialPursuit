@@ -7,10 +7,17 @@ import iut.projets.trivialpursuit.game.Player;
 
 import java.awt.*;
 
+/**
+ * Interface utilisateur qui affiche le nom du gagnant.
+ */
 public class ResultsUI extends UIScreenContainer {
 
     private Runnable onBackToMenuClicked;
 
+    /**
+     * Construit l'affichage du gagnant
+     * @param player Joueur gagnant.
+     */
     public ResultsUI(Player player) {
 
         onBackToMenuClicked = () -> {};
@@ -50,6 +57,10 @@ public class ResultsUI extends UIScreenContainer {
         });
     }
 
+    /**
+     * Définit la fonction à exécuter lorsque l'utilisateur clique sur le bouton retour au menu.
+     * @param onBackToMenuClicked Fonction à exécuter.
+     */
     public void onBackToMenuClicked(Runnable onBackToMenuClicked) {
         this.onBackToMenuClicked = onBackToMenuClicked;
     }
