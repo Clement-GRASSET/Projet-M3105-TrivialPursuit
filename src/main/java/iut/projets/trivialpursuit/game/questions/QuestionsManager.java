@@ -122,7 +122,7 @@ public class QuestionsManager {
         createCategory("Géographie");
 
         createDifficulty("Géographie", "Débutant");
-        createQuestion("Géographie", "Débutant", "", "", "", "", "", 0);
+        createQuestion("Géographie", "Débutant", "Où se trouve l'Australie ?", "En (-33.868857, 151.206079)", "En (-33.868857, 151.206079)", "À l'envers", "En Allemagne", 2);
         createQuestion("Géographie", "Débutant", "", "", "", "", "", 0);
         createQuestion("Géographie", "Débutant", "", "", "", "", "", 0);
         createQuestion("Géographie", "Débutant", "", "", "", "", "", 0);
@@ -130,7 +130,7 @@ public class QuestionsManager {
         createQuestion("Géographie", "Débutant", "", "", "", "", "", 0);
 
         createDifficulty("Géographie", "Intermédiaire");
-        createQuestion("Géographie", "Intermédiaire", "", "", "", "", "", 0);
+        createQuestion("Géographie", "Intermédiaire", "Quelles sont les coordonées de l'Allemagne ?", "(35.861660, 104.195397)", "(-85, 65)", "(35, -98)", "(51.165691, 10.451526)", 3);
         createQuestion("Géographie", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Géographie", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Géographie", "Intermédiaire", "", "", "", "", "", 0);
@@ -138,7 +138,7 @@ public class QuestionsManager {
         createQuestion("Géographie", "Intermédiaire", "", "", "", "", "", 0);
 
         createDifficulty("Géographie", "Expert");
-        createQuestion("Géographie", "Expert", "", "", "", "", "", 0);
+        createQuestion("Géographie", "Expert", "Qu'est-ce qui intéresse le plus la France ?", "Pain au chocolat ou *********** ?", "La communication en entreprise", "Le salaire des allemands", "Escabeau ou échelle ?", 2);
         createQuestion("Géographie", "Expert", "", "", "", "", "", 0);
         createQuestion("Géographie", "Expert", "", "", "", "", "", 0);
         createQuestion("Géographie", "Expert", "", "", "", "", "", 0);
@@ -150,15 +150,15 @@ public class QuestionsManager {
         createCategory("Divertissements");
 
         createDifficulty("Divertissements", "Débutant");
-        createQuestion("Divertissements", "Débutant", "", "", "", "", "", 0);
-        createQuestion("Divertissements", "Débutant", "", "", "", "", "", 0);
+        createQuestion("Divertissements", "Débutant", "Qu'est-ce qui est arrivé en premier ?", "Pokémon", "Chute du mur de Berlin", "Donkey kong country", "One piece", 0);
+        createQuestion("Divertissements", "Débutant", "Quelle est la bonne réponse ?", "2", "E", "Celle-ci", "La bonne réponse", 0);
         createQuestion("Divertissements", "Débutant", "", "", "", "", "", 0);
         createQuestion("Divertissements", "Débutant", "", "", "", "", "", 0);
         createQuestion("Divertissements", "Débutant", "", "", "", "", "", 0);
         createQuestion("Divertissements", "Débutant", "", "", "", "", "", 0);
 
         createDifficulty("Divertissements", "Intermédiaire");
-        createQuestion("Divertissements", "Intermédiaire", "", "", "", "", "", 0);
+        createQuestion("Divertissements", "Intermédiaire", "Quand est sorti Minecraft Bedrock Edition ?", "14 février 2014", "19 décembre 2016", "29 juillet 2014", "7 octobre 2016", 1);
         createQuestion("Divertissements", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Divertissements", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Divertissements", "Intermédiaire", "", "", "", "", "", 0);
@@ -166,7 +166,7 @@ public class QuestionsManager {
         createQuestion("Divertissements", "Intermédiaire", "", "", "", "", "", 0);
 
         createDifficulty("Divertissements", "Expert");
-        createQuestion("Divertissements", "Expert", "", "", "", "", "", 0);
+        createQuestion("Divertissements", "Expert", "Quand est sorti Breath of the Wild ?", "28 avril 2017", "15 mars 2017", "3 mars 2017", "7 décembre 2018", 2);
         createQuestion("Divertissements", "Expert", "", "", "", "", "", 0);
         createQuestion("Divertissements", "Expert", "", "", "", "", "", 0);
         createQuestion("Divertissements", "Expert", "", "", "", "", "", 0);
@@ -187,7 +187,7 @@ public class QuestionsManager {
         createQuestion("Histoire", "Débutant", "", "", "", "", "", 0);
 
         createDifficulty("Histoire", "Intermédiaire");
-        createQuestion("Histoire", "Intermédiaire", "", "", "", "", "", 0);
+        createQuestion("Histoire", "Intermédiaire", "Comment se nomme le dieu du vin ?", "Héra", "Déméter", "Dionysos", "La réponse D", 2);
         createQuestion("Histoire", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Histoire", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Histoire", "Intermédiaire", "", "", "", "", "", 0);
@@ -208,15 +208,15 @@ public class QuestionsManager {
         createCategory("Art et littérature");
 
         createDifficulty("Art et littérature", "Débutant");
-        createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
-        createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
+        createQuestion("Art et littérature", "Débutant", "Qu'est-ce qui indique qu'une oeuvre a une grande qualité ?", "Il coûte cher", "Il est recommmandé par Olivier Mine", "Il est bien fait", "Il a raçu un prix", 1);
+        createQuestion("Art et littérature", "Débutant", "Quel est le pays ayant le plus de souffrance ?", "Allemagne", "Russie", "Espagne", "Groenland", 2);
         createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
         createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
         createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
         createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
 
         createDifficulty("Art et littérature", "Intermédiaire");
-        createQuestion("Art et littérature", "Intermédiaire", "", "", "", "", "", 0);
+        createQuestion("Art et littérature", "Intermédiaire", "Quel est le symbole de la beauté ?", "Dora", "Fabio Lanzoni", "Le nombril d'Adibou", "La beauté", 3);
         createQuestion("Art et littérature", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Art et littérature", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Art et littérature", "Intermédiaire", "", "", "", "", "", 0);
@@ -237,27 +237,27 @@ public class QuestionsManager {
         createCategory("Science et nature");
 
         createDifficulty("Science et nature", "Débutant");
-        createQuestion("Science et nature", "Débutant", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Débutant", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Débutant", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Débutant", "", "", "", "", "", 0);
+        createQuestion("Science et nature", "Débutant", "Qui a le temps de fermentation le plus long ?", "Yaourt lait demi-écrémé", "L'humour", "Yaourt lait entier", "Emmental", 1);
+        createQuestion("Science et nature", "Débutant", "Quelle couleur est la moins présente dans la nature ?", "Rouge", "Vert", "Bleu", "RGB", 2);
+        createQuestion("Science et nature", "Débutant", "Que faut-il rajouter à un croque monsieur afin de faire un croque madame ?", "Du bacon", "Un rendez-vous chez l'esthéticienne", "Un chromosome X", "Un oeuf", 3);
+        createQuestion("Science et nature", "Débutant", "Quel le vent le plus rapide sur Terre jamais enregistré ?", "408 km/h", "804 km/h", "840 km/h", "480 km/h", 0);
         createQuestion("Science et nature", "Débutant", "", "", "", "", "", 0);
         createQuestion("Science et nature", "Débutant", "", "", "", "", "", 0);
 
         createDifficulty("Science et nature", "Intermédiaire");
-        createQuestion("Science et nature", "Intermédiaire", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Intermédiaire", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Intermédiaire", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Intermédiaire", "", "", "", "", "", 0);
+        createQuestion("Science et nature", "Intermédiaire", "Quelle viande coûte le plus ?", "Boeuf", "Porc", "Poulet", "viande d'oiseau", 3);
+        createQuestion("Science et nature", "Intermédiaire", "cos(π)(-exp(iπ))+ln(1)-1 = ?", "0", "PI", "sqrt(2)/2", "1", 0);
+        createQuestion("Science et nature", "Intermédiaire", "O(n) ≺ ?", "O(log(2^n))", "O(n²log(n))", "O(nlog(n))", "O(sqrt(n))", 1);
+        createQuestion("Science et nature", "Intermédiaire", "Que se passe-t-il lorsqu'il pleut sur Jupiter ?", "Il grêle", "C'est trop loin, impossible de voir", "Il pleut des diamants", "Il ne peut pas pleuvoir", 2);
         createQuestion("Science et nature", "Intermédiaire", "", "", "", "", "", 0);
         createQuestion("Science et nature", "Intermédiaire", "", "", "", "", "", 0);
 
         createDifficulty("Science et nature", "Expert");
-        createQuestion("Science et nature", "Expert", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Expert", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Expert", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Expert", "", "", "", "", "", 0);
-        createQuestion("Science et nature", "Expert", "", "", "", "", "", 0);
+        createQuestion("Science et nature", "Expert", "Quel paiement est le plus utilisé ?", "Espèce", "Carte", "Nature", "Chèque", 2);
+        createQuestion("Science et nature", "Expert", "Que faire en cas à une brûlure ?", "Mettre sa main au feu", "Mettre sa main à couper", "AAAAAAHHHH !!!", "De l'eau froide sans pression", 3);
+        createQuestion("Science et nature", "Expert", "1.437 milliards de km = ?", "Distance Terre-Soleil", "Distance Soleil-Saturne", "Distance Uranus-Saturne", "Distance Vénus-Jupiter", 3);
+        createQuestion("Science et nature", "Expert", "Quel intervalle de fréquence est utilisé à des fins militaires ?", "80 à 82.475 MHz", "82.475 à 83 MHz", "83 à 87.3 MHz", "87.3 à 87.5 MHz", 1);
+        createQuestion("Science et nature", "Expert", "Quelle est le gravité de Saturne ?", "10.44 m/s²", "24.79 m/s²", "11.15 m/s²", "10.78 m/s²", 0);
         createQuestion("Science et nature", "Expert", "", "", "", "", "", 0);
 
 
