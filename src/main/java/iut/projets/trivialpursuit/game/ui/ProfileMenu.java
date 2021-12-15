@@ -33,6 +33,9 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
 
     String [] profiles;
 
+    /**
+     * Stocke les infos liées aux zones des profiles sur la fenêtre
+     */
     private class ProfileZone{
         private int x, y, xfont, yfont, xremovebutton, yremovebutton, width_removebutton, height_removebutton;
 
@@ -43,6 +46,12 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
         private final Color add_color = new Color(74, 173, 74);
         private String name;
 
+        /**
+         * Construit le zone de profile
+         * @param name nom du Joueur affilié au profile
+         * @param x coordonnées absolues en x de la zone de profile
+         * @param y coordonnées absolues en y de la zone de profile
+         */
         ProfileZone(String name, int x, int y) {
             this.name = name;
             this.x = x;
@@ -57,13 +66,26 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
             this.height_removebutton = height/8;
         }
 
+        /**
+         * Construit une zone de profile sans nom
+         * @param x coordonnées absolues en x de la zone de profile
+         * @param y coordonnées absolues en y de la zone de profile
+         */
         ProfileZone(int x, int y) {
             this.x = x;
             this.y = y;
         }
     }
 
+    /**
+     * Menu déroulant personnalisé
+     * @param <E> Type des items de la liste du meneu
+     */
     private class MyComboBox<E> extends JComboBox<E> {
+        /**
+         * Construit le menu déroulant
+         * @param list Liste d'items du menu
+         */
         public MyComboBox(E[] list) {
             super(list);
         }
@@ -90,8 +112,15 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
     }
 
 
-
-
+    /**
+     * Construit l'interface de modification de profiles en fenêtre modale
+     * @param owner Fenêtre propriétaire
+     * @param width Largeur l'interface
+     * @param height Hauteur de l'interface
+     * @param x Coordonnées absolues en x de l'interface
+     * @param y Coordonnées absolues en y de l'interface
+     * @param pselect Liste de joueurs instance de Player
+     */
     ProfileMenu(JFrame owner, int width, int height, int x, int y, GameInfo pselect) {
         super(owner, true);
 
@@ -117,6 +146,9 @@ public class ProfileMenu extends JDialog implements ActionListener, ItemListener
         setVisible(true);
     }
 
+    /**
+     * Crée le contenu de l'interface de modification de profiles
+     */
     private void createProfileZone() {
         if (zoneslist.size() == 0)
             for (int i = 0; i < player_selection.getPlayers().size(); i++) {
