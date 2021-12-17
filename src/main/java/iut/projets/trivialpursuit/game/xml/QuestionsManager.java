@@ -130,8 +130,8 @@ public class QuestionsManager {
         createQuestion("Géographie", "Débutant", "Dans quel état américain se trouve la vallée de la Mort ?", "Texas", "Californie", "Floride", "Louisiane", 1);
 
         createDifficulty("Géographie", "Intermédiaire");
-        createQuestion("Géographie", "Intermédiaire", "Quelles sont les coordonnées de l'Allemagne ?", "(35.861660, 104.195397)", "(-85, 65)", "(35, -98)", "(51.165691, 10.451526)", 3);
-        createQuestion("Géographie", "Intermédiaire", "Quelle est le plus grande île de la Méditerranée ?", "La grande ourse", "Sicile", "Corse", "L'Italie", 1);
+        createQuestion("Géographie", "Intermédiaire", "Quelles sont les coordonées de l'Allemagne ?", "(35.861660, 104.195397)", "(-85, 65)", "(35, -98)", "(51.165691, 10.451526)", 3);
+        createQuestion("Géographie", "Intermédiaire", "Quelle est la plus grande île de la Méditerranée ?", "Grande ourse", "Sicile", "Corse", "L'Italie", 1);
         createQuestion("Géographie", "Intermédiaire", "Combien de pays ont une frontière commune avec la France ?", "7", "8", "6", "5", 1);
         createQuestion("Géographie", "Intermédiaire", "Comment appelle-t-on les habitants des Bouches-du-Rhône ?", "Bucco dentaires", "Bouchers", "Bucco-rhodaniens", "Rhonins", 2);
         createQuestion("Géographie", "Intermédiaire", "À quelle région appartient le mont Saint Michel ?", "Normandie", "Bretagne", "Normandie et Bretagne", "Ils y font des buiscuits", 0);
@@ -143,7 +143,7 @@ public class QuestionsManager {
         createQuestion("Géographie", "Expert", "Combien de fuseaux horaires traversent le Canada ?", "3", "4", "5", "6", 3);
         createQuestion("Géographie", "Expert", "Comment s'appelle la ville souterraine de Montréal ?", "Souterin", "Parking", "Réso", "Metrop", 2);
         createQuestion("Géographie", "Expert", "Quelle est la capitale sur Sri Lanka ", "Anuradhapura", "Colombo", "Kandy", "Sri Jayawardenapura Kotte", 3);
-        createQuestion("Géographie", "Expert", "Dans quel pays a été relevée la température ambiante la plus élevée jamais enregistrée ?", "Australie", "États-Unis", "Brésil", "Équateur", 1);
+        createQuestion("Géographie", "Expert", "Dans quel pays a été relevé la température ambiante la plus élevée jamais enregistrée ?", "Australie", "États-Unis", "Brésil", "Équateur", 1);
 
         // Divertissements
 
@@ -152,7 +152,7 @@ public class QuestionsManager {
         createDifficulty("Divertissements", "Débutant");
         createQuestion("Divertissements", "Débutant", "Qu'est-ce qui est arrivé en premier ?", "Pokémon", "Chute du mur de Berlin", "Donkey kong country", "One piece", 1);
         createQuestion("Divertissements", "Débutant", "Quelle est la bonne réponse ?", "2", "E", "Celle-ci", "La bonne réponse", 3);
-        createQuestion("Divertissements", "Débutant", "Elle chante, elle garde des enfants et vole grâce à son parapluie. Qui est-elle ?", "Nanny Mcphee", "Anne Hidalgo", "Mary Poppins", "Angela Merkel", 0);
+        createQuestion("Divertissements", "Débutant", "Elle chante, elle garde des enfants et vole grâce à son parapluie. Qui est-elle ?", "Nanny Mcphee", "Anne Hidalgo", "Mary Poppins", "Angela Merkel", 2);
         createQuestion("Divertissements", "Débutant", "Compléter : Je cherche un job ...", "I Joba", "Afin de gagner beaucoup d'agent", "De métiers", "Qui me sert de travail", 3);
         createQuestion("Divertissements", "Débutant", "Qui est le compositeur de l'OST de Minecraft", "C418", "Koji kondo", "Toby Fox", "Jeb", 0);
         createQuestion("Divertissements", "Débutant", "En quelle année est sorti The Elder Scrolls : Skyrim ?", "2010", "2011", "2012", "2013", 1);
@@ -160,7 +160,7 @@ public class QuestionsManager {
         createDifficulty("Divertissements", "Intermédiaire");
         createQuestion("Divertissements", "Intermédiaire", "Quand est sorti Minecraft Bedrock Edition ?", "14 février 2014", "19 décembre 2016", "29 juillet 2014", "7 octobre 2016", 1);
         createQuestion("Divertissements", "Intermédiaire", "Compléter : Tu es triste ? ...", "Moi non", "Arrête", "Calme-toi", "Ne t'inquiète pas", 1);
-        createQuestion("Divertissements", "Intermédiaire", "Dans quelle licence a travaillé David Wise ?", "", "Donkey Kong Country", "", "Banjo & Kazooie", 1);
+        createQuestion("Divertissements", "Intermédiaire", "Dans quelle licence a travaillé David Wise ?", "Super Mario 64", "Donkey Kong Country", "Hollow Knight", "Banjo & Kazooie", 1);
         createQuestion("Divertissements", "Intermédiaire", "Combien y a-t-il de Pokémon (Décembre 2021) ?", "998", "988", "889", "898", 3);
         createQuestion("Divertissements", "Intermédiaire", "Qu'est-ce que le procureur Godot aime ?", "Le café", "Le thé", "Le chocolat", "Les masques", 0);
         createQuestion("Divertissements", "Intermédiaire", "NOW'S YOUR CHANCE TO BE A...", "[hyperlink blocked]", "Lightner", "BIG SHOT", "Kramer", 2);
@@ -169,9 +169,9 @@ public class QuestionsManager {
         createQuestion("Divertissements", "Expert", "Quand est sorti Breath of the Wild ?", "28 avril 2017", "15 mars 2017", "3 mars 2017", "7 décembre 2018", 2);
         createQuestion("Divertissements", "Expert", "Quel est l'id d'une dalle en bois de sapin ?", "126:1", "125:1", "126:5", "125:3", 0);
         createQuestion("Divertissements", "Expert", "Quel est le 57e personnage de Super Smash Bros. Ultimate ?", "Ryu", "Pac-man", "Shulk", "Mii gunner", 2);
-        createQuestion("Divertissements", "Expert", "Comment le professeur de solfège Rémy est-il mort ?", "Il s'est cogné le petit orteil dans un piano", "De dos face au sol, là", "Bonne question", "Poignardé de face contre un mur, ici", 2);
-        createQuestion("Divertissements", "Expert", "Pour quelle oeuvre Lena Raine n'a jamais composé ?", "Celeste", "Minecraft", "Deltarune", "VVVVVV", 0);
-        createQuestion("Divertissements", "Expert", "De combien de jeux est composée la licence Mega man (licences principales)?", "19", "23", "25", "32", 0);
+        createQuestion("Divertissements", "Expert", "Comment le professeur de solfège Rémy est-il mort ?", "Il s'est cogné le petit orteil dans un piano", "De dos face au sol, là", "Bonne question", "Poignardé de face contre un mur, ici", 1);
+        createQuestion("Divertissements", "Expert", "Pour quelle oeuvre Lena Raine n'a jamais composé ?", "Celeste", "Minecraft", "Deltarune", "VVVVVV", 3);
+        createQuestion("Divertissements", "Expert", "De combien de jeux est composée la licence Mega man (licences principales)?", "19", "23", "25", "32", 2);
 
 
         // Histoire
@@ -180,25 +180,25 @@ public class QuestionsManager {
 
         createDifficulty("Histoire", "Débutant");
         createQuestion("Histoire", "Débutant", "Qu'est-ce qui a provoqué une dizaine de milliers de morts en France pendant l'été 2003 ?", "La canicule", "La glaciation", "Une tempête de sable", "Une attaque au lance-flamme", 0);
-        createQuestion("Histoire", "Débutant", "Combien de temps a durée le Moyen Âge ?", "La moitié de l'âge de l'humanité", "52 596 000 000 secondes", "La moitié de l'âge de la Terre", "8 766 000 heures", 3);
+        createQuestion("Histoire", "Débutant", "Combien de temps a duré le Moyen Âge ?", "La moitié de l'âge de l'humanité", "52 596 000 000 secondes", "La moitié de l'âge de la Terre", "8 766 000 heures", 3);
         createQuestion("Histoire", "Débutant", "Qu'est-ce que le Commune de Paris ?", "Manifestation Pacifique pendant la querre Franco-prussienne", "Période d'insurrection", "Le centre-ville de Paris", "Élément déclencheur de la Révolution française", 1);
-        createQuestion("Histoire", "Débutant", "Quel événement à conduit à la Première Guerre Mondiale ?", "L'Avant Guerre Mondiale", "Occupation de la Pologne par l'URSS", "Assassnat de François Ferdinand", "Annexion de l'Autriche par l'Allemagne", 2);
+        createQuestion("Histoire", "Débutant", "Quel événement a conduit à la Première Guerre Mondiale ?", "L'Avant Guerre Mondiale", "Occupation de la Pologne par l'URSS", "Assassnat de François Ferdinand", "Annexion de l'Autriche par l'Allemagne", 2);
         createQuestion("Histoire", "Débutant", "Comment appelle-t-on la chasse aux sorcières de Richelieu ?", "Affaire des soeurs de la Rochelle", "Affaire des possédées de Loudun", "Affaire Dreyfus", "Affaire du collier de la reine", 1);
-        createQuestion("Histoire", "Débutant", "Qui a dessiné l'homme de Vitruve ?", "Arcimboldo", "Van Gogh", "Léonard de Vinci", "Michel-Ange", 2);
+        createQuestion("Histoire", "Débutant", "Qui a dessiné l'homme de Vitruve ?", "Arcimboldo", "Van Gogh", "Léonrad de Vinci", "Michel-Ange", 2);
 
         createDifficulty("Histoire", "Intermédiaire");
         createQuestion("Histoire", "Intermédiaire", "Comment se nomme le dieu du vin ?", "Héra", "Déméter", "Dionysos", "La réponse D", 2);
         createQuestion("Histoire", "Intermédiaire", "Quel pays a été victime d'une invasion soviétique en 1956 ?", "Espagne", "URSS", "Corée du Nord", "Hongrie", 3);
-        createQuestion("Histoire", "Intermédiaire", "Combien de pyramides de Gizeh ont été construites ?", "2", "2x-5 = 0", "2x^2+4x+2 = 0", "1.5", 0);
+        createQuestion("Histoire", "Intermédiaire", "Combien de pyramides de Gizeh ont été construites ?", "2", "2x-6 = 0", "2x^2+4x+2 = 0", "1.5", 1);
         createQuestion("Histoire", "Intermédiaire", "Quel traité institue la création de la Communauté Économique Européenne ?", "Rome", "Versailles", "Maastricht", "Lisbonne", 0);
         createQuestion("Histoire", "Intermédiaire", "Dans la mythologie aztèque, qui est le Quetzalcoalt ?", "Dieu serpent à plumes", "Die à tête de chien ", "Roi des morts", "Dieu soleil", 0);
-        createQuestion("Histoire", "Intermédiaire", "Quelle était la profession initiale de Gandhi M", "Juge", "Procureur", "Médecin", "Avocat", 3);
+        createQuestion("Histoire", "Intermédiaire", "Quelle était la profession initale de Gandhi ?", "Juge", "Procureur", "Médecin", "Avocat", 3);
 
         createDifficulty("Histoire", "Expert");
         createQuestion("Histoire", "Expert", "Combien de mort y a-t-il eu en été 2003 ? ", "15 830", "19 490", "21 272", "Beaucoup", 1);
         createQuestion("Histoire", "Expert", "Quel était le slogan de campagne de François Mitterrand en 1981 ?", "Au revoir", "Je suis l'homme le plus honnête du monde", "La république c'est moi", "Force tranquille", 3);
         createQuestion("Histoire", "Expert", "Quel est le premier occidental à avoir mis un pied en Chine ?", "Fernand de Magellan", "Marco Polo", "René Caillié", "Jules Dumont d'Urville", 1);
-        createQuestion("Histoire", "Expert", "Pour quelles raison Louais XIII ordonne-t-il le siège de La Rochelle ?", "Reprendre la cité aux anglais", "Lutter contre les protestants", "Mettre fin à la révolte des Girondins", "S'approprier les terres", 1);
+        createQuestion("Histoire", "Expert", "Pour quelles raison Louis XIII ordonne-t-il le siège de La Rochelle ?", "Reprendre la cité aux anglais", "Lutter contre les protestants", "Mettre fin à la révolte des Girondins", "S'approprier les terres", 1);
         //createQuestion("Histoire", "Expert", "", "", "", "", "", 0);
         //createQuestion("Histoire", "Expert", "", "", "", "", "", 0);
 
@@ -208,25 +208,25 @@ public class QuestionsManager {
         createCategory("Art et littérature");
 
         createDifficulty("Art et littérature", "Débutant");
-        createQuestion("Art et littérature", "Débutant", "Qu'est-ce qui indique qu'une oeuvre a une grande qualité ?", "Elle coûte cher", "Elle est recommandée par Olivier Mine", "Elle est bien faite", "Elle a reçu un prix", 1);
+        createQuestion("Art et littérature", "Débutant", "Qu'est-ce qui indique qu'une oeuvre a une grande qualité ?", "Il coûte cher", "Il est recommmandé par Olivier Mine", "Il est bien fait", "Il a reçu un prix", 1);
         createQuestion("Art et littérature", "Débutant", "Quel est le pays ayant le plus de souffrance ?", "Allemagne", "Russie", "Espagne", "Groenland", 2);
         createQuestion("Art et littérature", "Débutant", "Pourquoi Frodon va-t-il sur un volcan ?", "Il avait froid", "Il n'a plus d'argent", "Pour tuer Gollum", "Pour y jeter l'anneau", 3);
-        createQuestion("Art et littérature", "Débutant", "Quel est le nom de le personne ayant servit de modèle pour la Joconde ?", "Sara Zezza", "Cora Gennari", "Mina Loria", "Mona Lisa", 0);
+        createQuestion("Art et littérature", "Débutant", "Quel est le nom de la personne ayant servit de modèle pour la Joconde ?", "Sara Zezza", "Cora Gennari", "Mina Loria", "Mona Lisa", 3);
         //createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
         //createQuestion("Art et littérature", "Débutant", "", "", "", "", "", 0);
 
         createDifficulty("Art et littérature", "Intermédiaire");
         createQuestion("Art et littérature", "Intermédiaire", "Quel est le symbole de la beauté ?", "Dora", "Fabio Lanzoni", "Le nombril d'Adibou", "La beauté", 3);
         createQuestion("Art et littérature", "Intermédiaire", "Qu'est-ce qu'un guéridon ?", "Une entreprise de médicaments", "Une table à un pied", "Une action bénévole ayant pour but de soigner", "Un insect volant", 1);
-        createQuestion("Art et littérature", "Intermédiaire", "Quel groupe chanta \"Dancing queen\" ?", "Pink Floyd", "Daft Punk", "U2", "ABBA", 0);
+        createQuestion("Art et littérature", "Intermédiaire", "Quel groupe chanta \"Dancing queen\" ?", "Pink Floyd", "Daft Punk", "U2", "ABBA", 3);
         //createQuestion("Art et littérature", "Intermédiaire", "", "", "", "", "", 0);
         //createQuestion("Art et littérature", "Intermédiaire", "", "", "", "", "", 0);
         //createQuestion("Art et littérature", "Intermédiaire", "", "", "", "", "", 0);
 
         createDifficulty("Art et littérature", "Expert");
         createQuestion("Art et littérature", "Expert", "Qui a écrit \"Le Marchand de Venise\" ?", "Shakespeare", "Orwell", "Molière", "Voltaire", 0);
-        createQuestion("Art et littérature", "Expert", "Quelle est la taille de la baguette de Luna Lovegood ?", "32 cm", "27.5 cm", "34 cm", "25 cm", 1);
-        createQuestion("Art et littérature", "Expert", "Qui a écrit \"Le joueur d'échec \" ?", "Juli Zeh", "Marguerite Duras", "Bernard Marie-Koltès", "Stefan Zweig", 0);
+        createQuestion("Art et littérature", "Expert", "Quelle est la taille de la baguette de Luna Lovegood ?", "32 cm", "27.5 cm", "34 cm", "25 cm", 2);
+        createQuestion("Art et littérature", "Expert", "Qui a écrit \"Le Joueur d'échec \" ?", "Juli Zeh", "Marguerite Duras", "Bernard Marie-Koltès", "Stefan Zweig", 3);
         //createQuestion("Art et littérature", "Expert", "", "", "", "", "", 0);
         //createQuestion("Art et littérature", "Expert", "", "", "", "", "", 0);
         //createQuestion("Art et littérature", "Expert", "", "", "", "", "", 0);
@@ -240,12 +240,12 @@ public class QuestionsManager {
         createQuestion("Science et nature", "Débutant", "Qui a le temps de fermentation le plus long ?", "Yaourt lait demi-écrémé", "L'humour", "Yaourt lait entier", "Emmental", 1);
         createQuestion("Science et nature", "Débutant", "Quelle couleur est la moins présente dans la nature ?", "Rouge", "Vert", "Bleu", "RGB", 2);
         createQuestion("Science et nature", "Débutant", "Que faut-il rajouter à un croque monsieur afin de faire un croque madame ?", "Du bacon", "Un rendez-vous chez l'esthéticienne", "Un chromosome X", "Un oeuf", 3);
-        createQuestion("Science et nature", "Débutant", "Quel le vent le plus rapide jamais enregistré sur Terre ?", "408 km/h", "804 km/h", "840 km/h", "480 km/h", 0);
+        createQuestion("Science et nature", "Débutant", "À quelle vitesse était le vent le plus rapide jamais enregistré sur Terre ?", "408 km/h", "804 km/h", "840 km/h", "480 km/h", 0);
         createQuestion("Science et nature", "Débutant", "Que veut dire CSS ?", "Cascading Style Sheets", "Creating Sheets Style", "Cascading Stylesheet Sheets", "Composing Style Sheets", 0);
         createQuestion("Science et nature", "Débutant", "Comment réagir face à une situation complexe ?", "Vous gardez calme", "La résoudre", "Vous devienne fou", "Laisser tomber", 2);
 
         createDifficulty("Science et nature", "Intermédiaire");
-        createQuestion("Science et nature", "Intermédiaire", "Quelle viande coûte le plus ?", "Boeuf", "Porc", "Poulet", "viande d'oiseau", 3);
+        createQuestion("Science et nature", "Intermédiaire", "Quelle viande coûte le plus ?", "Boeuf", "Porc", "Poulet", "Viande d'oiseau", 3);
         createQuestion("Science et nature", "Intermédiaire", "cos(PI)(-exp(iPI))+ln(1)-1 = ?", "0", "PI", "sqrt(2)/2", "1", 0);
         createQuestion("Science et nature", "Intermédiaire", "O(n) ≺ ?", "O(log(2^n))", "O(n^2log(n))", "O(nlog(n))", "O(sqrt(n))", 1);
         createQuestion("Science et nature", "Intermédiaire", "Que se passe-t-il lorsqu'il pleut sur Jupiter ?", "Il grêle", "C'est trop loin, impossible de voir", "Il pleut des diamants", "Il ne peut pas pleuvoir", 2);
@@ -255,10 +255,10 @@ public class QuestionsManager {
         createDifficulty("Science et nature", "Expert");
         createQuestion("Science et nature", "Expert", "Quel paiement est le plus utilisé ?", "Espèce", "Carte", "Nature", "Chèque", 2);
         createQuestion("Science et nature", "Expert", "Que faire en cas à une brûlure ?", "Mettre sa main au feu", "Mettre sa main à couper", "AAAAAAHHHH !!!", "De l'eau froide sans pression", 3);
-        createQuestion("Science et nature", "Expert", "1.437 milliards de km = ?", "Distance Terre-Soleil", "Distance Soleil-Saturne", "Distance Uranus-Saturne", "Distance Vénus-Jupiter", 3);
+        createQuestion("Science et nature", "Expert", "1.437 milliards de km = ?", "Distance Terre-Soleil", "Distance Soleil-Saturne", "Distance Uranus-Saturne", "Distance Vénus-Jupiter", 2);
         createQuestion("Science et nature", "Expert", "Quel intervalle de fréquence est utilisé à des fins militaires ?", "80 à 82.475 MHz", "82.475 à 83 MHz", "83 à 87.3 MHz", "87.3 à 87.5 MHz", 1);
         createQuestion("Science et nature", "Expert", "Quelle est le gravité de Saturne ?", "10.44 m/s^2", "24.79 m/s^2", "11.15 m/s^2", "10.78 m/s^2", 0);
-        createQuestion("Science et nature", "Expert", "Quel est le temps record sans dormir ?", "22 heures c'est déjà beaucoup", "10 jours et 22 heures et 14 minutes", "11 jours et 25 minutes", "11 jours et 8 heures", 3);
+        createQuestion("Science et nature", "Expert", "Quel est le temps record sans dormir ?", "22 heures c'est déjà beaucoup", "10 jours et 22 heures et 14 minutes", "11 jours et 25 minutes", "11 jours et 8 heures", 2);
 
 
         // Sports et loisirs
@@ -286,7 +286,7 @@ public class QuestionsManager {
         createQuestion("Sports et loisirs", "Expert", "Que signifie DC ?", "Diversity Club", "Directive Company", "Detective Comics", "Digital Comics", 2);
         createQuestion("Sports et loisirs", "Expert", "Quel était le nom originel de Superman ?", "Suzus", "Tus-noz", "Nil-bex", "Kal-El", 3);
         createQuestion("Sports et loisirs", "Expert", "Dans combien de James Bond Sean Connery a-t-il joué ?", "7", "7.12", "6", "5", 0);
-        createQuestion("Sports et loisirs", "Expert", "Combien de questions compose se Trivial Pursuit ?", "Bien trop c'était long à faire", "L'équivalent d'une nuit", "108", "480 en ressenti", 2);
+        createQuestion("Sports et loisirs", "Expert", "Combien de questions compose ce Trivial Pursuit ?", "Bien trop c'était long à faire", "L'équivalent d'une nuit", "97", "480 en ressenti", 2);
         createQuestion("Sports et loisirs", "Expert", "Quand est sorti le Trivial Pursuit pour la première fois ?", "1981", "1978", "1974", "1972", 0);
 
     }
