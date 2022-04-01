@@ -75,9 +75,9 @@ public class GameScene extends Scene {
         mouseLight.setRadius(4);
         mouseLight.setHeight(1);
 
-        music.setLoop(true, (60.0/172)*41);
+        music.setLoop(true, (60.0/165)*4);
         music.setVolume(1);
-        music_thinking.setLoop(true, (60.0/172)*41);
+        music_thinking.setLoop(true, (60.0/165)*4);
         music_thinking.setVolume(0);
         music.play();
         music_thinking.play();
